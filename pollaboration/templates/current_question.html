@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block current_question %}
+{% load staticfiles %}
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/jquery.pjax.js' %}"></script>
+<h1>{{current_question}}</h1>
+
+
+<script type="text/javascript">
+$(document).pjax('a', '#pjax-container');
+$(document).on('pjax:click', function(event) {
+  event.preventDefault();
+});
+</script>
+
+<br/>
+    <div class="container" id="pjax-container">
+        {% for a in current_question.answers.all %} {%csrf_token%}
+        <a href="/questions/vote/{{a.id}}" id="{{a.id}}" type="int" class="answer">{{a.answer}}</p></a>
+        {% endfor %}
+    </div>  
+<br/>
+<h2>Previously...</h2>
+<h3>{{previous_question}}</h3>
+{% for a in previous_question.answers.all %}
+{{a.answer}}: {{a.votes.count}}</br>
+{% endfor %}
+
+{% endblock current_question %}
