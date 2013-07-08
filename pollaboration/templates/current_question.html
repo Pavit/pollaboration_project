@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 
 {% block current_question %}
+<!--
 {% load staticfiles %}
 <script src="{% static 'js/jquery.js' %}"></script>
 <script src="{% static 'js/jquery.pjax.js' %}"></script>
-<h1>{{current_question}}</h1>
+-->
 
 
 <script type="text/javascript">
@@ -14,19 +15,29 @@ $(document).on('pjax:click', function(event) {
 });
 </script>
 
-<br/>
-    <div class="container" id="pjax-container">
-        {% for a in current_question.answers.all %} {%csrf_token%}
-        <a href="/questions/vote/{{a.id}}" id="{{a.id}}" type="int" class="answer">{{a.answer}}</p></a>
-        {% endfor %}
-    </div>  
-<br/>
-{% if previous_question.question %}
-<h2>Previously...</h2>
-<h3>{{previous_question}}</h3>
-{% for a in previous_question.answers.all %}
-{{a.answer}}: {{a.votes.count}}</br>
-{% endfor %}
-{% endif %}
+<div id="current_question" class="row bottom-buffer">
+	<div class="span8 pull-center text-center red">
+	<h1>{{current_question}}</h1>
+	</div>
+</div>
+
+<div id="current_answer" class="row bottom-buffer" id="pjax-container">
+	<div class="span8 pull-center text-center blue">
+	{% for a in current_question.answers.all %} {%csrf_token%}
+	<a href="/questions/vote/{{a.id}}" id="{{a.id}}" type="int" class="answer"><p class="current_answers">{{a.answer}}</p></a>
+	{% endfor %}
+	</div>
+</div>  
+
+<div id="previous_question" class="row bottom-buffer">
+	<div class="span8 pull-center text-center darkgray">
+	{% if previous_question.question %}
+	<h2>{{previous_question}}</h2>
+	{% for a in previous_question.answers.all %}
+	{{a.answer}}: {{a.votes.count}}</br>
+	{% endfor %}
+	{% endif %}
+	</div>
+</div>
 
 {% endblock current_question %}
