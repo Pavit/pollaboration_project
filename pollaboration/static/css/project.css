@@ -22,8 +22,9 @@ h4 {
 
 #current_answer p {
 	font-size: 22.5px;
-	line-height: 1.25;
-	margin-bottom: 10px;
+	font-weight: 300;
+	line-height: 24.5px;
+	margin-bottom: 20px;
 }
 
 #current_answer p:last-of-type {
@@ -47,19 +48,19 @@ body {
 .red	{
 	background-color: #f15c22;
 	color: #ffffff;
-	padding: 20px;
+	padding: 25px 20px;
 }
 
 .blue	{
 	background-color: #73a1d5;
 	color: #ffffff;
-	padding: 20px;
+	padding: 40px 20px;
 }
 
 .darkgray	{
 	background-color: #575757;
 	color: #C6C7C9;
-	padding: 20px;
+	padding: 25px 20px;
 }
 
 .navbar-inner {
