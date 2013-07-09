@@ -25,7 +25,8 @@
   </head>
 
   <body>
-    <!--<div class="row"><div class="col-12 col-lg-7 col-sm-9 pull-center">-->
+    <div class="container">
+    <div class="row"><div class="col-12 col-lg-7 col-sm-9 pull-center no-padding bottom-buffer">
         <div class="navbar navbar-static-top">
           <div class="container">
             <a class="navbar-brand" href="#">POLLABORATION</a>
@@ -46,9 +47,9 @@
             </div>
           </div>
         </div>
-    <div class="container">
+      </div></div>
 
-      <h1>{% block page_title %}{% endblock page_title %}</h1>
+      {% block page_title %}{% endblock page_title %}
 
       {% block content %}
       {% endblock content %}

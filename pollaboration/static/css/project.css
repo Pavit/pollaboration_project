@@ -58,6 +58,13 @@ body {
 	margin-bottom: 0;
 }
 
+.no-padding {
+  padding: 0;
+}
+
+.no-margin {
+  margin: 0;
+}
 /* Sunburst */
 
 .pollChart p {
@@ -68,6 +75,12 @@ body {
 #sunburst h1 {
   text-align: center;
 }
+
+#sunburst h4 {
+ display:inline-block;
+ margin-right: 20px;
+}
+
 .gridSquare {
     width: 40px;
     height: 40px;
@@ -112,11 +125,8 @@ path.tooltip {
 .legend2 span {
     margin-right:10px;
 }
-h4 {
- display:inline-block;   
- margin:10px;
- font-size:20px;
-}
+
+
 .pollChart .filter {
     display:inline-block;
     margin-right:10px;
