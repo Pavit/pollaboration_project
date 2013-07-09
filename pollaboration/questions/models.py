@@ -26,11 +26,11 @@ class Question(models.Model):
         return reverse('questions.views.current_question', args=[str(self.id)])
 
     def _get_anonymous_vote_count(self):
-        return q.answer_set.filter(votes__voter=None).count()
+        return q.answers.filter(votes__voter=None).count()
     anonymous_vote_count=property(_get_anonymous_vote_count)
 
     def _get_total_vote_count(self):
-        return self.answer_set.all().aggregate(Count('votes')).values()[0]
+        return self.answers.all().aggregate(Count('votes')).values()[0]
     total_vote_count=property(_get_total_vote_count)
 
     def _get_registered_vote_count(self):

@@ -41,3 +41,38 @@ def vote(request, a_id):
     # return redirect('current_question', current_question_id=current_question.id, previous_question_id=previous_question.id)
     # return HttpResponseRedirect(reverse('questions.views.current_question', args=[current_question.id, previous_question.id]))
 
+def question_details(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    resp_dict={
+        "question":question.question,
+        "value":question.total_vote_count,
+        "answers":[],
+    }
+    for answer in question.answers.all():
+        resp_dict["answers"].append({
+            "answer":answer.answer,
+            "count":answer.votes.count(),
+            "data":list(answer.selected_by.values('gender','agegroup','political').annotate(count=Count('id'))),
+        })
+    json = simplejson.dumps(resp_dict).replace("'",r"\'")
+    context = {
+        "question":question,
+        "json":json,
+    }
+    return render_to_response("question_details.html", context, context_instance=RequestContext(request))
+
+def getjson(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    resp_dict={
+        "question":question.question,
+        "value":question.total_vote_count,
+        "answers":[],
+    }
+    for answer in question.answers.all():
+        resp_dict["answers"].append({
+            "answer":answer.answer,
+            "count":answer.votes.count(),
+            "data":list(answer.selected_by.values('gender','agegroup','political').annotate(count=Count('id'))),
+        })
+    json = simplejson.dumps(resp_dict).replace("'",r"\'")
+    return HttpResponse(json, mimetype="application/json")
