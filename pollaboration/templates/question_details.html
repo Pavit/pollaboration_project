@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+<script src="{% static 'js/chart.js' %}"></script>
+<script src="{% static 'js/vendor.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+
+{% block title %}Pollaboration - QUESTION TITLE{% endblock title %}
+
+{% block question_details %}
+
+<div id="question_details" class="row bottom-buffer">
+  <div class="col-12 col-lg-7 col-sm-9 pull-center text-center lightgray">
+    <div class="pollChart" id="sunburst"></div>
+  </div>
+</div>
+
+<script>
+    (function(){
+        var pollChart = window.pollChart;
+        d3.select("form select").on("change", function() {
+            console.log(this.options[this.selectedIndex].value);
+/*            url = "/questions/getjson/"+this.options[this.selectedIndex].value+"/";*/
+            pollChart.showSunburst('{{json|safe}}');
+        });
+        data = JSON.parse('{{json|safe}}');
+        console.log(data);
+        pollChart.showSunburst(data);
+
+    })();
+
+</script>
+
+{% endblock question_details %}
