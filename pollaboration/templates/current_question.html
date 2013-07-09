@@ -1,13 +1,8 @@
 {% extends "base.html" %}
 
-{% block current_question %}
-<!--
 {% load staticfiles %}
 <script src="{% static 'js/jquery.js' %}"></script>
 <script src="{% static 'js/jquery.pjax.js' %}"></script>
--->
-
-
 <script type="text/javascript">
 $(document).pjax('a', '#pjax-container');
 $(document).on('pjax:click', function(event) {
@@ -15,22 +10,28 @@ $(document).on('pjax:click', function(event) {
 });
 </script>
 
+{% block title %}Pollaboration - {{current_question}}{% endblock title %}
+
+{% block current_question %}
+
 <div id="current_question" class="row bottom-buffer">
-	<div class="span9 pull-center text-center red">
+	<div class="col-12 col-lg-7 col-sm-9 pull-center text-center red">
 	<h1>{{current_question}}</h1>
 	</div>
 </div>
 
-<div id="current_answer" class="row bottom-buffer" id="pjax-container">
-	<div class="span9 pull-center text-center blue">
+<div id="pjax-container">
+<div id="current_answer" class="row bottom-buffer">
+	<div class="col-12 col-lg-7 col-sm-9 pull-center text-center blue">
 	{% for a in current_question.answers.all %} {%csrf_token%}
 	<p class="current_answers"><a href="/questions/vote/{{a.id}}" id="{{a.id}}" type="int" class="answer">{{a.answer}}</a></p>
 	{% endfor %}
 	</div>
-</div>  
+</div>
+</div>
 
 <div id="previous_question" class="row bottom-buffer">
-	<div class="span9 pull-center text-center darkgray">
+	<div class="col-12 col-lg-7 col-sm-9 pull-center text-center darkgray">
 	{% if previous_question.question %}
 	<h2>{{previous_question}}</h2>
 	{% for a in previous_question.answers.all %}
