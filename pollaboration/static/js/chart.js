@@ -105,7 +105,7 @@
                 });
             } else {
                 $this.attr("class", "switcher");
-                d3.select(this).attr("class", "legend2 disabled").transition().duration(500).style("background-color", "rgb(200,200,200)");
+                d3.select(this).attr("class", "legend2 disabled").transition().duration(500).style("background-color", "rgb(200,200,200)").style("border", "1px solid #575757");
             }
             data = _.compact(g.selectAll(".active").map(function(a) {
                 var _ref, _ref1;
@@ -118,15 +118,15 @@
             return colorScale(d[colorKey]);
         }).on("click", getChecked);
         switcher = g.append("div").attr("class", "switcher active");
-        switcher.append("span").attr("class", "onText").text("ON");
+        /*switcher.append("span").attr("class", "onText").text("ON");
         switcher.append("span").attr("class", "offText").text("OFF");
-        switcher.append("span").attr("class", "blackRect");
+        switcher.append("span").attr("class", "blackRect");*/
         g.append("span").text(function(d) {
             return d[valueKey];
         }).attr("class", "value");
         return g.append("span").text(function(d) {
             return d[labelKey];
-        }).attr("class", "label");
+        }).attr("class", "answer");
     };
 
 }).call(this);
@@ -354,7 +354,7 @@
                 return d.x + (d.dx / 2) + 0.01;
             }).innerRadius(innerRadius).outerRadius(outerRadius);
         el = d3.select(opts.el);
-        el.append("h2").text(opts.data.question);
+        el.append("h1").text(opts.data.question);
         el.append("p").text(opts.data.value + " Answers");
         svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width / 2 + "," + height * .52 + ")");
         label = el.append("span").attr("class", "poll-label");
@@ -507,7 +507,7 @@
             exitTrans.select("text").style("opacity", 0);
             enter.filter(function(d) {
                 return d.depth;
-            }).append("path").style("stroke", "#fff").style("fill", get("answer", color)).style("opacity", 0).attr("d", arc2).each(stashEnter);
+            }).append("path").style("stroke", "#575757").style("stroke-width", 1).style("fill", get("answer", color)).style("opacity", 0).attr("d", arc2).each(stashEnter);
             group.select("path").transition().duration(1000).attrTween("d", arcTween).style("opacity", 1).each("end", stash);
             enter.filter(function(d) {
                 return d.depth === 1;

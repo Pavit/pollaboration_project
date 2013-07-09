@@ -45,6 +45,7 @@ body {
 .lightgray {
 	background-color: #C6C7C9;
 	color: #575757;
+  padding: 25px 20px;
 }
 
 .darkgray	{
@@ -65,8 +66,8 @@ body {
 }
 
 .gridSquare {
-    width:50px;
-    height:50px;
+    width: 40px;
+    height: 40px;
     display:inline-block;
 }
 
@@ -86,6 +87,7 @@ path.tooltip {
   display:inline-block; 
   margin-right:15px;
 }
+
 .legend .key {
   display:inline-block;
   width:25px;
@@ -95,19 +97,17 @@ path.tooltip {
 }
 
 .pollChart {
-    margin:15px;
-    margin-bottom: 40px;
-    width: 100%;
+  width: 100%;
 }
 
 .legend2 {
  display:block;
  padding:7px;
  margin-bottom:5px;
- width: 80%;
+ border: 1px solid #575757;
 }
 .legend2 span {
-    margin-right:5px;
+    margin-right:10px;
 }
 h4 {
  display:inline-block;   
@@ -125,15 +125,14 @@ h4 {
      margin-bottom: 5px;
 }
 .pollChart .filter select {
-     width:180px;
-     font-size:20px;   
+     width: 180px;
 }
+
 .pollChart tspan {
-    fill: grey;
+    fill: #575757;
 }
 .pollChart .switcher {
     display:inline-block;
-    background:white;
     padding:1px 3px;
     position:relative;
 }

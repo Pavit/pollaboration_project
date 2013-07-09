@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import Q, Count
 from questions.models import *
 from django.core.urlresolvers import reverse
+from django.utils import simplejson
 
 
 def index(request):
