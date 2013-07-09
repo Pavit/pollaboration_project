@@ -29,12 +29,12 @@
         <div class="navbar navbar-static-top">
           <div class="container">
             <a class="navbar-brand" href="#">POLLABORATION</a>
-            <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
-            </button>-->
-            <!--<div class="nav-collapse collapse navbar-responsive-collapse">-->
+            </button>
+            <div class="nav-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
               <li><a href="#">Submit</a></li>
               <li><a href="#">Profile</a></li>
@@ -43,10 +43,11 @@
             <form class="navbar-form pull-right">
             <input type="search" placeholder="Search">
             </form>
-            <!--</div>-->
+            </div>
           </div>
         </div>
-      <!--</div></div>-->
+      </div>
+    </div>
     <div class="container">
 
       <h1>{% block page_title %}{% endblock page_title %}</h1>
@@ -54,11 +55,11 @@
       {% block content %}
       {% endblock content %}
 
-      {% block question_details %}
-      {% endblock question_details %}
-
       {% block current_question %}
       {% endblock current_question %}
+
+      {% block question_details %}
+      {% endblock question_details %}
 
     </div> <!-- /container -->
 
