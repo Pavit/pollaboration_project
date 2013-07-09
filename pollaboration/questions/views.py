@@ -40,3 +40,4 @@ def vote(request, a_id):
     return redirect(current_question)
     # return redirect('current_question', current_question_id=current_question.id, previous_question_id=previous_question.id)
     # return HttpResponseRedirect(reverse('questions.views.current_question', args=[current_question.id, previous_question.id]))
+
