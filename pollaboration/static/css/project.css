@@ -65,6 +65,9 @@ body {
  margin-top:0;   
 }
 
+#sunburst h1 {
+  text-align: center;
+}
 .gridSquare {
     width: 40px;
     height: 40px;
@@ -125,7 +128,7 @@ h4 {
      margin-bottom: 5px;
 }
 .pollChart .filter select {
-     width: 180px;
+     width: 120px;
 }
 
 .pollChart tspan {
