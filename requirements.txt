@@ -5,4 +5,4 @@ South
 wadofstuff-django-serializers
 simplejson==2.3.2
 facepy
-django-bootstrap-toolkit
+django-bootstrap-form
