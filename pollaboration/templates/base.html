@@ -38,8 +38,15 @@
             <div class="nav-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
               <li><a href="#">Submit</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Login</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account</a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Profile</a></li>
+                  <li><a href="#">Submissions</a></li>
+                  <li class="divider"><a href="#"></a></li>
+                  <li><a href="#">Logout</a></li>
+                </ul>
+              </li>
             </ul>
             <form class="navbar-form pull-right">
             <input type="search" placeholder="Search">
@@ -71,6 +78,15 @@
     <!-- place project specific Javascript in this file -->
     <script src="{% static 'js/project.js' %}"></script>
 
-    {% block extra_js %}{% endblock extra_js %}
+    {% block extra_js %}
+    <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+    <script>
+        $('.datepicker').datepicker({
+          format: 'mm-dd-yyyy',
+          autoclose: true,
+          keyboardNavigation: true
+        });
+    </script>
+    {% endblock extra_js %}
   </body>
 </html>
