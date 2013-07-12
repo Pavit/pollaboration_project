@@ -79,14 +79,6 @@
     <script src="{% static 'js/project.js' %}"></script>
 
     {% block extra_js %}
-    <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
-    <script>
-        $('.datepicker').datepicker({
-          format: 'mm-dd-yyyy',
-          autoclose: true,
-          keyboardNavigation: true
-        });
-    </script>
     {% endblock extra_js %}
   </body>
 </html>
