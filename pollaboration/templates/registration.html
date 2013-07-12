@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 
 {% load staticfiles %}
-<script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+{% load bootstrap %}
 <script>
     $('.datepicker').datepicker({
       format: 'mm-dd-yyyy',
       autoclose: true,
+      startView: 'decade',
       keyboardNavigation: true
     });
 </script>
@@ -17,33 +18,40 @@
 <div id="sign_up" class="row bottom-buffer">
   <div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
   <h1 class="text-center">Sign Up For Pollaboration</h1>
-  <form class="form-horizontal">
+  <form method="post" action="{% url 'accounts.views.registration' %}" class="form-horizontal">{% csrf_token %}
+  
     <div class="row">
-      <label class="col-3 col-lg-2 col-sm-2 control-label" for="inputEmail">Email</label>
+      <label class="col-3 col-lg-2 col-sm-2 control-label" for="id_email">Email</label>
       <div class="col-9 col-lg-10 col-sm-10">
-        <input type="text" id="inputEmail" placeholder="Email">
+      {{form.email.errors}}
+        {{form.email}}
       </div>
     </div>
 
     <div class="row">
-      <label class="col-3 col-lg-2 col-sm-2 control-label" for="inputPassword">Password</label>
+      <label class="col-3 col-lg-2 col-sm-2 control-label" for="id_password1">Password</label>
       <div class="col-9 col-lg-10 col-sm-10">
-        <input type="password" id="inputPassword" placeholder="Password">
+      {{form.password1.errors}}
+        {{form.password1}}
+      </div>
+    </div>
+    <div class="row">
+      <label class="col-3 col-lg-2 col-sm-2 control-label" for="id_password2">Confirm Password</label>
+      <div class="col-9 col-lg-10 col-sm-10">
+        {{form.password2.errors}}
+        {{form.password2}}
       </div>
     </div>
 
     <div class="row">
-      <label class="col-3 col-lg-2 col-sm-2 control-label">Gender/DoB</label>
-      <div class="col-5 col-lg-6 col-sm-6">
-      <select id="inputGender">
-        <option>Gender</option>
-        <option>Male</option>
-        <option>Female</option>
-        <option>Neither</option>
-      </select>
+     {#  <label class="col-3 col-lg-2 col-sm-2 control-label">Gender/DoB</label> #}
+      <div class="col-5 col-sm-6 col-sm-6">
+      {{form.gender.errors}}
+{{ form.gender|bootstrap }}
       </div>
       <div class="col-4 col-lg-4 col-sm-4 ">
-        <input type="text" class="datepicker" id="inputBirthdate" placeholder="DOB MM-DD-YYYY">
+      {{form.date_of_birth.errors}}
+       {{form.date_of_birth|bootstrap}}
       </div>
     </div>
 
@@ -54,7 +62,8 @@
         </label>
       </div>
       <div class="col-4">
-        <button type="submit" class="btn pull-right">Sign Up</button>
+        <button type="submit" class="btn pull-right" value="registration">Sign Up</button>
+        <input type="hidden" name="next" value="{{ next }}" />
       </div>
     </div>
 

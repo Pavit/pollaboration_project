@@ -14,6 +14,8 @@ def index(request):
 
 
 def current_question(request, current_question_id):
+    print request.META.get('HTTP_X_PJAX')   
+    print request.user.is_authenticated()
     previous_question_id = request.session.get('previous_question_id', None)
     if previous_question_id is not None:
         previous_question = get_object_or_404(Question, pk=previous_question_id)

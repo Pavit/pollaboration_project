@@ -158,8 +158,11 @@ INSTALLED_APPS = (
     'accounts',
     'questions',
     'south',
+    'bootstrapform',
 )
 AUTH_USER_MODEL = 'accounts.MyUser'
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
+LOGOUT_URL = '/accounts/logout/'
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
