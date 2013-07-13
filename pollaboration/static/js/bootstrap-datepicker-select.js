@@ -256,7 +256,7 @@
 		_makeDropdown: function ($select, isLong, isWide) {
 			var _this = this;
 			
-			var $wrapper = $('<div class="btn-group input-group ' + $select[0].className + '">' +
+			var $wrapper = $('<div class="btn-group input-append ' + $select[0].className + '">' +
 					'<span class="dropdown-value uneditable-input' + (isWide ? ' dropdown-wide' : '') + '"></span>' +
 					'<a class="add-on btn dropdown-toggle" href="javascript:;">' +
 						'<span class="caret"></span>' +
