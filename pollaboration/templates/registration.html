@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-
-
 {% block title %}Pollaboration - Sign Up{% endblock title %}
 
 {% block sign_up %}
@@ -38,8 +36,7 @@
     		Female
     		</label>
       </div>
-      <div class="col-8 col-lg-8 col-sm-8 datepicker-select" id="birthDate" data-toggle="datepicker-select" data-date-language="en" data-date-format="yyyy-mm-dd">
-          <input type="hidden" class="datepicker-select-input" value="" readonly />
+      <div class="col-8 col-lg-8 col-sm-8 datepicker-select">
       	  <select class="datepicker-select-month"></select>
           <select class="datepicker-select-day"></select>
           <select class="datepicker-select-year"></select>
@@ -65,10 +62,11 @@
 {% endblock sign_up %}
 
 {% block extra_js %}
+    <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
     <script src="{% static 'js/bootstrap-datepicker-select.js' %}"></script>
     <script type="text/javascript">
       $(document).ready(function(){
-        $('#birthDate').datepickerSelect();
+        $('.datepicker-select').datepickerSelect();
       });
     </script>
 {% endblock extra_js %}
