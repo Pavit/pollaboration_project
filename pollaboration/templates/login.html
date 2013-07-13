@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Pollaboration - Log In{% endblock title %}
+
+{% block sign_up %}
+
+<div id="sign_up" class="row bottom-buffer">
+  <div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
+  <h1 class="text-center">Login</h1>
+    <form class="form-horizontal">
+    <div class="row">
+      <div class="col-12 col-lg-12 col-sm-12">
+        <input class="input-small" type="text" id="id_email" placeholder="Email">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6 col-lg-6 col-sm-6">
+        <input class="input-small" type="password" id="id_password" placeholder="Password">
+      </div>
+     
+    <div class="row">
+      <div class="col-6">
+        <label class="checkbox">
+        <input type="checkbox"> Remember me
+        </label>
+      </div>
+      <div class="col-6">
+        <button type="submit" class="btn pull-right">Log In</button>
+      </div>
+    </div>
+  </form>
+  <p>Alternatively, log in with Facebook or Twitter.</p>
+  </div>
+</div>
+
+
+{% endblock sign_up %}
+
+{% block extra_js %}
+{% endblock extra_js %}
