@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Pollaboration - [TITLE]{% endblock title %}
+
+{% block current_question %}
+
+<div class="row bottom-buffer">
+	<div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
+	<h1>[NAME]</h1>
+	<p>Member since [DATE]<p>
+	<p>Age: [AGE]</p>
+	<p>Friends: [TOTAL FRIENDS]</p>
+	<h2>Answers</h2>
+	<div>[GRID HERE]</div>
+	<h2>Submissions</h2>
+	<div>[STACKED HORIZONTAL BARS HERE]</div>
+	</div>
+</div>
+
+{% endblock current_question %}

@@ -1,74 +1,74 @@
 {% extends "base.html" %}
 
-{% load staticfiles %}
-{% load bootstrap %}
-<script>
-    $('.datepicker').datepicker({
-      format: 'mm-dd-yyyy',
-      autoclose: true,
-      startView: 'decade',
-      keyboardNavigation: true
-    });
-</script>
+
 
 {% block title %}Pollaboration - Sign Up{% endblock title %}
 
 {% block sign_up %}
+{% load staticfiles %}
 
 <div id="sign_up" class="row bottom-buffer">
   <div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
-  <h1 class="text-center">Sign Up For Pollaboration</h1>
-  <form method="post" action="{% url 'accounts.views.registration' %}" class="form-horizontal">{% csrf_token %}
-  
+  <h1 class="text-center">Register</h1>
+  <p>Register for Pollaboration to submit your own questions, keep track of questions you have submitted and answered, and view your personal statistics.</p>
+  <form class="form-horizontal">
     <div class="row">
-      <label class="col-3 col-lg-2 col-sm-2 control-label" for="id_email">Email</label>
-      <div class="col-9 col-lg-10 col-sm-10">
-      {{form.email.errors}}
-        {{form.email}}
+      <div class="col-12 col-lg-12 col-sm-12">
+        <input class="input-small" type="text" id="id_email" placeholder="Email">
       </div>
     </div>
 
     <div class="row">
-      <label class="col-3 col-lg-2 col-sm-2 control-label" for="id_password1">Password</label>
-      <div class="col-9 col-lg-10 col-sm-10">
-      {{form.password1.errors}}
-        {{form.password1}}
+      <div class="col-6 col-lg-6 col-sm-6">
+        <input class="input-small" type="password" id="id_password1" placeholder="Password">
       </div>
-    </div>
-    <div class="row">
-      <label class="col-3 col-lg-2 col-sm-2 control-label" for="id_password2">Confirm Password</label>
-      <div class="col-9 col-lg-10 col-sm-10">
-        {{form.password2.errors}}
-        {{form.password2}}
+      <div class="col-6 col-lg-6 col-sm-6">
+        <input class="input-small" type="password" id="id_password2" placeholder="Confirm Password">
       </div>
     </div>
 
     <div class="row">
-     {#  <label class="col-3 col-lg-2 col-sm-2 control-label">Gender/DoB</label> #}
-      <div class="col-5 col-sm-6 col-sm-6">
-      {{form.gender.errors}}
-{{ form.gender|bootstrap }}
+      <div class="col-4 col-lg-4 col-sm-4">
+      	<label class="radio-inline">
+    		<input type="radio" name="optionsRadios" id="optionsRadios1" value="id_male" checked>
+    		Male
+    		</label>
+    		<label class="radio-inline">
+    		<input type="radio" name="optionsRadios" id="optionsRadios2" value="id_female">
+    		Female
+    		</label>
       </div>
-      <div class="col-4 col-lg-4 col-sm-4 ">
-      {{form.date_of_birth.errors}}
-       {{form.date_of_birth|bootstrap}}
+      <div class="col-8 col-lg-8 col-sm-8 datepicker-select" id="birthDate" data-toggle="datepicker-select" data-date-language="en" data-date-format="yyyy-mm-dd">
+          <input type="hidden" class="datepicker-select-input" value="" readonly />
+      	  <select class="datepicker-select-month"></select>
+          <select class="datepicker-select-day"></select>
+          <select class="datepicker-select-year"></select>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-8">
-        <label class="checkbox pull-right">
+      <div class="col-6">
+        <label class="checkbox">
         <input type="checkbox"> Remember me
         </label>
       </div>
-      <div class="col-4">
-        <button type="submit" class="btn pull-right" value="registration">Sign Up</button>
-        <input type="hidden" name="next" value="{{ next }}" />
+      <div class="col-6">
+        <button type="submit" class="btn pull-right">Sign Up</button>
       </div>
     </div>
-
   </form>
+  <p>If you like, you can also login with Facebook or Twitter.</p>
   </div>
 </div>
 
+
 {% endblock sign_up %}
+
+{% block extra_js %}
+    <script src="{% static 'js/bootstrap-datepicker-select.js' %}"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#birthDate').datepickerSelect();
+      });
+    </script>
+{% endblock extra_js %}
