@@ -256,13 +256,12 @@
 		_makeDropdown: function ($select, isLong, isWide) {
 			var _this = this;
 			
-			var $wrapper = $('<div class="btn-group input-append ' + $select[0].className + '">' +
-					'<span class="dropdown-value uneditable-input' + (isWide ? ' dropdown-wide' : '') + '"></span>' +
-					'<a class="add-on btn dropdown-toggle" href="javascript:;">' +
-						'<span class="caret"></span>' +
+			var $wrapper = $('<div class="btn-group input-group ' + $select[0].className + '">' +
+					'<span class="dropdown-value datepicker-span' + (isWide ? ' dropdown-wide' : '') + '"></span>' +
+					'<a class="btn dropdown-toggle datepicker-link" href="javascript:;">' +
+						'<b class="caret"></b>' +
 					'</a>' +
 					'<ul class="dropdown-menu' + (isLong ? ' dropdown-long' : '') + (isWide ? ' dropdown-wide' : '') + '"></ul>' +
-					'<div class="dropdown-arrow"></div>' +
 				'</div>');
 			
 			var $v = $wrapper.find('.dropdown-value');

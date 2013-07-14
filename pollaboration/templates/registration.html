@@ -1,32 +1,37 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
 {% block title %}Pollaboration - Sign Up{% endblock title %}
 
 {% block sign_up %}
-{% load staticfiles %}
-
 <div id="sign_up" class="row bottom-buffer">
   <div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
   <h1 class="text-center">Register</h1>
   <p>Register for Pollaboration to submit your own questions, keep track of questions you have submitted and answered, and view your personal statistics.</p>
   <form class="form-horizontal">
+
     <div class="row">
       <div class="col-12 col-lg-12 col-sm-12">
-        <input class="input-small" type="text" id="id_email" placeholder="Email">
+        <label>Email</label>
+        <input class="input-small" type="email" id="id_email" placeholder="Email">
       </div>
     </div>
 
     <div class="row">
       <div class="col-6 col-lg-6 col-sm-6">
+        <label>Password</label>
         <input class="input-small" type="password" id="id_password1" placeholder="Password">
       </div>
       <div class="col-6 col-lg-6 col-sm-6">
+        <label>Confirm Password</label>
         <input class="input-small" type="password" id="id_password2" placeholder="Confirm Password">
       </div>
     </div>
 
     <div class="row">
-      <div class="col-4 col-lg-4 col-sm-4">
+      <div class="col-3 col-lg-2 col-sm-2">
+        <label>Gender</label>
       	<label class="radio-inline">
     		  <input type="radio" name="optionsRadios" id="optionsRadios1" value="id_male" checked>Male
     		</label>
@@ -34,20 +39,27 @@
     		  <input type="radio" name="optionsRadios" id="optionsRadios2" value="id_female">Female
     		</label>
       </div>
-      <div class="col-8 col-lg-8 col-sm-8 datepicker-select">
+      <div class="col-9 col-lg-10 col-sm-10">
+        <div class="pull-right">
+        <label>Date of Birth</label>
+        <div class="datepicker-select" data-date-monthnames="true" data-toggle="datepicker-select">
       	  <select class="datepicker-select-month"></select>
           <select class="datepicker-select-day"></select>
           <select class="datepicker-select-year"></select>
+        </div>
+        </div>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-6">
-        <label class="checkbox">
+      <div class="col-6 col-lg-6 col-sm-6">
+        <div class="checkbox">
+        <label>
         <input type="checkbox"> Remember me
         </label>
+        </div>
       </div>
-      <div class="col-6">
+      <div class="col-6 col-lg-6 col-sm-6">
         <button type="submit" class="btn pull-right">Sign Up</button>
       </div>
     </div>
@@ -55,16 +67,9 @@
   <p>If you like, you can also login with Facebook or Twitter.</p>
   </div>
 </div>
-
-
 {% endblock sign_up %}
 
 {% block extra_js %}
     <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
     <script src="{% static 'js/bootstrap-datepicker-select.js' %}"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-        $('.datepicker-select').datepickerSelect();
-      });
-    </script>
 {% endblock extra_js %}
