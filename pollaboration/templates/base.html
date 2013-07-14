@@ -53,15 +53,37 @@
                 </li>
                 {%else%}
                 <li class="dropdown">
-                  <a href="/accounts/registration" class="dropdown-toggle" data-toggle="dropdown">Log In<b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Log In<b class="caret"></b></a>
                   <div class="dropdown-menu">
-                    <form>
-                    <input class="input-small" type="text" id="id_email" placeholder="Email">
-                    <input class="input-small" type="password" id="id_password1" placeholder="Password">
-                    <label class="checkbox"><input type="checkbox">Remember me</label>
-                    <button type="submit" class="btn pull-right">Login</button>
+                    <form class="form-horizontal">
+                       <div class="row">
+                        <div class="col-12 col-lg-12 col-sm-12">
+                          <input class="input-small" type="email" id="id_email" placeholder="Email">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-lg-12 col-sm-12">
+                          <input class="input-small" type="password" id="id_password" placeholder="Password">
+                        </div>
+                      </div>
+                       <div class="row">
+                        <div class="col-6 col-lg-6 col-sm-6">
+                          <div class="checkbox">
+                          <label>
+                          <input type="checkbox"> Remember me
+                          </label>
+                          </div>
+                        </div>
+                        <div class="col-6 col-lg-6 col-sm-6">
+                          <button type="submit" class="btn pull-right">Log In</button>
+                        </div>
+                      </div>
                     </form>
-                  </div>
+                    <div class="row">
+                        <div class="col-12 col-lg-12 col-sm-12">
+                          <p><a href="/accounts/registration" style="color: #575757;">If you're not a registered user, sign up now!</a><p>
+                        </div>
+                    </div>
                 </li>
                 {%endif%}
               </ul>
