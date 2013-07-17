@@ -37,6 +37,18 @@ class Question(models.Model):
         return self.answered_by.count()
     registered_vote_count=property(_get_registered_vote_count)
 
+    def processvote(self, answer_selected, request):
+        new_vote = Vote.objects.create(voter=None, answer=answer_selected)
+        if request.user.is_authenticated():
+            user = request.user
+            new_vote.voter = user
+            answer_selected.selected_by.add(user)
+            self.answered_by.add(user)
+        new_vote.save()
+        answer_selected.save()
+        self.save()
+        return self
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.question)
         super(Question, self).save(*args, **kwargs)

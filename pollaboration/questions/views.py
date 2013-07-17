@@ -10,6 +10,7 @@ from django.utils import simplejson
 
 def index(request):
     current_question = Question.objects.all().order_by('?')[:1].get()
+    request.session["previous_question_id"]=None
     return HttpResponseRedirect(reverse('questions.views.current_question', args=(current_question.id,)))
 
 
@@ -17,6 +18,8 @@ def current_question(request, current_question_id):
     print request.META.get('HTTP_X_PJAX')   
     print request.user.is_authenticated()
     previous_question_id = request.session.get('previous_question_id', None)
+    previous_question = None
+    request.session["previous_question_id"]=None
     if previous_question_id is not None:
         previous_question = get_object_or_404(Question, pk=previous_question_id)
     else:
@@ -30,14 +33,9 @@ def current_question(request, current_question_id):
 
 
 def vote(request, a_id):
-    answer = Answer.objects.get(id=a_id)
-    previous_question = answer.question
-    if request.user.is_authenticated():
-        print "hi"
-    else:
-        vote = Vote.objects.create(voter=None, answer=answer)
-        vote.answer = answer
-        vote.save()
+    answer_selected = Answer.objects.get(id=a_id)
+    previous_question = answer_selected.question
+    previous_question.processvote(answer_selected, request)
     current_question = Question.objects.filter(~Q(id=previous_question.id)).order_by('?')[:1].get()
     request.session['previous_question_id'] = previous_question.id
     return redirect(current_question)

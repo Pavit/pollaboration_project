@@ -9,8 +9,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django import forms
 from accounts.admin import UserCreationForm
+from datetime import date
+from django.core.urlresolvers import reverse
 
 def registration(request):
+    years = [y for y in range(date.today().year-80,date.today().year-10)]
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         print form.errors
@@ -22,24 +25,28 @@ def registration(request):
             return redirect(current_question)
     else:
         form = UserCreationForm()
-    return render(request, "registration.html", {'form': form,})
+    return render(request, "registration.html", {'form': form, 'years':years})
 
 def logout_view(request):
     logout(request)
-    HttpResponseRedirect('index')
+    return HttpResponseRedirect(reverse('questions.views.index'))
 
 def login_view(request):
     logout(request)
     email = password = ''
-    if request.POST:
-        email = request.POST['email']
-        password = request.POST['password']
+    if request.method == 'POST':
+        print request.POST.get('email')
+        print request.POST.get('password')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
         user = authenticate(email=email, password=password)
+        print user
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect('//')
-    return render_to_response('login.html', context_instance=RequestContext(request))
+                print request.user.is_authenticated()
+    current_question = Question.objects.all().order_by('?')[:1].get()
+    return redirect(current_question)
 
 
 def facebook_login_success(request):

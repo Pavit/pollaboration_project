@@ -8,7 +8,7 @@ admin.autodiscover()
 from accounts import views
     
 urlpatterns = patterns('',
-    url(r'^login/$', views.login_view, name='login'),
+    url(r'^login_view/$', views.login_view, name='login'),
     url(r'^registration/$', views.registration, name='registration'),
-    url(r'^logout/$', 'django.contrib.auth.views.logout', name='logout'),
+    url(r'^logout_view/$', views.logout_view, name='logout'),
 )
