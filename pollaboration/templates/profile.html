@@ -2,21 +2,86 @@
 
 {% load staticfiles %}
 
-{% block title %}Pollaboration - [TITLE]{% endblock title %}
+{% block title %}Pollaboration - {{request.user.first_name}}'s Profile{% endblock title %}
 
-{% block current_question %}
+{% block profile %}
 
 <div class="row bottom-buffer">
 	<div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
-	<h1>[NAME]</h1>
-	<p>Member since [DATE]<p>
-	<p>Age: [AGE]</p>
-	<p>Friends: [TOTAL FRIENDS]</p>
+	<h1>{{request.user.name}}</h1>
+	<p>Member since {{request.user.created}}<p>
+	<p>Age: {{request.user.age}}</p>
+	<h2>Facebook: Not connected. <a href="#">Connect now!</a></h1>
+	<h2>Twitter: Not connected. <a href="#">Connect now!</a></h2>
+	<p>Friends: {{request.user.friends.count}}</p>
 	<h2>Answers</h2>
-	<div>[GRID HERE]</div>
+	<div class="pollChart" id="grid"></div>
 	<h2>Submissions</h2>
-	<div>[STACKED HORIZONTAL BARS HERE]</div>
+	{% for submission in request.user.submissions.all %}
+	<div class="pollChart" id="stacked{{forloop.counter}}"></div>
+	{%endfor%}
 	</div>
 </div>
 
-{% endblock current_question %}
+
+
+<script src="{% static 'js/vendor/d3.js' %}"></script>
+<script src="{% static 'js/vendor/underscore.js' %}"></script>
+<script src="{% static 'js/chart.js' %}"></script>
+<script>
+{% for submission in request.user.submissions.all %}
+var stackeddata{{forloop.counter}} = [
+{% for a in submission.answers.all %}
+{
+    id: {{forloop.counter}},
+    label: "{{a.answer}}",
+    value: {{a.votes.count}}
+}{% if not foorloop.last %},{%endif%}{%endfor%}
+];
+        pollChart.stacked({
+            el: "#stacked{{forloop.counter}}",
+            data: stackeddata{{forloop.counter}} ,
+            width: 700,
+            height: 60,
+            margin: {
+                top: 0,
+                right: 0,
+                bottom: 30,
+                left: 0
+            },
+            colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#2084C4", "#3D444B"]
+        });
+{%endfor%}
+</script>
+<script>
+pollChart.grid({
+            el: "#grid",
+            width: 700,
+            height: 60,
+            margin: {
+                top: 0,
+                right: 0,
+                bottom: 30,
+                left: 0
+            },
+            colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#2084C4", "#3D444B"],
+            data: [
+    {% for x in grid_data %}
+    {
+        question:"{{x.question|safe}}",
+        answers:[
+            {% for y in x.answers %}
+                {
+                    id:{{y.id}},
+                    label:"{{y.label|safe}}",
+                    value:{{y.value}}
+                }{%if not forloop.last %},{%endif%}
+                {%endfor%}
+                ],
+        chosen:{{x.chosen}}
+    }{% if not foorloop.last %},{%endif%}
+    {% endfor %}
+    ]
+        });
+</script>
+{% endblock profile %}

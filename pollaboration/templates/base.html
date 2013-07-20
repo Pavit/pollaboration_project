@@ -38,7 +38,7 @@
             <div class="nav-collapse collapse navbar-responsive-collapse">
               <ul class="nav navbar-nav">
                 <li>
-                  {% if user.is_authenticated %}<a href="/questions/submit/">Submit</a>
+                  {% if user.is_authenticated %}<a href="{% url 'accounts.views.submit' %}">Submit</a>
                   {%else%}<a href="#">Submit</a>{%endif%}
                 </li>
                 {% if request.user.is_authenticated %}
@@ -46,7 +46,7 @@
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     <li><a href="#">Profile</a></li>
-                    <li><a href="#">Submissions</a></li>
+                    <li><a href="/accounts/submissions">Submissions</a></li>
                     <li class="divider"><a href="#"></a></li>
                     <li><a href="/accounts/logout_view" data-toggle="popover" data-placement="bottom">Logout</a></li>
                   </ul>
@@ -113,6 +113,9 @@
 
       {% block current_question %}
       {% endblock current_question %}
+
+      {% block profile %}
+      {% endblock profile %}
 
       {% block question_details %}
       {% endblock question_details %}

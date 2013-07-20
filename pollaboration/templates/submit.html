@@ -2,21 +2,24 @@
 
 {% load staticfiles %}
 
-{% block title %}Pollaboration - [TITLE]{% endblock title %}
+{% block title %}Pollaboration - Submit a question{% endblock title %}
 
-{% block current_question %}
+{% block content %}
 
 <div class="row bottom-buffer">
 	<div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
-	<h1>[NAME]</h1>
-	<p>Member since [DATE]<p>
-	<p>Age: [AGE]</p>
-	<p>Friends: [TOTAL FRIENDS]</p>
-	<h2>Answers</h2>
-	<div>[GRID HERE]</div>
-	<h2>Submissions</h2>
-	<div>[STACKED HORIZONTAL BARS HERE]</div>
+	<h1 class="text-center">Don't be a jew, submit a q!</h1>
+	<form method="post" action="{% url 'accounts.views.submit' %}">{%csrf_token%}
+
+ {{questionForm.as_p}}
+ {{answerInlineFormSet.non_form_errors}}
+{{answerInlineFormSet.as_p}}
+      <div class="col-6 col-lg-6 col-sm-6">
+        <button type="submit" value="submit" class="btn pull-right">Submit</button>
+      </div>
+</form>
+
 	</div>
 </div>
 
-{% endblock current_question %}
+{% endblock content %}
