@@ -6,28 +6,67 @@
 
 {% block profile %}
 
-<div class="row bottom-buffer">
+<div class="row">
 	<div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
-	<h1>{{request.user.name}}</h1>
-	<p>Member since {{request.user.created}}<p>
-	<p>Age: {{request.user.age}}</p>
-	<h2>Facebook: Not connected. <a href="#">Connect now!</a></h1>
-	<h2>Twitter: Not connected. <a href="#">Connect now!</a></h2>
-	<p>Friends: {{request.user.friends.count}}</p>
-	<h2>Answers</h2>
-	<div class="pollChart" id="grid"></div>
-	<h2>Submissions</h2>
-	{% for submission in request.user.submissions.all %}
-	<div class="pollChart" id="stacked{{forloop.counter}}"></div>
-	{%endfor%}
-	</div>
+        <div class="row">
+            <div class="col-6 col-lg-6 col-sm-6">
+                <h1>{{request.user.name}}</h1>
+                <p>Member since {{request.user.created}}<p>
+            </div>
+        </div>
+        <h2>Info <a href="#" class="pull-right"><i class="icon-pen"></i></a></h2>
+        <div class="row">
+            <div class="col-6 col-lg-6 col-sm-6">
+                <p>
+                    Age:&nbsp;&nbsp;&nbsp;&nbsp;{{request.user.age}}<br>
+                    <i class="icon-placepin"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[LOCATION]<br>
+                    <i class="icon-users"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{request.user.friends.count}} Friends
+                </p>
+            </div>
+            <div class="col-6 col-lg-6 col-sm-6">
+                <p class="pull-right">
+                    Social:&nbsp;&nbsp;None<br>
+                    Add:&nbsp;&nbsp;
+                    <a href="#"><i class="icon-facebook_circle"></i></a>
+                    <a href="#"><i class="icon-twitter_circle"></i></a>
+                    <a href="#"><i class="icon-google_plus_circle"></i></a>
+                </p>
+            </div>
+        </div>
+    	<h2>
+            Answers - [# Answered]
+            <a href="#" class="pull-right" data-toggle="tooltip" data-placement="left" class="tt" title data-original-title="All the questions you've asked Pollaboration are listed here. Click any question for more detail."><i class="icon-white_question"></i></a>
+        </h2>
+        <div class="row">
+            <div class="col-12 col-lg-12 col-sm-12">
+                <div class="pollChart" id="grid"></div>
+            </div>
+        </div>
+    	   
+    	<h2>
+            Questions - [# Asked]
+            <a href="#" class="pull-right" data-toggle="tooltip" data-placement="left" title data-original-title="All the questions you've asked Pollaboration are listed here. Click any question for more detail."><i class="icon-white_question"></i>
+        </h2>
+        <div class="row">
+            <div class="col-12 col-lg-12 col-sm-12">
+            	{% for submission in request.user.submissions.all %}
+            	<div class="pollChart" id="stacked{{forloop.counter}}"></div>
+            	{%endfor%}
+              </div>
+        </div>
+    	</div>
 </div>
+{% endblock profile %}
 
-
-
+{% block extra_js %}
 <script src="{% static 'js/vendor/d3.js' %}"></script>
 <script src="{% static 'js/vendor/underscore.js' %}"></script>
 <script src="{% static 'js/chart.js' %}"></script>
+<script>
+    $(function () {
+        $(".tt").tooltip();
+    });
+</script>
 <script>
 {% for submission in request.user.submissions.all %}
 var stackeddata{{forloop.counter}} = [
@@ -41,7 +80,7 @@ var stackeddata{{forloop.counter}} = [
         pollChart.stacked({
             el: "#stacked{{forloop.counter}}",
             data: stackeddata{{forloop.counter}} ,
-            width: 700,
+            /*width: 700,*/
             height: 60,
             margin: {
                 top: 0,
@@ -56,12 +95,12 @@ var stackeddata{{forloop.counter}} = [
 <script>
 pollChart.grid({
             el: "#grid",
-            width: 700,
-            height: 60,
+            /*width: 700,
+            height: 60,*/
             margin: {
                 top: 0,
                 right: 0,
-                bottom: 30,
+                bottom: 0,
                 left: 0
             },
             colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#2084C4", "#3D444B"],
@@ -84,4 +123,4 @@ pollChart.grid({
     ]
         });
 </script>
-{% endblock profile %}
+{% endblock extra_js %}

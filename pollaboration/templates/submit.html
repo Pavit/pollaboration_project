@@ -8,16 +8,14 @@
 
 <div class="row bottom-buffer">
 	<div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
-	<h1 class="text-center">Don't be a jew, submit a q!</h1>
+	<h1 class="text-center">Ask</h1>
 	<form method="post" action="{% url 'accounts.views.submit' %}">{%csrf_token%}
 
- {{questionForm.as_p}}
- {{answerInlineFormSet.non_form_errors}}
-{{answerInlineFormSet.as_p}}
-      <div class="col-6 col-lg-6 col-sm-6">
-        <button type="submit" value="submit" class="btn pull-right">Submit</button>
-      </div>
-</form>
+		{{questionForm.as_p}}
+		{{answerInlineFormSet.non_form_errors}}
+		{{answerInlineFormSet.as_p}}
+        <button type="submit" value="submit" class="btn">Submit</button>
+	</form>
 
 	</div>
 </div>
