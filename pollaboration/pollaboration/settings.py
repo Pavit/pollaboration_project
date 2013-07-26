@@ -45,7 +45,9 @@ if not os.environ.get("HEROKU_DEV", False):  ### LOCAL DATABASE SETTINGS / FACEB
 else:
     # HEROKU DATABASE SETTINGS / FACEBOOK INFO
     DATABASES = {'default': dj_database_url.config()}
-
+    FACEBOOK_APP_ID = '167104050141535'
+    FACEBOOK_API_SECRET  = '289643c70a9e00dafa68505e848244ea'
+    
 FACEBOOK_SCOPE = 'email,user_birthday,user_hometown,user_location,user_questions,user_relationships,user_religion_politics'
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
