@@ -174,7 +174,9 @@
         });
       });
     </script>
-<script>
+
+    {% block extra_js %}
+  <script>
   $('.fblogin').click(function(e) {
     e.preventDefault();
     FB.login(function(response) {
@@ -191,8 +193,6 @@
 
   });
   </script>
-    {% block extra_js %}
-  
     {% endblock extra_js %}
   </body>
 </html>
