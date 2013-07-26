@@ -40,9 +40,13 @@ if not os.environ.get("HEROKU_DEV", False):  ### LOCAL DATABASE SETTINGS / FACEB
             'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
         }
     }
+    FACEBOOK_APP_ID = '343120432448964'
+    FACEBOOK_API_SECRET  = 'f43073165e02ef728f31a315cd9fa6de'
 else:
     # HEROKU DATABASE SETTINGS / FACEBOOK INFO
     DATABASES = {'default': dj_database_url.config()}
+
+FACEBOOK_SCOPE = 'email,user_birthday,user_hometown,user_location,user_questions,user_relationships,user_religion_politics'
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -158,7 +162,7 @@ INSTALLED_APPS = (
     'accounts',
     'questions',
     'south',
-    'bootstrapform',
+    'facepy',
 )
 AUTH_USER_MODEL = 'accounts.MyUser'
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)

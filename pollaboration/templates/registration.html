@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% load staticfiles %}
-
+{% load questions_tags %}
 {% block title %}Pollaboration - Sign Up{% endblock title %}
 
 {% block sign_up %}
@@ -82,12 +82,29 @@
       </div>
     </div>
   </form>
-  <p>If you like, you can also login with Facebook or Twitter.</p>
+  <p>If you like, you can also login with <a href class = "fblogin">Facebook</a> or Twitter.</p>
   </div>
 </div>
 {% endblock sign_up %}
 
 {% block extra_js %}
+<script>
+  $('.fblogin').click(function(e) {
+    e.preventDefault();
+    FB.login(function(response) {
+      var access_token=response.authResponse.accessToken;
+      window.location.href =  '/accounts/facebook_login_success?access_token=' + access_token;
+}, {scope: "{% settings_value 'FACEBOOK_SCOPE' %}" });
+  });
+
+  $('.logout').click(function(e){
+    e.preventDefault();
+    FB.logout(function(response){
+      window.location.href = '/accounts/logout_view/';
+    });
+
+  });
+  </script>
     <script>
       $(function () {
         $("#id_date_of_birth_month").on("change", function () {

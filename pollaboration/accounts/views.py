@@ -49,6 +49,7 @@ def login_view(request):
     current_question = Question.objects.all().order_by('?')[:1].get()
     return redirect(current_question)
 
+
 @login_required
 def submit(request):    
     AnswerInlineFormSet = inlineformset_factory(Question, Answer, form=AnswerForm, formset=AnswerFormSet, extra=5, can_delete=False)
@@ -94,20 +95,38 @@ def profile(request):
     return render_to_response("profile.html", context, context_instance = RequestContext(request))
 
 
+# SCRAPPED!
+@login_required
+def connect_facebook_account(request):
+    access_token = request.GET.get("access_token")
+    fb_email = GraphAPI(access_token).get('me/')["email"]
+    user = request.user
+    user.fb_access_token = access_token
+    user.populate_graph_info()
+    user.save()
+    return redirect(profile)
+
+
 def facebook_login_success(request):
     access_token = request.GET.get("access_token")
-    fb_id = GraphAPI(access_token).get('me/')["id"]
-    try:
-        user = User.objects.get(username=fb_id)
-        print "got use"
-    except:
-        user = User.objects.create_user(fb_id)
-    user.userprofile.fb_access_token=access_token
+    graphinfo = GraphAPI(access_token).get('me/')
+    fb_id = graphinfo["id"]
+    fb_email = graphinfo["email"]
+    fb_gender = graphinfo["gender"]
+    if request.user.is_authenticated():
+        user = request.user
+        user.fb_access_token = access_token
+    else:
+        try:
+            user = MyUser.objects.get(email=fb_email)
+            print "yes"
+        except:
+            user = MyUser.objects.create_user(email=fb_email, gender=fb_gender)
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
+    user.fb_access_token=access_token
     print "ok"
-    user.userprofile.populate_graph_info()
+    user.populate_graph_info()
     user.save()
-    user.backend = 'django.contrib.auth.backends.ModelBackend'
     login(request, user)
-    print user.userprofile
     current_question = Question.objects.all().order_by('?')[:1].get()
-    return HttpResponseRedirect(reverse('questions.views.current_question', args=(current_question.id,)))
+    return redirect(current_question)

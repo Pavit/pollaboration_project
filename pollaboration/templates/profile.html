@@ -1,36 +1,61 @@
 {% extends "base.html" %}
 
 {% load staticfiles %}
-
-{% block title %}Pollaboration - {{request.user.first_name}}'s Profile{% endblock title %}
+{% load questions_tags %}
+{% block title %}Pollaboration - {% if request.user.first_name == "" %}{{request.user.email}}{%else%}{{request.user.first_name}}{%endif%}'s Profile{% endblock title %}
 
 {% block profile %}
 
 <div class="row">
 	<div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
         <h1>{{request.user.name}}</h1>
+        <h1>{{request.user.email}}</h1>
         <p>Member since {{request.user.created}}<p>
         <h2>Info <a href="#" class="pull-right"><i class="icon-pen"></i></a></h2>
         <div class="row">
             <div class="col-6 col-lg-6 col-sm-6">
-                <p>
+                <p> 
                     Age:&nbsp;&nbsp;&nbsp;&nbsp;{{request.user.age}}<br>
-                    <i class="icon-placepin"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[LOCATION]<br>
-                    <i class="icon-users"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{request.user.friends.count}} Friends
+                    <i class="icon-placepin"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{request.user.location}}<br>
+                    <i class="icon-users"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{% if request.user.friends.count == 0 %}None of your friends are on this site! Tell those nigs to join.{%else%} {{request.user.friends.count}} Friends. Go tell more to join! {%endif%}
                 </p>
             </div>
             <div class="col-6 col-lg-6 col-sm-6">
                 <p class="pull-right">
-                    Social:&nbsp;&nbsp;None<br>
-                    Add:&nbsp;&nbsp;
-                    <a href="#"><i class="icon-facebook_circle"></i></a>
+                    Social:&nbsp;&nbsp;{% if request.user.fb_id == ""%}None :-({% else %}Facebook Connected!{%endif%}<br>
+                    Connect: &nbsp;&nbsp;
+                    {% if request.user.fb_id == ""%}
+                    <a href class="fblogin"><i class="icon-facebook_circle"></i></a>
+                    {%endif%}
                     <a href="#"><i class="icon-twitter_circle"></i></a>
                     <a href="#"><i class="icon-google_plus_circle"></i></a>
                 </p>
             </div>
         </div>
+        {% if request.user.fb_id == "" %}
+        {% else %}
+        <h2>
+            Facebook profile information
+        </h2>
+            <div class="row">
+                <div class="col-12 col-lg-12 col-sm-12">
+                <img src ="http://graph.facebook.com/{{request.user.fb_id}}/picture?type=small">
+                    agegroup: {{request.user.agegroup|default_if_none:"N/A"}}
+                    gender: {{request.user.gender}}
+                    hometown: {{request.user.hometown|default_if_none:"N/A"}}
+                    location: {{request.user.location|default_if_none:"N/A"}}
+                    relationship status: {{request.user.relationship_status|default_if_none:"N/A"}}
+                    religion: {{request.user.religion|default_if_none:"N/A"}}
+                    political: {{request.user.political|default_if_none:"N/A"}}
+                </div>
+            </div>
+        {% endif %}
     	<h2>
-            Answers - [# Answered]
+            {% if request.user.votes.count == 0 %}
+                You answered no Qs! R U A JEW?
+            {% else %}
+                Answers - {{request.user.votes.count}}
+            {%endif%}
             <a href="#" class="pull-right" data-toggle="tooltip" data-placement="left" class="tt" title data-original-title="All the questions you've asked Pollaboration are listed here. Click any question for more detail."><i class="icon-white_question"></i></a>
         </h2>
         <div class="row">
@@ -40,7 +65,11 @@
         </div>
     	   
     	<h2>
-            Questions - [# Asked]
+        {% if request.user.submissions.count == 0 %}
+            <a href="{% url 'accounts.views.submit' %}">Click to ask some Qs!</a>
+        {%else%}
+            Questions - {{request.user.submissions.count}}
+        {%endif%}
             <a href="#" class="pull-right" data-toggle="tooltip" data-placement="left" title data-original-title="All the questions you've asked Pollaboration are listed here. Click any question for more detail."><i class="icon-white_question"></i>
         </h2>
         <div class="row">
@@ -62,6 +91,15 @@
     $(function () {
         $(".tt").tooltip();
     });
+</script>
+<script>
+  $('.fblogin').click(function(e) {
+    e.preventDefault();
+    FB.login(function(response) {
+      var access_token=response.authResponse.accessToken;
+      window.location.href =  '/accounts/connect_facebook_account?access_token=' + access_token;
+}, {scope: "{% settings_value 'FACEBOOK_SCOPE' %}" });
+  });
 </script>
 <script>
 {% for submission in request.user.submissions.all %}

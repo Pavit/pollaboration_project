@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load questions_tags %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -26,6 +27,42 @@
   </head>
 
   <body>
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '{% settings_value "FACEBOOK_APP_ID" %}', // App ID
+        channelUrl : '//WWW.pollaboration.COM/channel.html', // Channel File
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true  // parse XFBML
+      });
+
+      FB.Event.subscribe('auth.authResponseChange', function(response) {
+        if (response.status === 'connected') {
+        } else if (response.status === 'not_authorized') {
+          console.log("logged into fb, not app");
+        } else {
+            console.log("not logged into fb");
+            {% if user.is_authenticated %}
+            console.log("logged into app");
+            {%else%}
+            console.log("not logged into app");
+            {%endif%}
+          }
+      });
+      };
+
+      // Load the SDK asynchronously
+      (function(d){
+       var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement('script'); js.id = id; js.async = true;
+       js.src = "//connect.facebook.net/en_US/all.js";
+       ref.parentNode.insertBefore(js, ref);
+      }(document));
+    </script>
+
     <div class="container">
     <div class="row"><div class="col-12 col-lg-7 col-sm-9 pull-center no-padding bottom-buffer">
         <div class="navbar">
@@ -44,7 +81,7 @@
                 </li>
                 {% if request.user.is_authenticated %}
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% if request.user.fb_id == "" %}Account{%else%}<img src ="http://graph.facebook.com/{{request.user.fb_id}}/picture?type=small" style="padding:0px;border:0px;margin-bottom:-15px;margin-top:-10px;vertical-align:bottom">{%endif%}<b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     <li><a href="{% url 'accounts.views.profile' %}">Profile</a></li>
                     <li><a href="/accounts/logout_view" data-toggle="popover" data-placement="bottom">Logout</a></li>
@@ -83,6 +120,9 @@
                           <p><a href="/accounts/registration" style="color: #575757;">If you're not a registered user, sign up now!</a><p>
                         </div>
                     </div>
+                </li>
+                <li>
+                <a href class="fblogin"><i class="icon-facebook_circle"></i></a>
                 </li>
                 {%endif%}
               </ul>
@@ -134,7 +174,23 @@
         });
       });
     </script>
+<script>
+  $('.fblogin').click(function(e) {
+    e.preventDefault();
+    FB.login(function(response) {
+      var access_token=response.authResponse.accessToken;
+      window.location.href =  '/accounts/facebook_login_success?access_token=' + access_token;
+}, {scope: "{% settings_value 'FACEBOOK_SCOPE' %}" });
+  });
 
+  $('.logout').click(function(e){
+    e.preventDefault();
+    FB.logout(function(response){
+      window.location.href = '/accounts/logout_view/';
+    });
+
+  });
+  </script>
     {% block extra_js %}
   
     {% endblock extra_js %}
