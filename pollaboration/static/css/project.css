@@ -74,6 +74,15 @@ body {
   color: #ffffff;
 }
 
+span.icon {
+  margin-top:20px;
+}
+
+/* Icons */
+
+.icon-small { font-size: 12px; }
+.icon-big { font-size: 24px; }
+
 /* Specific Styling */
 
 .navbar {
