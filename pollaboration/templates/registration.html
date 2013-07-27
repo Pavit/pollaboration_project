@@ -8,79 +8,71 @@
 <div id="sign_up" class="row bottom-buffer">
   <div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
   <h1 class="text-center">Register</h1>
-  <p>Register for Pollaboration to submit your own questions, keep track of questions you have submitted and answered, and view your personal statistics.</p>
+  <p>Sign up now to ask questions and keep track of your activity! <em>And so that we can know everything about you.</em></p>
 <form method="post" action="{% url 'accounts.views.registration' %}" class="form-horizontal">{% csrf_token %}
 
-    <div class="row">
-      <div class="col-12 col-lg-12 col-sm-12">
-        <label>Email</label>
+    <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label" for="id_email">Email</label>
         {{form.email.errors}}
-        <input class="input-small" name="email" type="email" id="id_email" placeholder="Email">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-6 col-lg-6 col-sm-6">
-        <label>Password</label>
-        <input class="input-small" name="password1" type="password" id="id_password1" placeholder="Password">
-      </div>
-      <div class="col-6 col-lg-6 col-sm-6">
-        <label>Confirm</label>
-        <input class="input-small" name="password2" type="password" id="id_password2" placeholder="Confirm Password">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-3 col-lg-2 col-sm-2">
-        <label>Gender</label>
-      	<label class="radio-inline">
-    		  <input type="radio" name="gender" id="id_gender" value="M" checked>Male
-    		</label>
-    		<label class="radio-inline">
-    		  <input type="radio" name="gender" id="id_gender" value="F">Female
-    		</label>
-      </div>
-      <div class="col-9 col-lg-10 col-sm-10">
-        <label>Date of Birth</label>
-        <div class="row">
-          <div class="col-12">
-          <select name="date_of_birth_month" id="id_date_of_birth_month" class="col-5 input-small">
-            <option value="1">Jan.</option>
-            <option value="2">Feb.</option>
-            <option value="3">Mar.</option>
-            <option value="4">Apr.</option>
-            <option value="5">May</option>
-            <option value="6">Jun.</option>
-            <option value="7">Jul.</option>
-            <option value="8">Aug.</option>
-            <option value="9">Sept.</option>
-            <option value="10">Oct.</option>
-            <option value="11">Nov.</option>
-            <option value="12">Dec.</option>
-          </select>
-          <select name="date_of_birth_day" id="id_date_of_birth_day" class="col-3 input-small"></select>
-          <select name="date_of_birth_year" id="id_date_of_birth_year" class="col-4 input-small">
-          {% for year in years %}
-          <option value="{{year}}">{{year}}</option>
-          {% endfor %}
-          </select>
-          </div>
+        <div class="col-lg-10 col-sm-10">
+        <input class="form-control input-small" type="text" name="email" id="id_email" placeholder="Email">
         </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-lg-2 col-sm-2 control-label" for="id_password1">Password</label>
+      <div class="col-lg-5 col-sm-5">
+        <input class="form-control input-small" type="text" name="password1" id="id_password1" placeholder="Password">
+      </div>
+      <div class="col-lg-5 col-sm-5">
+        <input class="form-control input-small" type="text" name="password2" id="id_password2" placeholder="Confirm Password">
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-6 col-lg-6 col-sm-6">
-        <div class="checkbox">
-        <label>
-        <input type="checkbox"> Remember me
-        </label>
+    <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">Birth Date</label>
+        <div class="col-lg-4 col-sm-4">
+            <select name="date_of_birth_month" id="id_date_of_birth_month" class="form-control input-small">
+                <option value="1">Jan.</option>
+                <option value="2">Feb.</option>
+                <option value="3">Mar.</option>
+                <option value="4">Apr.</option>
+                <option value="5">May</option>
+                <option value="6">Jun.</option>
+                <option value="7">Jul.</option>
+                <option value="8">Aug.</option>
+                <option value="9">Sept.</option>
+                <option value="10">Oct.</option>
+                <option value="11">Nov.</option>
+                <option value="12">Dec.</option>
+            </select>
         </div>
-      </div>
-      <div class="col-6 col-lg-6 col-sm-6">
-        <button type="submit" value="registration" class="btn pull-right">Sign Up</button>
-      </div>
+        <div class="col-lg-3 col-sm-3">
+            <select name="date_of_birth_day" id="id_date_of_birth_day" class="form-control input-small"></select>
+        </div>
+        <div class="col-lg-3 col-sm-3">
+            <select name="date_of_birth_year" id="id_date_of_birth_year" class="form-control input-small">
+                {% for year in years %}
+                <option value="{{year}}">{{year}}</option>
+                {% endfor %}
+            </select>
+        </div>
     </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label" for="id_gender">Gender</label>
+        <div class="col-lg-4 col-sm-4">
+           <label class="radio-inline"><input type="radio" name="gender" id="id_gender" value="M" checked>Male</label>
+    	   <label class="radio-inline"><input type="radio" name="gender" id="id_gender" value="F">Female</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-12 col-lg-12 col-sm-12">
+            <button type="submit" value="registration" class="btn btn-large btn-block">Sign Up</button>
+        </div>
+    </div>
+
   </form>
   <p>If you like, you can also login with <a href class = "fblogin">Facebook</a> or Twitter.</p>
   </div>
