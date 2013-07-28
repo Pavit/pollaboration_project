@@ -8,11 +8,54 @@
 
 <div class="row bottom-buffer">
 	<div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
-	<h1 class="text-center">YOU GOT QUESTIONS? WE GOT ANSWERS!</h1>
+	<h1 class="text-center">Ask a question. Come on.</h1>
 	<form method="post" action="{% url 'accounts.views.submit' %}" class="form-horizontal">{%csrf_token%}
-		{{questionForm.as_p}}
-		{{answerInlineFormSet.non_form_errors}}
-		{{answerInlineFormSet.as_p}}
+		
+		<div class="form-group">
+		<label class="col-lg-2 col-sm-2 control-label" for="id_question">Question:</label>
+		<div class="col-lg-10 col-sm-10">
+		<input class="form-control input-small" type="text" name="question" id="id_question" placeholder="What do you want to ask?">
+		</div>
+		</div>
+	
+		<input id="id_answers-TOTAL_FORMS" name="answers-TOTAL_FORMS" type="hidden" value="5" /><input id="id_answers-INITIAL_FORMS" name="answers-INITIAL_FORMS" type="hidden" value="0" /><input id="id_answers-MAX_NUM_FORMS" name="answers-MAX_NUM_FORMS" type="hidden" value="1000">
+
+			
+		<div class="form-group">
+		<label class="col-lg-2 col-sm-2 control-label" for="id_answers-0-answer">Answer:</label>
+		<div class="col-lg-10 col-sm-10">
+		<input class="form-control input-small" id="id_answers-0-answer" name="answers-0-answer" placeholder="What kind of answer do you want?" type="text" /><input id="id_answers-0-id" name="answers-0-id" type="hidden" /><input id="id_answers-0-question" name="answers-0-question" type="hidden" />
+		</div>
+		</div>
+
+		<div class="form-group">
+		<label class="col-lg-2 col-sm-2 control-label" for="id_answers-1-answer">Answer:</label>
+		<div class="col-lg-10 col-sm-10">
+		<input class="form-control input-small" id="id_answers-1-answer" name="answers-1-answer" placeholder="What kind of answer do you want?" type="text" /><input id="id_answers-1-id" name="answers-1-id" type="hidden" /><input id="id_answers-1-question" name="answers-1-question" type="hidden" />
+		</div>
+		</div>
+
+		<div class="form-group">
+		<label class="col-lg-2 col-sm-2 control-label" for="id_answers-2-answer">Answer:</label>
+		<div class="col-lg-10 col-sm-10">
+		<input class="form-control input-small" id="id_answers-2-answer" name="answers-2-answer" placeholder="What kind of answer do you want?" type="text" /><input id="id_answers-2-id" name="answers-2-id" type="hidden" /><input id="id_answers-2-question" name="answers-2-question" type="hidden" />
+		</div>
+		</div>
+
+		<div class="form-group">
+		<label class="col-lg-2 col-sm-2 control-label" for="id_answers-3-answer">Answer:</label>
+		<div class="col-lg-10 col-sm-10">
+		<input class="form-control input-small" id="id_answers-3-answer" name="answers-0-answer" placeholder="What kind of answer do you want?" type="text" /><input id="id_answers-3-id" name="answers-3-id" type="hidden" /><input id="id_answers-3-question" name="answers-3-question" type="hidden" />
+		</div>
+		</div>
+
+		<div class="form-group">
+		<label class="col-lg-2 col-sm-2 control-label" for="id_answers-4-answer">Answer:</label>
+		<div class="col-lg-10 col-sm-10">
+		<input class="form-control input-small" id="id_answers-4-answer" name="answers-4-answer" placeholder="What kind of answer do you want?" type="text" /><input id="id_answers-4-id" name="answers-4-id" type="hidden" /><input id="id_answers-4-question" name="answers-4-question" type="hidden" />
+		</div>
+		</div>
+    
         <button type="submit" value="submit" class="btn btn-large btn-block">Submit</button>
 	</form>
 
