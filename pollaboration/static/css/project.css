@@ -23,7 +23,6 @@ h1 {
 body {
   background-image:url('../img/background.png');
   -webkit-font-smoothing: antialiased;
-  /*padding-top: 42px;*/
 }
 
 .bottom-buffer {
