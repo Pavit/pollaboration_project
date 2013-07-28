@@ -6,10 +6,11 @@
 
 {% block sign_up %}
 <div id="sign_up" class="row bottom-buffer">
-  <div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
-  <h1 class="text-center">Register</h1>
-  <p>Sign up now to ask questions and keep track of your activity! <em>And so that we can know everything about you.</em></p>
-<form method="post" action="{% url 'accounts.views.registration' %}" class="form-horizontal">{% csrf_token %}
+    <div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
+    <h1 class="text-center">Register</h1>
+    <p>Sign up now to ask questions and keep track of your activity! <em>And so that we can know everything about you.</em></p>
+    <p>If you like, you can also login with <a href class = "fblogin">Facebook</a> or Twitter.</p>
+    <form method="post" action="{% url 'accounts.views.registration' %}" class="form-horizontal">{% csrf_token %}
 
     <div class="form-group">
         <label class="col-lg-2 col-sm-2 control-label" for="id_email">Email</label>
@@ -74,7 +75,6 @@
     </div>
 
   </form>
-  <p>If you like, you can also login with <a href class = "fblogin">Facebook</a> or Twitter.</p>
   </div>
 </div>
 {% endblock sign_up %}

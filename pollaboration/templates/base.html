@@ -97,39 +97,32 @@
                 {%else%}
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Log In<b class="caret"></b></a>
-                  <div class="dropdown-menu" role="menu" aria-labeledby="dLabel">
+                  <ul class="dropdown-menu" role="menu" aria-labeledby="dLabel">
                     <form method="post" action="{% url 'accounts.views.login_view' %}" class="form-horizontal">{% csrf_token %}
-                       <div class="row">
-                        <div class="col-12 col-lg-12 col-sm-12">
-                          <input class="input-small" name="email" type="email" id="id_email" placeholder="Email">
+                      <li>
+                        <input class="input-small" name="email" type="email" id="id_email" placeholder="Email">
+                      </li>
+                      <li>
+                        <input class="input-small" name="password" type="password" id="id_password" placeholder="Password">
+                      </li>
+                      <li>
+                        <div class="checkbox">
+                        <label>
+                        <input type="checkbox"> Remember me
+                        </label>
                         </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-12 col-lg-12 col-sm-12">
-                          <input class="input-small" name="password" type="password" id="id_password" placeholder="Password">
-                        </div>
-                      </div>
-                       <div class="row">
-                        <div class="col-6 col-lg-6 col-sm-6">
-                          <div class="checkbox">
-                          <label>
-                          <input type="checkbox"> Remember me
-                          </label>
-                          </div>
-                        </div>
-                        <div class="col-6 col-lg-6 col-sm-6">
-                          <button type="submit" value="login_view" class="btn pull-right">Log In</button>
-                        </div>
-                      </div>
+                      </li>
+                      <li>
+                        <button type="submit" value="login_view" class="btn btn-block">Log In</button>
+                      </li>
                     </form>
-                    <div class="row">
-                        <div class="col-12 col-lg-12 col-sm-12">
-                          <p><a href="/accounts/registration" style="color: #575757;">If you're not a registered user, sign up now!</a><p>
-                        </div>
-                    </div>
+                      <li>
+                        <p><a href="/accounts/registration">Or you can sign up.</a><p>
+                      </li>
+                    </ul>
                 </li>
                 <li>
-                <a href class="fblogin"><i class="icon-facebook_circle"></i></a>
+                <a href class="fblogin social facebook"></a>
                 </li>
                 {%endif%}
               </ul>
