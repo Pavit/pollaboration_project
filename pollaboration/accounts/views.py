@@ -86,6 +86,7 @@ def profile(request):
             item["label"] = item.pop("answer")
         grid_data.append({
             'question': q.question,
+            'question_id': q.id,
             'answers': answerlist,
             'chosen': a.id,
             })

@@ -153,6 +153,7 @@ pollChart.grid({
     {% for x in grid_data %}
     {
         question:"{{x.question|safe}}",
+        question_id: "{{x.question_id}}",
         answers:[
             {% for y in x.answers %}
                 {
@@ -167,5 +168,11 @@ pollChart.grid({
     {% endfor %}
     ]
         });
+</script>
+<script>
+$('.gridSquare').click(function(e) {
+    console.log(e.currentTarget.__data__.question_id);
+    window.location.href= '/questions/details/'+e.currentTarget.__data__.question_id;
+})
 </script>
 {% endblock extra_js %}

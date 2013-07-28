@@ -656,7 +656,8 @@
                     data.push({
                         question: item.question,
                         answer: answer.label,
-                        color: colors[index]
+                        color: colors[index],
+                        question_id: item.question_id
                     });
                     break;
                 }
