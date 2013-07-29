@@ -665,10 +665,10 @@
         }
         el = d3.select(opts.el);
         chart = el.selectAll(".gridSquare").data(data).enter().append("div").attr("class", "gridSquare").style("background", get("color"));
-        getter = function(d) {
-            return "Q. " + d.question + " <br />\nA. " + d.answer;
+/*        getter = function(d) {
+             return "Q. " + d.question + " <br />\nA. " + d.answer;
         };
-        return tooltip(el, chart, getter);
+        return tooltip(el, chart, getter);*/
     };
 
 }).call(this);
