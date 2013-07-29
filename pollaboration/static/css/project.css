@@ -91,6 +91,12 @@ span.icon {
   margin-top:20px;
 }
 
+/* Footer */
+
+footer p {
+  margin-bottom: 0px;
+}
+
 /* Icons */
 
 .icon-small { font-size: 12px; }
