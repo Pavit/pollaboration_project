@@ -6,10 +6,12 @@
 
 {% block profile %}
 
-<div id="profile" class="row">
+<div id="profile" class="row bottom-buffer">
 	<div class="col-12 col-lg-7 col-sm-9 pull-center lightgray">
-        <h1>{{request.user.name}}</h1>
-        <h1>{{request.user.email}}</h1>
+        <div class="page-header">
+            <h1>{{request.user.name}}</h1>
+            <h1>{{request.user.email}}</h1>
+        </div>
         <h4 class="text-right">Member since {{request.user.created}}</h4>
         <h2>Info <a href="#" class="pull-right glyphicons edit"></a></h2>
         <div class="row">

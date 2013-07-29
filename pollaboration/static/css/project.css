@@ -16,10 +16,6 @@ a:hover {
 	text-decoration: none;
 }
 
-h1 {
-  margin-bottom: 20px;
-}
-
 body {
   background-image:url('../img/background.png');
   -webkit-font-smoothing: antialiased;
@@ -43,10 +39,18 @@ body {
   margin: 0;
 }
 
+.page-header {
+  padding-bottom: 9px;
+  margin: 40px 0 20px;
+  border: 0;
+}
+
 .red,
 .blue,
 .lightgray,
-.darkgray {
+.darkgray,
+.white,
+.clear {
   padding: 25px 20px;
 }
 
@@ -72,6 +76,11 @@ body {
 .darkgray {
   background-color: #575757;
   color: #c3c3c3;
+}
+
+.white {
+  background-color: #ffffff;
+  color: #575757;
 }
 
 .darkgray a:hover {
