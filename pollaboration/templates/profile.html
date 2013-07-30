@@ -8,28 +8,25 @@
 
 <div id="profile" class="row bottom-buffer">
     <div class="col-12 col-lg-7 col-sm-9 pull-center red">
-    <div class = "page-header">
-    <h1>Account Profile</h1>
-    <h4 class = "text-let">{{request.user.email}}</h4>
-    <h4 class="text-left">Member since {{request.user.created}}</h4>
-    
-
-                <p class="pull-right">
-                    Social: &nbsp;{% if request.user.fb_id == ""%}None :-({% else %}Facebook Connected!{%endif%}<br>
-                    Connect: &nbsp;
-                    {% if request.user.fb_id == ""%}
-                    <a href class="fblogin social facebook"></a>
-                    {%endif%} 
-                    <a href="#"><i class="social twitter"></i></a>
-                    <a href="#"><i class="social google_plus"></i></a>
-                </p>
+    <div class ="page-header">
+    <h1>
+        {{request.user.email}}
+        <span class="pull-right">
+            {% if request.user.fb_id == ""%}
+            <a href class="fblogin social facebook"></a>
+            {% else %}
+            <span class="activated"><a href class="fblogin social facebook"></a></span>
+            {%endif%}
+            <a href="#"><i class="social twitter"></i></a>
+            <a href="#"><i class="social google_plus"></i></a>
+        </span>
+    </h1>
+    <h5>Member since {{request.user.created}}</h5>
+    </div>
+    </div>
 </div>
-            </div>
-</div>
 
-<div id="profile" class="row bottom-buffer">
-
-
+<div class="row bottom-buffer">
     <div class="col-12 col-lg-7 col-sm-9 pull-center blue">
 {% if request.user.fb_id == "" %}
 {%else %}
@@ -60,6 +57,7 @@
                 </div>
             </div>
         {% endif %}
+        <h1>Activity</h1>
     	<h2>
             {% if request.user.votes.count == 0 %}
                 You answered no Qs! R U A JEW?
