@@ -722,14 +722,15 @@
             item = data[_i];
             item.start = start;
             percent = Math.round(item.value / total * 100);
+            item.percent = percent;
             item.tooltip = "" + item.label + " (" + percent + "%)";
             start += item.value;
         }
         el = d3.select(opts.el);
         svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        group = svg.selectAll("g").data(data, get("label")).enter().append("g");
-        chart = group.append("rect").attr("class", "stack").style("fill", get("label", color)).attr("height", height).attr("x", get("start", scale)).attr("width", get("value", scale));
-        return tooltip(el, chart, get("tooltip"));
+        group = svg.selectAll("g").data(data, get("label")).enter().append("g").data(data);
+        chart = group.append("rect").data(data).attr("class", "stack").style("fill", get("label", color)).attr("height", height).attr("x", get("start", scale)).attr("width", get("value", scale));
+        /*return tooltip(el, chart, get("tooltip"));*/
     };
 
 

@@ -57,11 +57,14 @@ def submit(request):
         questionForm = QuestionForm(request.POST)
         if questionForm.is_valid():
             new_question = questionForm.save()
+            if request.user.is_authenticated():
+                new_question.submitter = request.user
             answerInlineFormSet = AnswerInlineFormSet(request.POST, request.FILES, instance=new_question)
             print "non form errors %s" %answerInlineFormSet.non_form_errors()
             print "form errors %s" %answerInlineFormSet.errors
             if answerInlineFormSet.is_valid():
                 print "Valid"
+                new_question.save()
                 answerInlineFormSet.save()
                 return redirect(new_question)
     else:

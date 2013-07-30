@@ -20,18 +20,11 @@ class AnswerForm(forms.ModelForm):
 class AnswerFormSet(BaseInlineFormSet):
     def clean(self):
         super(AnswerFormSet, self).clean()
-        # example custom validation across forms in the formset:
         blanks = []
         for form in self.forms:
-            print form.cleaned_data
-            print form
             try:
-                print form.cleaned_data['answer']
                 x=form.cleaned_data['answer']
-                print form
-                print x
             except:
                 blanks.append(form)
-                print "blank appended"
         if len(blanks)>=4:
             raise forms.ValidationError("Must have at least two answer choices!")
