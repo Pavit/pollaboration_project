@@ -9,19 +9,12 @@
 <form method="post" action="{% url 'accounts.views.submit' %}" class="form-horizontal">{%csrf_token%}
 <div class="row bottom-buffer">
 	<div class="col-12 col-lg-7 col-sm-9 pull-center red" id="proposed_question">
-	{% if answerInlineFormSet.errors or answerInlineFormSet.non_form_errors %}
-	<h1 class="text-center">
-	{% for error in answerInlineFormSet.non_form_errors %}
-	<p style="color:red">{{error|upper	}}</p>
-	{%endfor%}
-	</h1>
-	{% endif %}
-	<h1 class="text-center">Okay, so you want to ask a question? Let's get started!</h1>
-	<h1 class="text-center">So {{request.user.first_name}}, what's your question?</h1>
+	<h1 class="text-center">Okay, so you want to ask a question. Let's get started!</h1>
 		<input class="form-control" type="text" name="question" id="id_question" placeholder="Step 1: click me to enter a question...">
 	</div>
 </div>
 
+<div class = "answers">
 <div class="row bottom-buffer">
 	<div class="col-12 col-lg-7 col-sm-9 pull-center blue" id="proposed_answer">
 		<input id="id_answers-TOTAL_FORMS" name="answers-TOTAL_FORMS" type="hidden" value="5" /><input id="id_answers-INITIAL_FORMS" name="answers-INITIAL_FORMS" type="hidden" value="0" /><input id="id_answers-MAX_NUM_FORMS" name="answers-MAX_NUM_FORMS" type="hidden" value="1000">
@@ -57,7 +50,7 @@
 		</div>
 	</div>
 </div>
-
+</div>
 <div class = "submit">
 <div class="row bottom-buffer">
         <button type="submit" value="submit" class="btn col-12 col-lg-7 col-sm-9 pull-center text-center darkgray btn-panel">Submit</button>
@@ -70,9 +63,6 @@
 
 {% block extra_js %}
 <script>
-$('document').ready(function(){
-	$('input#id_question').focus();
-});
 $('#id_answers-0-answer').hide();
 $('#id_answers-1-answer').hide();
 $('#id_answers-2-answer').hide();
@@ -86,27 +76,6 @@ $('input#id_question').keypress(function() {
 });
 $('input#id_answers-0-answer').keypress(function() {
     $('input#id_answers-1-answer').fadeIn('slow');
-    $(this).focus();
-});
-
-$('input#id_answers-1-answer').keypress(function() {
-    $('input#id_answers-2-answer').fadeIn('slow');
-    $(this).focus();
-});
-$('input#id_answers-2-answer').keypress(function() {
-    $('input#id_answers-3-answer').fadeIn('slow');
-    $(this).focus();
-});
-$('input#id_answers-3-answer').keypress(function() {
-    $('input#id_answers-4-answer').fadeIn('slow');
-    $(this).focus();
-});
-$('input#id_answers-4-answer').keypress(function() {
-    $('input#id_answers-5-answer').fadeIn('slow');
-    $(this).focus();
-});
-$('input#id_answers-1-answer').keypress(function() {
-    $('.submit').fadeIn('slow');
     $(this).focus();
 });
 </script>
