@@ -209,18 +209,18 @@ input[type="search"] {
   color: #ffffff;
   vertical-align: middle;
   background-color: #f15c22;
-  border: 0;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px #f15c22;
-  box-shadow: inset 0 1px 1px #f15c22;
+  border: 1px solid #ffc9b4;
+  border-radius: 0px;
+  -webkit-box-shadow: 0px #ffc9b4;
+  box-shadow: 0px #ffc9b4;
   -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 #id_question.form-control:focus {
-  border-color: #f15c22;
+  border: 1px solid #ffc9b4;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px #f15c22, 0 0 8px #f15c22;
-  box-shadow: inset 0 1px 1px #f15c22, 0 0 8px #f15c22;
+  -webkit-box-shadow: 0px 1px 0px #f15c22;
+  box-shadow: 0px 1px 0px #f15c22;
 }
 
 #id_question::-webkit-input-placeholder {color: #ffc9b4;}
@@ -229,13 +229,13 @@ input[type="search"] {
 #id_question:-ms-input-placeholder {color: #ffc9b4;}
 
 #proposed_answer {
-  padding-bottom: 15px;
+  padding-bottom: 10px;
 }
 
 #proposed_answer .form-control {
   display: block;
   width: 100%;
-  height: 30px;
+  height: 35px;
   padding: 0;
   font-size: 22.5px;
   font-weight: 300;
@@ -244,18 +244,18 @@ input[type="search"] {
   color: #ffffff;
   vertical-align: middle;
   background-color: #73a1d5;
-  border: 0;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px #73a1d5;
-  box-shadow: inset 0 1px 1px #73a1d5;
+  border: 1px solid #bddafc;
+  border-radius: 0px;
+  -webkit-box-shadow: 0px #bddafc;
+  box-shadow: 0px #bddafc;
   -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 #proposed_answer .form-control:focus {
-  border-color: #73a1d5;
+  border: 1px solid #bddafc;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px #73a1d5, 0 0 8px #73a1d5;
-  box-shadow: inset 0 1px 1px #73a1d5, 0 0 8px #73a1d5;
+  -webkit-box-shadow: 0px 1px 0px #73a1d5;
+  box-shadow: 0px 1px 0px #73a1d5;
 }
 
 #proposed_answer input::-webkit-input-placeholder {color: #bddafc;}
