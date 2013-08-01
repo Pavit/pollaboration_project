@@ -16,9 +16,7 @@
 	{%endfor%}
 	</h1>
 	{% endif %}
-	<h1 class="text-center">Okay, so you want to ask a question? Let's get started!</h1>
-	<h1 class="text-center">So {{request.user.first_name}}, what's your question?</h1>
-		<input class="form-control" type="text" name="question" id="id_question" placeholder="Step 1: click me to enter a question...">
+		<input class="form-control" type="text" name="question" id="id_question" placeholder="Type question here.">
 	</div>
 </div>
 
@@ -26,31 +24,31 @@
 	<div class="col-12 col-lg-7 col-sm-9 pull-center blue" id="proposed_answer">
 		<input id="id_answers-TOTAL_FORMS" name="answers-TOTAL_FORMS" type="hidden" value="5" /><input id="id_answers-INITIAL_FORMS" name="answers-INITIAL_FORMS" type="hidden" value="0" /><input id="id_answers-MAX_NUM_FORMS" name="answers-MAX_NUM_FORMS" type="hidden" value="1000">
 			
-		<div class="form-group">
+		<div class="form-group" id="answers0">
 		<div class="col-lg-12 col-sm-12">
 		<input class="form-control input-small" id="id_answers-0-answer" name="answers-0-answer" placeholder="Add answer here." type="text" /><input id="id_answers-0-id" name="answers-0-id" type="hidden" /><input id="id_answers-0-question" name="answers-0-question" type="hidden" />
 		</div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group" id="answers1">
 		<div class="col-lg-12 col-sm-12">
 		<input class="form-control input-small" id="id_answers-1-answer" name="answers-1-answer" placeholder="Add second answer." type="text" /><input id="id_answers-1-id" name="answers-1-id" type="hidden" /><input id="id_answers-1-question" name="answers-1-question" type="hidden" />
 		</div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group" id="answers2">
 		<div class="col-lg-12 col-sm-12">
 		<input class="form-control input-small" id="id_answers-2-answer" name="answers-2-answer" placeholder="Optional answer." type="text" /><input id="id_answers-2-id" name="answers-2-id" type="hidden" /><input id="id_answers-2-question" name="answers-2-question" type="hidden" />
 		</div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group" id="answers3">
 		<div class="col-lg-12 col-sm-12">
 		<input class="form-control input-small" id="id_answers-3-answer" name="answers-3-answer" placeholder="Optional answer." type="text" /><input id="id_answers-3-id" name="answers-3-id" type="hidden" /><input id="id_answers-3-question" name="answers-3-question" type="hidden" />
 		</div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group" id="answers4">
 		<div class="col-lg-12 col-sm-12">
 		<input class="form-control input-small" id="id_answers-4-answer" name="answers-4-answer" placeholder="Optional answer." type="text" /><input id="id_answers-4-id" name="answers-4-id" type="hidden" /><input id="id_answers-4-question" name="answers-4-question" type="hidden" />
 		</div>
@@ -73,41 +71,40 @@
 $('document').ready(function(){
 	$('input#id_question').focus();
 });
-$('#id_answers-0-answer').hide();
-$('#id_answers-1-answer').hide();
-$('#id_answers-2-answer').hide();
-$('#id_answers-3-answer').hide();
-$('#id_answers-4-answer').hide();
-$('#id_answers-5-answer').hide();
-$('.submit').hide();
-$('input#id_question').keypress(function() {
-    $('#id_answers-0-answer').fadeIn('slow');
-    $(this).focus();
-});
-$('input#id_answers-0-answer').keypress(function() {
-    $('input#id_answers-1-answer').fadeIn('slow');
-    $(this).focus();
-});
-
+//$('#answers0').hide();
+//$('#answers1').hide();
+$('#answers2').hide();
+$('#answers3').hide();
+$('#answers4').hide();
+$('#answers5').hide();
+// $('.submit').hide();
+// $('input#id_question').keypress(function() {
+//     $('#id_answers-0-answer').fadeIn('slow');
+//     $(this).focus();
+// });
+// $('input#id_answers-0-answer').keypress(function() {
+//     $('input#id_answers-1-answer').fadeIn('slow');
+//     $(this).focus();
+// });
 $('input#id_answers-1-answer').keypress(function() {
-    $('input#id_answers-2-answer').fadeIn('slow');
+    $('#answers2').fadeIn('slow');
     $(this).focus();
 });
 $('input#id_answers-2-answer').keypress(function() {
-    $('input#id_answers-3-answer').fadeIn('slow');
+    $('#answers3').fadeIn('slow');
     $(this).focus();
 });
 $('input#id_answers-3-answer').keypress(function() {
-    $('input#id_answers-4-answer').fadeIn('slow');
+    $('#answers4').fadeIn('slow');
     $(this).focus();
 });
 $('input#id_answers-4-answer').keypress(function() {
-    $('input#id_answers-5-answer').fadeIn('slow');
+    $('#answers5').fadeIn('slow');
     $(this).focus();
 });
-$('input#id_answers-1-answer').keypress(function() {
-    $('.submit').fadeIn('slow');
-    $(this).focus();
-});
+// $('input#id_answers-1-answer').keypress(function() {
+//     $('.submit').fadeIn('slow');
+//     $(this).focus();
+// });
 </script>
 {% endblock extra_js %}

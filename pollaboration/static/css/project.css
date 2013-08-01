@@ -1,13 +1,5 @@
 /* Global */
 
-input:focus::-webkit-input-placeholder {opacity: 0;}
-
-input:focus:-moz-placeholder {opacity: 0;}
-
-input:focus::-moz-placeholder {opacity: 0;}
-
-input:focus:-ms-input-placeholder {opacity: 0;}
-
 a {
   color: inherit;
 }
@@ -209,7 +201,7 @@ input[type="search"] {
   color: #ffffff;
   vertical-align: middle;
   background-color: #f15c22;
-  border: 0px solid #ffcdb9;
+  border: 1px solid #ffcdb9;
   border-radius: 0px;
   -webkit-box-shadow: 0px #ffc9b4;
   box-shadow: 0px #ffc9b4;
@@ -225,10 +217,17 @@ input[type="search"] {
   box-shadow: 0px 1px 0px #f15c22;
 }
 
-#id_question::-webkit-input-placeholder {color: #ffffff;}
-#id_question:-moz-placeholder {color: #ffffff;}
-#id_question::-moz-placeholder {color: #ffffff;}
-#id_question:-ms-input-placeholder {color: #ffffff;}
+#id_question::-webkit-input-placeholder {color: #ffcdb9;}
+#id_question:-moz-placeholder {color: #ffcdb9;}
+#id_question::-moz-placeholder {color: #ffcdb9;}
+#id_question:-ms-input-placeholder {color: #ffcdb9;}
+
+/*
+input:focus::-webkit-input-placeholder {opacity: 0;}
+input:focus:-moz-placeholder {opacity: 0;}
+input:focus::-moz-placeholder {opacity: 0;}
+input:focus:-ms-input-placeholder {opacity: 0;}
+*/
 
 #proposed_answer {
   padding-bottom: 10px;
