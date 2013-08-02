@@ -70,14 +70,15 @@
 {% block extra_js %}
 <script>
 $('document').ready(function(){
+	$('#answers2').hide();
+$('#answers3').hide();
+$('#answers4').hide();
+$('#answers5').hide();
 	$('input#id_question').focus();
 });
 //$('#answers0').hide();
 //$('#answers1').hide();
-$('#answers2').hide();
-$('#answers3').hide();
-$('#answers4').hide();
-$('#answers5').hide();
+
 // $('.submit').hide();
 // $('input#id_question').keypress(function() {
 //     $('#id_answers-0-answer').fadeIn('slow');

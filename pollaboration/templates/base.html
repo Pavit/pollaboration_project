@@ -211,7 +211,8 @@ $(document).ready(function() {
       type: "GET",
       success: function(data) {
         $('#search').val('');
-        $('#current_question').html(data).hide().fadeIn(200);
+        window.location.href = "/questions/"+item.id+"/";
+       /* $('#current_question').html(data).hide().fadeIn(200);*/
       }});
   });
 });

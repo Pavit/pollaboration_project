@@ -272,10 +272,10 @@
     }
     el = d3.select(opts.el);
     chart = el.selectAll(".gridSquare").data(data).enter().append("div").attr("class", "gridSquare").style("background", get("color"));
-    getter = function(d) {
+/*    getter = function(d) {
       return "Q. " + d.question + " <br />\nA. " + d.answer;
     };
-    return tooltip(el, chart, getter);
+    return tooltip(el, chart, getter);*/
   };
 
 }).call(this);
@@ -584,7 +584,7 @@
     }).innerRadius(innerRadius).outerRadius(outerRadius);
     el = d3.select(opts.el);
     el.append("h2").text(opts.data.question);
-    //answerP = el.append("p").text(opts.data.value + " Answers");
+    answerP = el.append("p").text(opts.data.value + " Answers");
     svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * .52 + "," + height / 2 + ")");
     //label = el.append("span").attr("class", "poll-label");
     old = null;
@@ -774,7 +774,7 @@
     };
     draw(data);
     sliderSpan = el.append("p").attr("class", "slider-text").text("Date range:").append("span");
-    sliderSpan.text(moment(opts.data.start).format("LL") + " to " + moment(opts.data.end).format("LL"));
+    sliderSpan.text(moment.unix(opts.data.start).format("LL") + " to " + moment.unix(opts.data.end).format("LL"));
     sliderDiv = el.append("div").attr("class", "slider").node();
     legend({
       el: el,
@@ -814,7 +814,7 @@
       max: opts.data.end,
       values: [opts.data.start, opts.data.end],
       slide: function(event, ui) {
-        return sliderSpan.text(moment(ui.values[0]).format("LL") + " to " + moment(ui.values[1]).format("LL"));
+        return sliderSpan.text(moment.unix(ui.values[0]).format("LL") + " to " + moment.unix(ui.values[1]).format("LL"));
       },
       stop: function(event, ui) {
         data = transformData(opts.data, _.compact(selected), answers, ui.values[0], ui.values[1]);
@@ -835,9 +835,9 @@
       fields: ["gender", "agegroup", "political"],
       labels: ["Gender", "Age Group", "Politics"],
       colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#2084C4", "#3D444B"],
-      opacityBase: 0.7,
-      opacityInner: 0.6,
-      opacityOuter: 0.5,
+      opacityBase: 1,
+      opacityInner: 0.5,
+      opacityOuter: 0.1,
       width: width,
       height: height,
       margin: {

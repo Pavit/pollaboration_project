@@ -66,7 +66,7 @@ def question_details(request, question_id):
         "json":json,
     }
     return render_to_response("question_details.html", context, context_instance=RequestContext(request))
-    
+
     
 def getjson(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
