@@ -51,6 +51,8 @@ def question_details(request, question_id):
         "question":question.question,
         "value":question.total_vote_count,
         "answers":[],
+        "start": Vote.objects.filter(answer__in=question.answers.all).order_by('created')[0].date,
+        "end": Vote.objects.filter(answer__in=question.answers.all).latest('created').date,
     }
     for answer in question.answers.all():
         resp_dict["answers"].append({

@@ -46,7 +46,7 @@ class Question(models.Model):
             new_vote.voter = user
             answer_selected.selected_by.add(user)
             self.answered_by.add(user)
-        new_vote.date = moment.date(datetime.datetime.now()).epoch()
+        new_vote.date = moment.date(datetime.datetime(new_vote.created.year,new_vote.created.month,new_vote.created.day)).epoch()
         new_vote.save()
         answer_selected.save()
         self.save()
