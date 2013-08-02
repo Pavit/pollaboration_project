@@ -7,6 +7,8 @@ from questions.models import *
 from django.core.urlresolvers import reverse
 from django.utils import simplejson
 from django.forms.models import inlineformset_factory
+import moment
+
 
 def index(request):
     current_question = Question.objects.all().order_by('?')[:1].get()
@@ -54,9 +56,9 @@ def question_details(request, question_id):
         resp_dict["answers"].append({
             "answer":answer.answer,
             "count":answer.votes.count(),
-            "data":list(answer.selected_by.values('gender','agegroup','political').annotate(count=Count('id'))),
+            "data":list(answer.selected_by.values('gender','agegroup','political','votes__date').annotate(count=Count('id'))),
         })
-    json = simplejson.dumps(resp_dict).replace("'",r"\'")
+    json = simplejson.dumps(resp_dict).replace("'",r"\'").replace("votes__date","date")
     context = {
         "question":question,
         "json":json,
@@ -79,3 +81,31 @@ def getjson(request, question_id):
         })
     json = simplejson.dumps(resp_dict).replace("'",r"\'")
     return HttpResponse(json, mimetype="application/json")
+
+
+def search(request):
+    resp=[]
+    if 'q' in request.GET:
+        q=request.GET.get('q')
+        queryset=Question.objects.filter(Q(question__icontains=q))
+    else:
+        queryset=Question.objects.all()
+    for question in queryset:
+        newdict=dict()
+        wordlist=[]
+        for word in question.question.split():
+            wordlist.append(word)
+        newdict["value"]=question.question
+        newdict["id"]=question.id
+        newdict["tokens"]=wordlist
+        resp.append(newdict)
+    json = simplejson.dumps(resp)
+    print json
+    return HttpResponse(json, mimetype='application/json')
+
+def search_results(request):
+    q=request.GET.get('q')
+    response_dict = {
+        'results':Question.objects.filter(Q(question__icontains=q)).order_by('question'),
+        }
+    return render_to_response("search_results.html", response_dict, context_instance=RequestContext(request))

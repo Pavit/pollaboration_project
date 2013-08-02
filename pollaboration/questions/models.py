@@ -4,8 +4,10 @@ from django.template.defaultfilters import slugify
 from django.db.models import Q, Count
 from accounts.models import MyUser
 from django.conf import settings
+import datetime
 from datetime import date
 from django.core.urlresolvers import reverse
+import moment
 
 class Question(models.Model):
     question = models.CharField(max_length=250)
@@ -44,6 +46,7 @@ class Question(models.Model):
             new_vote.voter = user
             answer_selected.selected_by.add(user)
             self.answered_by.add(user)
+        new_vote.date = moment.date(datetime.datetime.now()).epoch()
         new_vote.save()
         answer_selected.save()
         self.save()
@@ -80,6 +83,7 @@ class Vote(models.Model):
     voter = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, default=None, related_name='votes')
     answer = models.ForeignKey(Answer, related_name='votes')
     created = models.DateField(auto_now_add=True)
+    date = models.IntegerField(null=True)
 
     class Meta:
         verbose_name = _('vote')

@@ -16,6 +16,7 @@
 	{%endfor%}
 	</h1>
 	{% endif %}
+	<h1 class="text-center">What's your question? Enter it in below.</h1>
 		<input class="form-control" type="text" name="question" id="id_question" placeholder="Type question here.">
 	</div>
 </div>
@@ -87,15 +88,15 @@ $('#answers5').hide();
 //     $(this).focus();
 // });
 $('input#id_answers-1-answer').keypress(function() {
-    $('#answers2').fadeIn('slow');
+    $('#answers2').slideDown('slow');
     $(this).focus();
 });
 $('input#id_answers-2-answer').keypress(function() {
-    $('#answers3').fadeIn('slow');
+    $('#answers3').slideDown('slow');
     $(this).focus();
 });
 $('input#id_answers-3-answer').keypress(function() {
-    $('#answers4').fadeIn('slow');
+    $('#answers4').slideDown('slow');
     $(this).focus();
 });
 $('input#id_answers-4-answer').keypress(function() {
