@@ -10,6 +10,7 @@
     <div class="col-12 col-lg-7 col-sm-9 pull-center red">
     <div class ="page-header">
     <h1>
+        {% if request.user.fb_id == "" %}{%else%}<img src ="http://graph.facebook.com/{{request.user.fb_id}}/picture?type=small">{%endif%}
         {{request.user.email}}
         <span class="pull-right">
             {% if request.user.fb_id == ""%}
@@ -31,7 +32,7 @@
 {% if request.user.fb_id == "" %}
 {%else %}
 
-        <h2>Here's what we're getting from your Facebook profile!  Don't worry - we're not giving anything out.  Especially your mom's number.  That's just for us. <a href="#" class="pull-right glyphicons edit"></a></h2>
+        <h1>Info<a href="#" id="infoInfo" class="pull-right glyphicons circle_info" rel="popover" data-content="<p>In the interests of full disclosure, here's what we're getting from your Facebook profile. Don't worry- we're not giving anything out, but this kind of stuff makes the data more interesting for everyone.</p>" title="Facebook has this stuff already."></a></h1>
         <div class="row">
             <div class="col-6 col-lg-8 col-sm-8">
                 <p> 
@@ -41,19 +42,16 @@
                 </p>
             </div>
 
-        <h2>
-            Facebook profile information
-        </h2>
+            <h2>Facebook Profile Information</h2>
             <div class="row">
-                <div class="col-12 col-lg-12 col-sm-12">
-                <img src ="http://graph.facebook.com/{{request.user.fb_id}}/picture?type=small">
-                    agegroup: {{request.user.agegroup|default_if_none:"N/A"}}
-                    gender: {{request.user.gender}}
-                    hometown: {{request.user.hometown|default_if_none:"N/A"}}
-                    location: {{request.user.location|default_if_none:"N/A"}}
-                    relationship status: {{request.user.relationship_status|default_if_none:"N/A"}}
-                    religion: {{request.user.religion|default_if_none:"N/A"}}
-                    political: {{request.user.political|default_if_none:"N/A"}}
+                <div class="col-6 col-lg-8 col-sm-8">
+                    Age Group: {{request.user.agegroup|default_if_none:"N/A"}}
+                    Gender: {{request.user.gender}}
+                    Hometown: {{request.user.hometown|default_if_none:"N/A"}}
+                    Location: {{request.user.location|default_if_none:"N/A"}}
+                    {{% if request.user.relationship_status == "" %}{%else%}Relationship Status: {{request.user.relationship_status}}{%endif%}
+                    Religion: {{request.user.religion|default_if_none:"N/A"}}
+                    Political: {{request.user.political|default_if_none:"N/A"}}
                 </div>
             </div>
         {% endif %}
@@ -76,7 +74,7 @@
         {% if request.user.submissions.count == 0 %}
             <a href="{% url 'accounts.views.submit' %}">You haven't asked any Qs. Click to ask some!</a>
         {%else%}
-            Asks - {{request.user.submissions.count}}
+            Submissions - {{request.user.submissions.count}}
             <a href="#" id="questionsInfo" class="pull-right glyphicons circle_info" rel="popover" data-content="<p>You've asked {{request.user.submissions.count}} questions so far, and they've been answered by [#] people.</p>" title="Good, good. <em>Ask more.</em>"></a>
         {%endif%}
             
@@ -86,7 +84,7 @@
                 <div class="col-6 col-lg-6 col-sm-6">
                 <h5>{{submission.question}}</h5>
             	<div class="pollChart" id="stacked{{forloop.counter}}"></div>
-                <p class="text-right">Share:&nbsp;&nbsp;<a href="" class="social facebook" onClick="postToFeed('Text')"></a></p>
+                <!--Share:&nbsp;&nbsp;<a href="" class="social facebook" onClick="postToFeed('Text')"></a>-->
                 </div>
             	{%endfor%}
         </div>
@@ -101,7 +99,7 @@
 <script src="{% static 'js/chart.js' %}"></script>
 <script>
 $(function ()  {
- $("#answersInfo,#questionsInfo").popover(
+ $("#answersInfo,#questionsInfo,#infoInfo").popover(
     {   html: true,
         trigger: 'hover',
         placement: 'auto right',
