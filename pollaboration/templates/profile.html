@@ -82,13 +82,13 @@
             
         </h2>
         <div class="row">
-            <div class="col-12 col-lg-12 col-sm-12 pull-center">
             	{% for submission in request.user.submissions.all %}
-                <h4>{{submission.question}}</h4>
+                <div class="col-6 col-lg-6 col-sm-6">
+                <h5>{{submission.question}}</h5>
             	<div class="pollChart" id="stacked{{forloop.counter}}"></div>
                 <p class="text-right">Share:&nbsp;&nbsp;<a href="" class="social facebook" onClick="postToFeed('Text')"></a></p>
+                </div>
             	{%endfor%}
-            </div>
         </div>
     </div>
 </div>
