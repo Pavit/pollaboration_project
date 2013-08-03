@@ -76,17 +76,17 @@
         {% if request.user.submissions.count == 0 %}
             <a href="{% url 'accounts.views.submit' %}">You haven't asked any Qs. Click to ask some!</a>
         {%else%}
-            Questions - {{request.user.submissions.count}}
-            <a href="#" class="pull-right glyphicons circle_info" data-toggle="modal"></a>
+            Asks - {{request.user.submissions.count}}
+            <a href="#" id="questionsInfo" class="pull-right glyphicons circle_info" rel="popover" data-content="<p>You've asked {{request.user.submissions.count}} questions so far, and they've been answered by [#] people.</p>" title="Good, good. <em>Ask more.</em>"></a>
         {%endif%}
             
         </h2>
         <div class="row">
-            <div class="col-8 col-lg-8 col-sm-8 pull-center">
+            <div class="col-12 col-lg-12 col-sm-12 pull-center">
             	{% for submission in request.user.submissions.all %}
-                <h3>{{submission.question}}</h3>
-                <a onClick="postToFeed('Text')">Share!</a>
+                <h4>{{submission.question}}</h4>
             	<div class="pollChart" id="stacked{{forloop.counter}}"></div>
+                <p class="text-right">Share:&nbsp;&nbsp;<a href="" class="social facebook" onClick="postToFeed('Text')"></a></p>
             	{%endfor%}
             </div>
         </div>
@@ -101,7 +101,7 @@
 <script src="{% static 'js/chart.js' %}"></script>
 <script>
 $(function ()  {
- $("#answersInfo").popover(
+ $("#answersInfo,#questionsInfo").popover(
     {   html: true,
         trigger: 'hover',
         placement: 'auto right',
@@ -132,11 +132,11 @@ var stackeddata{{forloop.counter}} = [
             el: "#stacked{{forloop.counter}}",
             data: stackeddata{{forloop.counter}} ,
             /*width: 700,*/
-            height: 60,
+            height: 15,
             margin: {
                 top: 0,
                 right: 0,
-                bottom: 30,
+                bottom: 0,
                 left: 0
             },
             colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#2084C4", "#3D444B"]

@@ -303,7 +303,7 @@
     margin: {
       top: 0,
       right: 0,
-      bottom: 30,
+      bottom: 0,
       left: 0
     },
     colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#2084C4", "#3D444B"],
