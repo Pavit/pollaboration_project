@@ -49,7 +49,7 @@
                     Gender: {{request.user.gender}}
                     Hometown: {{request.user.hometown|default_if_none:"N/A"}}
                     Location: {{request.user.location|default_if_none:"N/A"}}
-                    {{% if request.user.relationship_status == "" %}{%else%}Relationship Status: {{request.user.relationship_status}}{%endif%}
+                    Relationship Status: {{request.user.relationship_status|default_if_none:"N/A"}}
                     Religion: {{request.user.religion|default_if_none:"N/A"}}
                     Political: {{request.user.political|default_if_none:"N/A"}}
                 </div>
