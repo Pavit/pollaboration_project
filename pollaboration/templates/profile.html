@@ -6,11 +6,11 @@
 
 {% block profile %}
 
-<div id="profile" class="row bottom-buffer">
+<div id="profile">
+    <div class="row bottom-buffer">
     <div class="col-12 col-lg-7 col-sm-9 pull-center red">
-    <div class ="page-header">
     <h1>
-        {% if request.user.fb_id == "" %}{%else%}<img src ="http://graph.facebook.com/{{request.user.fb_id}}/picture?type=small">{%endif%}
+        {% if request.user.fb_id == "" %}{%else%}<img src="http://graph.facebook.com/{{request.user.fb_id}}/picture?width=100&height=100" style="border: 1px solid #ffffff">{%endif%}
         {{request.user.email}}
         <span class="pull-right">
             {% if request.user.fb_id == ""%}
@@ -25,14 +25,13 @@
     <h5>Member since {{request.user.created}}</h5>
     </div>
     </div>
-</div>
 
-<div class="row bottom-buffer">
+    <div class="row bottom-buffer">
     <div class="col-12 col-lg-7 col-sm-9 pull-center blue">
-{% if request.user.fb_id == "" %}
-{%else %}
+        {% if request.user.fb_id == "" %}
+        {%else %}
 
-        <h1>Info<a href="#" id="infoInfo" class="pull-right glyphicons circle_info" rel="popover" data-content="<p>In the interests of full disclosure, here's what we're getting from your Facebook profile. Don't worry- we're not giving anything out, but this kind of stuff makes the data more interesting for everyone.</p>" title="Facebook has this stuff already."></a></h1>
+        <h1>Info<a href="#" id="infoInfo" class="pull-right glyphicons circle_info" rel="popover" data-content="<p>In the interests of full disclosure, some of this is pulled from your Facebook profile. Don't worry- we're not giving anything out, but this kind of stuff makes the data more interesting for everyone.</p>" title="Facebook has this stuff already."></a></h1>
         <div class="row">
             <div class="col-6 col-lg-8 col-sm-8">
                 <p> 
@@ -41,19 +40,25 @@
                     Friends: {% if request.user.friends.count == 0 %}You... have no friends at all. Awkward...{%else%} {{request.user.friends.count}} friends. Recruit more!{%endif%}
                 </p>
             </div>
+        </div>
 
-            <h2>Facebook Profile Information</h2>
-            <div class="row">
-                <div class="col-6 col-lg-8 col-sm-8">
-                    Age Group: {{request.user.agegroup|default_if_none:"N/A"}}
-                    Gender: {{request.user.gender}}
-                    Hometown: {{request.user.hometown|default_if_none:"N/A"}}
-                    Location: {{request.user.location|default_if_none:"N/A"}}
-                    Relationship Status: {{request.user.relationship_status|default_if_none:"N/A"}}
-                    Religion: {{request.user.religion|default_if_none:"N/A"}}
-                    Political: {{request.user.political|default_if_none:"N/A"}}
-                </div>
+        <div class="row">
+            <div class="col-6 col-lg-6 col-sm-6">
+                <p>
+                {% if request.user.agegroup == "" %}{%else%}Age Group:&nbsp;&nbsp;{{request.user.agegroup}}<br>{%endif%}
+                {% if request.user.gender == "" %}{%else%}Gender:&nbsp;&nbsp;{{request.user.gender}}<br>{%endif%}
+                {% if request.user.hometown == "" %}{%else%}Hometown:&nbsp;&nbsp;{{request.user.hometown}}<br>{%endif%}
+                {% if request.user.location == "" %}{%else%}Location:&nbsp;&nbsp;{{request.user.location}}{%endif%}
+                </p>
             </div>
+            <div class="col-6 col-lg-6 col-sm-6">
+                <p>
+                {% if request.user.relationship_status == "" %}{%else%}Relationship Status:&nbsp;&nbsp;{{request.user.relationship_status}}<br>{%endif%}
+                {% if request.user.religion == "" %}{%else%}Religion:&nbsp;&nbsp;{{request.user.religion}}<br>{%endif%}
+                {% if request.user.political == "" %}{%else%}Political:&nbsp;&nbsp;{{request.user.political}}{%endif%}
+                </p>
+            </div>
+        </div>
         {% endif %}
         <h1>Activity</h1>
     	<h2>
@@ -89,6 +94,7 @@
             	{%endfor%}
         </div>
     </div>
+</div>
 </div>
 
 {% endblock profile %}
