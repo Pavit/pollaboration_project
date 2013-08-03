@@ -85,6 +85,7 @@
             <div class="col-8 col-lg-8 col-sm-8 pull-center">
             	{% for submission in request.user.submissions.all %}
                 <h3>{{submission.question}}</h3>
+                <a onClick="postToFeed('Text')">Share!</a>
             	<div class="pollChart" id="stacked{{forloop.counter}}"></div>
             	{%endfor%}
             </div>
@@ -194,5 +195,31 @@ $(".gridSquare").popover({
         return "<a href=''><b>Question:   </b>" + q + "<br /><b>Your Answer:</b>   " + a+"</a>";
     }
 });  
+</script>
+<script>
+function postToFeed(){
+  FB.ui(
+  {
+   method: 'feed',
+   name: 'The Facebook SDK for Javascript',
+   caption: 'Bringing Facebook to the desktop and mobile web',
+   description: (
+      'A small JavaScript library that allows you to harness ' +
+      'the power of Facebook, bringing the user\'s identity, ' +
+      'social graph and distribution power to your site.'
+   ),
+   link: 'https://developers.facebook.com/docs/reference/javascript/',
+   picture: 'http://www.fbrell.com/public/f8.jpg'
+  },
+  function(response) {
+    if (response && response.post_id) {
+      alert('Post was published.');
+    } else {
+      alert('Post was not published.');
+    }
+  }
+);
+
+};
 </script>
 {% endblock extra_js %}
