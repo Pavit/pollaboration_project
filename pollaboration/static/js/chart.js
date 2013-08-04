@@ -234,7 +234,7 @@
       bottom: 30,
       left: 0
     },
-    colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#2084C4", "#3D444B"],
+    colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#4a9acd", "#3D444B"],
     data: []
   };
 
@@ -306,7 +306,7 @@
       bottom: 0,
       left: 0
     },
-    colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#2084C4", "#3D444B"],
+    colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#4a9acd", "#3D444B"],
     data: []
   };
 
@@ -362,7 +362,7 @@
   defaults = {
     width: 600,
     height: 600,
-    colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#2084C4", "#3D444B"],
+    colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#4a9acd", "#3D444B"],
     margin: {
       top: 0,
       right: 0,
@@ -419,6 +419,12 @@
   };
 
 // Sunburst Label Positioning
+
+  angle = function(d) {
+          var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+          return a > 90 ? a - 180 : a;
+  };
+
   textTransform = function(arc, radius) {
     return function(d) {
       var c, h, x, y;
@@ -426,7 +432,7 @@
       x = c[0];
       y = c[1];
       h = Math.sqrt(x * x + y * y); // Oh shit its the pythagorean theorem!
-      return "translate(" + (x / h * labelr) + "," + (y / h * labelr) + ")";
+      return "translate(" + (x / h * labelr) + "," + (y / h * labelr) + ")rotate(" + 0 + ")";
     };
   };
 
@@ -847,7 +853,7 @@
       el: selector,
       fields: ["gender", "agegroup", "political"],
       labels: ["Gender", "Age Group", "Politics"],
-      colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#2084C4", "#3D444B"],
+      colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#4a9acd", "#68798a"],
       opacityBase: 1,
       opacityInner: 0.5,
       opacityOuter: 0.1,

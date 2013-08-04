@@ -393,7 +393,7 @@ path.tooltip {
 }
 
 .pollChart tspan {
-    fill: #c3c3c3;
+    fill: #ffffff;
 }
 .pollChart .switcher {
     display:inline-block;
