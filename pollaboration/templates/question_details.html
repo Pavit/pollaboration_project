@@ -23,13 +23,15 @@
 <script src="{% static 'js/vendor/underscore.js' %}"></script>
 <script src="{% static 'js/moment.js' %}"></script>
 <script src="{% static 'js/jquery-ui-1.10.3.custom.js' %}"></script>
-
+<script src="{% static 'js/d3-compat.js' %}"></script>
+<script src="{% static 'js/bootstrap-tooltip.js' %}"></script>
 <script src="{% static 'js/colorbrewer.js' %}"></script>
 
 {% endblock question_details %}
 
 {% block extra_js %}
 <script src="{% static 'js/chart.js' %}"></script>
+
 <script>
     (function(){
         var pollChart = window.pollChart;
@@ -41,8 +43,8 @@
         data = JSON.parse('{{json|safe}}');
         console.log(data);
         pollChart.showSunburst(data);
+        d3.selectAll(".pollChart").call( bootstrap.tooltip().placement("right").title("sup") );
     })();
 
 </script>
-
 {% endblock extra_js %}

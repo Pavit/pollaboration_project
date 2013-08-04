@@ -594,6 +594,7 @@
     el.append("h2").text(opts.data.question);
     answerP = el.append("p").text(opts.data.value + " Answers");
     svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.5 + "," + height * 0.5 + ")");
+    
     //label = el.append("span").attr("class", "poll-label");
     old = null;
 
@@ -669,7 +670,7 @@
     // };
 
 // Tooltips
-    tooltip1 = function(d) {
+/*    tooltip1 = function(d) {
       return "<strong>" + d.answer + "</strong>, " + d.percent + " (" + d.size + ")";
     };
     tooltip2 = function(d) {
@@ -699,7 +700,7 @@
     };
     tooltipOut = function() {
       return tooltip.style("opacity", 0);
-    };
+    };*/
 
     // Outer Ring Click
     // clickHandler1 = function(d1) {
@@ -783,13 +784,13 @@
       group.select("text").transition().duration(1000).attr("transform", textTransform(arc, radius)); //End of Pie Chart Labels
       group.filter(function(d) {
         return d.depth === 3;
-      }).on("click", clickHandler2);
+      }).style("opacity", opts.opacityOuter).on("click", clickHandler2);
       group.filter(function(d) {
         return d.depth === 2;
-      }).on("click", clickHandler1);
+      }).style("opacity", opts.opacityInner).on("click", clickHandler1);
       group.filter(function(d) {
         return d.depth === 1;
-      }).on("click", clearHighlights);
+      }).style("opacity", opts.opacityBase).on("click", clearHighlights);
       return group.on("mouseover", tooltipOver).on("mouseout", tooltipOut).on("mousemove", tooltipMove);
     };
     draw(data);
@@ -855,9 +856,9 @@
       fields: ["gender", "agegroup", "political"],
       labels: ["Gender", "Age Group", "Politics"],
       colors: ["#c3c3c3", "#FF7E65", "#7DCDFC", "#4a9acd", "#68798a"],
-      opacityBase: 0.9,
-      opacityInner: 0.5,
-      opacityOuter: 0.1,
+      opacityBase: 1.0,
+      opacityInner: 0.75,
+      opacityOuter: 0.5,
       width: width,
       height: height,
       margin: {
