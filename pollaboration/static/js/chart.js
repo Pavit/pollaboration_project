@@ -855,7 +855,7 @@
       el: selector,
       fields: ["gender", "agegroup", "political"],
       labels: ["Gender", "Age Group", "Politics"],
-      colors: ["#c3c3c3", "#FF7E65", "#7DCDFC", "#4a9acd", "#68798a"],
+      colors: ["#ffb0a1", "#FF7E65", "#7DCDFC", "#4a9acd", "#68798a"],
       opacityBase: 1.0,
       opacityInner: 0.75,
       opacityOuter: 0.5,
