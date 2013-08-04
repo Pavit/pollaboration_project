@@ -7,7 +7,7 @@ h2 {
 }
 .pollChart p {
  text-align:center;
- margin-top:0;   
+ margin-top:0px;   
 }
 
 .gridSquare {
@@ -43,14 +43,14 @@ path.tooltip {
 }
 
 .pollChart {
-    margin:15px;
+    margin:0px;
     margin-bottom: 40px;
     width: 100%;
 }
 
 .legend2 {
  display:block;
- padding:7px;
+ padding:0px;
  margin-bottom:5px;   
 }
 .legend2 span {
@@ -58,7 +58,7 @@ path.tooltip {
 }
 h4 {
  display:inline-block;   
- margin:10px;
+ margin:0px;
  font-size:20px;
 }
 .pollChart .filter {
@@ -68,17 +68,17 @@ h4 {
 }
 .pollChart .poll-label {
      display:block;
-     text-align:right;   
-     margin-bottom: 5px;
+     text-align:right;    
+     margin-bottom: 0px;
 }
 .pollChart .filter select {
      width:180px;
-     font-size:20px;   
+     font-size:10px;   
 }
 .pollChart tspan {
-    fill: grey;
+    fill: black;
 }
-.pollChart .switcher {
+/*.pollChart .switcher {
     display:inline-block;
     background:white;
     padding:1px 3px;
@@ -111,10 +111,10 @@ h4 {
 .pollChart .switcher.active .blackRect {
   right:3px;
   left:inherit;  
-}
+}*/
 
 .slider {
     width:90%;
-    margin-left:2%;
+    margin-left:5%;
     margin-bottom:20px;
 }

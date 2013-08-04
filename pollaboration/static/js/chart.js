@@ -360,11 +360,11 @@
   }
 
   defaults = {
-    width: 600,
-    height: 600,
-    colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#4a9acd", "#3D444B"],
+    width: 400,
+    height: 400,
+    colors: ["#c3c3c3", "#FF7E65", "#7DCDFC", "#4a9acd", "#3D444B"],
     margin: {
-      top: 0,
+      top: 200,
       right: 0,
       bottom: 0,
       left: 0
@@ -372,9 +372,9 @@
     data: [],
     labels: [],
     fields: [],
-    opacityBase: 0.7,
-    opacityInner: 0.6,
-    opacityOuter: 0.5
+    opacityBase: 1.0,
+    opacityInner: 0.5,
+    opacityOuter: 0.1
   };
 
   sum = function(array, key) {
@@ -553,7 +553,8 @@
     width = width - margin.left - margin.right;
     height = height - margin.top - margin.bottom;
     radius = Math.min(width, height) / 2;
-    labelr = radius * 0.85 // Label
+    labelr = radius * 0.25 // Label
+   /* color = d3.scale.ordinal().range(colorbrewer.RdYlBu[5]);*/
     color = d3.scale.ordinal().range(opts.colors);
     answers = _.pluck(opts.data.answers, "answer");
     data = transformData(opts.data, [], answers);
@@ -591,7 +592,7 @@
     }).innerRadius(innerRadius).outerRadius(outerRadius);
     el = d3.select(opts.el);
     el.append("h2").text(opts.data.question);
-    //answerP = el.append("p").text(opts.data.value + " Answers");
+    answerP = el.append("p").text(opts.data.value + " Answers");
     svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.5 + "," + height * 0.5 + ")");
     //label = el.append("span").attr("class", "poll-label");
     old = null;
@@ -853,14 +854,14 @@
       el: selector,
       fields: ["gender", "agegroup", "political"],
       labels: ["Gender", "Age Group", "Politics"],
-      colors: ["#FFF5E4", "#FF7E65", "#7DCDFC", "#4a9acd", "#68798a"],
-      opacityBase: 1,
+      colors: ["#c3c3c3", "#FF7E65", "#7DCDFC", "#4a9acd", "#68798a"],
+      opacityBase: 0.9,
       opacityInner: 0.5,
       opacityOuter: 0.1,
       width: width,
       height: height,
       margin: {
-        top: 0,
+        top: -100,
         right: 0,
         bottom: 0,
         left: 0

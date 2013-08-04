@@ -99,7 +99,6 @@ def profile(request):
     return render_to_response("profile.html", context, context_instance = RequestContext(request))
 
 
-# SCRAPPED!
 @login_required
 def connect_facebook_account(request):
     access_token = request.GET.get("access_token")

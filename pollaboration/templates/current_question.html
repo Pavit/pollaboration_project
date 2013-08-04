@@ -29,15 +29,15 @@ $(document).on('pjax:click', function(event) {
 </div>
 </div>
 
+{% if previous_question.question %}
 <div id="previous_question" class="row bottom-buffer">
 	<div class="col-12 col-lg-7 col-sm-9 pull-center text-center darkgray">
-	{% if previous_question.question %}
 	<h2>{{previous_question}}</h2>
 	{% for a in previous_question.answers.all %}
 	{{a.answer}}: {{a.votes.count}}</br>
 	{% endfor %}
-	{% endif %}
 	</div>
 </div>
+{% endif %}
 
 {% endblock current_question %}

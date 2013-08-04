@@ -5,6 +5,7 @@
 {% block title %}Pollaboration - QUESTION TITLE{% endblock title %}
 
 {% block question_details %}
+<link href="{% static 'css/poll.css' %}" rel="stylesheet">
 <link href="{% static 'css/jquery-ui-1.10.3.custom.css' %}" rel="stylesheet">
 
 <div class="row">
@@ -23,7 +24,7 @@
 <script src="{% static 'js/moment.js' %}"></script>
 <script src="{% static 'js/jquery-ui-1.10.3.custom.js' %}"></script>
 
-
+<script src="{% static 'js/colorbrewer.js' %}"></script>
 
 {% endblock question_details %}
 
