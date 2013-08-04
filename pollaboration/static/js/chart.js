@@ -553,7 +553,7 @@
     width = width - margin.left - margin.right;
     height = height - margin.top - margin.bottom;
     radius = Math.min(width, height) / 2;
-    labelr = radius * 0.8 // Label
+    labelr = radius * 0.25 // Label
    /* color = d3.scale.ordinal().range(colorbrewer.RdYlBu[5]);*/
     color = d3.scale.ordinal().range(opts.colors);
     answers = _.pluck(opts.data.answers, "answer");
