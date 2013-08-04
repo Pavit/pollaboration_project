@@ -289,7 +289,7 @@ input:focus:-ms-input-placeholder {opacity: 0;}
 
 .pollChart p {
  text-align:center;
- margin-top:0;   
+ margin-top:0px;   
 }
 
 div.tooltip {
@@ -329,7 +329,6 @@ path.tooltip {
 
 .legend2 {
  display:block;
- padding:5px;
  margin-bottom:5px;
  border: 1px solid #ffffff;
  font-weight: 400;
@@ -338,7 +337,6 @@ path.tooltip {
 
 .legend2.disabled {
  display:block;
- padding:5px;
  margin-bottom:5px;
  border: 1px solid #ffffff;
  font-weight: 300;
@@ -346,7 +344,7 @@ path.tooltip {
 }
 
 .legend2 span {
-    margin-right:10px;
+    margin-right:5px;
 }
 
 .legend2 span.value {
@@ -382,14 +380,14 @@ path.tooltip {
     margin-right:10px;
  }
 
- .pollChart .filter select {
+.pollChart .filter select {
      width: 120px;
 }
 
 .pollChart .poll-label {
      display:block;
      text-align:right;   
-     margin-bottom: 5px;
+     margin-bottom: 0px;
 }
 
 .pollChart tspan {
@@ -427,6 +425,12 @@ path.tooltip {
 .pollChart .switcher.active .blackRect {
   right:3px;
   left:inherit;  
+}
+
+.slider {
+    width:90%;
+    margin-left:5%;
+    margin-bottom:20px;
 }
 
 /* Typeahead */

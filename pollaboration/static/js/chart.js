@@ -364,7 +364,7 @@
     height: 400,
     colors: ["#c3c3c3", "#FF7E65", "#7DCDFC", "#4a9acd", "#3D444B"],
     margin: {
-      top: 200,
+      top: 0,
       right: 0,
       bottom: 0,
       left: 0
@@ -409,7 +409,7 @@
     _results = [];
     while (words.length) {
       word = [(_ref = words.shift()) != null ? _ref : "", (_ref1 = words.shift()) != null ? _ref1 : "", (_ref2 = words.shift()) != null ? _ref2 : ""].join(" ");
-      tspan = textElem.append("tspan").text(word);
+      tspan = textElem.append("tspan").text(word).attr("text-anchor", "end");
       if (i > 0) {
         tspan.attr("x", 0).attr("dy", "15");
       }
@@ -420,10 +420,10 @@
 
 // Sunburst Label Positioning
 
-  angle = function(d) {
-          var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
-          return a > 90 ? a - 180 : a;
-  };
+  function angle(d, offset, threshold) {
+      var a = (d.startAngle + d.endAngle) * 90 / Math.PI + offset;
+      return a > threshold ? a - 180 : a;
+  }
 
   textTransform = function(arc, radius) {
     return function(d) {
@@ -553,7 +553,7 @@
     width = width - margin.left - margin.right;
     height = height - margin.top - margin.bottom;
     radius = Math.min(width, height) / 2;
-    labelr = radius * 0.25 // Label
+    labelr = radius * 0.8 // Label
    /* color = d3.scale.ordinal().range(colorbrewer.RdYlBu[5]);*/
     color = d3.scale.ordinal().range(opts.colors);
     answers = _.pluck(opts.data.answers, "answer");
@@ -862,7 +862,7 @@
       width: width,
       height: height,
       margin: {
-        top: -100,
+        top: 0,
         right: 0,
         bottom: 0,
         left: 0
