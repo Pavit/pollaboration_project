@@ -116,7 +116,7 @@
         });
       } else {
         $this.attr("class", "switcher");
-        d3.select(this).attr("class", "legend2 disabled").transition().duration(500).style("background-color", "rgb(200,200,200)");
+        d3.select(this).attr("class", "legend2 disabled").transition().duration(500).style("background-color", "rgb(87,87,87)");
       }
       data = _.compact(g.selectAll(".active").map(function(a) {
         var _ref, _ref1;
@@ -425,8 +425,8 @@
       c = arc.centroid(d);
       x = c[0];
       y = c[1];
-      h = Math.sqrt(x * x + y * y);
-      return "translate(" + (x / h * radius * 0.8) + "," + (y / h * radius * 0.8) + ")";
+      h = Math.sqrt(x * x + y * y); // Oh shit its the pythagorean theorem!
+      return "translate(" + (x / h * labelr) + "," + (y / h * labelr) + ")";
     };
   };
 
@@ -547,6 +547,7 @@
     width = width - margin.left - margin.right;
     height = height - margin.top - margin.bottom;
     radius = Math.min(width, height) / 2;
+    labelr = radius * 0.85 // Label
     color = d3.scale.ordinal().range(opts.colors);
     answers = _.pluck(opts.data.answers, "answer");
     data = transformData(opts.data, [], answers);
@@ -584,77 +585,83 @@
     }).innerRadius(innerRadius).outerRadius(outerRadius);
     el = d3.select(opts.el);
     el.append("h2").text(opts.data.question);
-    answerP = el.append("p").text(opts.data.value + " Answers");
-    svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * .52 + "," + height / 2 + ")");
+    //answerP = el.append("p").text(opts.data.value + " Answers");
+    svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.5 + "," + height / 2 + ")");
     //label = el.append("span").attr("class", "poll-label");
     old = null;
-    clicked = [];
-    clicked2 = [];
-    clickHandler2 = function(d2) {
-      var $grandparent, $parent, $this, group, parents, turnOff, wrongParent;
-      $this = d3.select(this);
-      group = svg.selectAll("g");
-      $parent = group.filter(function(d) {
-        return d === d2.parent;
-      });
-      $grandparent = group.filter(function(d) {
-        return d === d2.parent.parent;
-      });
-      if (__indexOf.call(clicked2, d2) >= 0) {
-        clicked2 = _.without(clicked2, d2);
-        return $this.attr("opacity", 1);
-      } else {
-        clicked2.push(d2);
-        $this.attr("opacity", opts.opacityOuter);
-        wrongParent = _.filter(clicked2, function(d) {
-          return d.parent.parent !== d2.parent.parent;
-        });
-        if (wrongParent.length) {
-          clicked2 = _.difference(clicked2, wrongParent);
-          group.filter(function(d) {
-            return __indexOf.call(wrongParent, d) >= 0;
-          }).attr("opacity", 1);
-        }
-        parents = _.pluck(clicked2, "parent");
-        turnOff = _.difference(clicked, parents);
-        if (turnOff.length) {
-          turnOff = turnOff.concat(_.pluck(turnOff, "parent"));
-          group.filter(function(d) {
-            return __indexOf.call(turnOff, d) >= 0;
-          }).attr("opacity", 1);
-        }
-        clicked = [d2.parent];
-        $parent.attr("opacity", opts.opacityInner);
-        return $grandparent.attr("opacity", opts.opacityBase);
-      }
-    };
-    getSize = function(d) {
-      return d.size;
-    };
-    writeLabel = function() {
-      var grouped, key, keySum, out, total, vals;
-      out = "";
-      total = d3.sum(_.unique(_.pluck(clicked, "parent")), getSize);
-      grouped = _.groupBy(clicked, "name");
-      for (key in grouped) {
-        vals = grouped[key];
-        keySum = d3.sum(vals, getSize);
-        out += "" + key + " - (" + (Math.round(keySum / total * 100)) + "%) ";
-      }
-      return label.text(out);
-    };
-    writeLabel2 = function() {
-      var grouped, key, keySum, out, total, vals;
-      out = "";
-      total = d3.sum(_.unique(_.pluck(clicked2, "parent")), getSize);
-      grouped = _.groupBy(clicked2, "name");
-      for (key in grouped) {
-        vals = grouped[key];
-        keySum = d3.sum(vals, getSize);
-        out += "" + key + " - (" + (Math.round(keySum / total * 100)) + "%) ";
-      }
-      return label.text(out);
-    };
+
+    // Inner Ring Click
+    //clicked = [];
+    //clicked2 = [];
+    // clickHandler2 = function(d2) {
+    //   var $grandparent, $parent, $this, group, parents, turnOff, wrongParent;
+    //   $this = d3.select(this);
+    //   group = svg.selectAll("g");
+    //   $parent = group.filter(function(d) {
+    //     return d === d2.parent;
+    //   });
+    //   $grandparent = group.filter(function(d) {
+    //     return d === d2.parent.parent;
+    //   });
+    //   if (__indexOf.call(clicked2, d2) >= 0) {
+    //     clicked2 = _.without(clicked2, d2);
+    //     return $this.attr("opacity", 1);
+    //   } else {
+    //     clicked2.push(d2);
+    //     $this.attr("opacity", opts.opacityOuter);
+    //     wrongParent = _.filter(clicked2, function(d) {
+    //       return d.parent.parent !== d2.parent.parent;
+    //     });
+    //     if (wrongParent.length) {
+    //       clicked2 = _.difference(clicked2, wrongParent);
+    //       group.filter(function(d) {
+    //         return __indexOf.call(wrongParent, d) >= 0;
+    //       }).attr("opacity", 1);
+    //     }
+    //     parents = _.pluck(clicked2, "parent");
+    //     turnOff = _.difference(clicked, parents);
+    //     if (turnOff.length) {
+    //       turnOff = turnOff.concat(_.pluck(turnOff, "parent"));
+    //       group.filter(function(d) {
+    //         return __indexOf.call(turnOff, d) >= 0;
+    //       }).attr("opacity", 1);
+    //     }
+    //     clicked = [d2.parent];
+    //     $parent.attr("opacity", opts.opacityInner);
+    //     return $grandparent.attr("opacity", opts.opacityBase);
+    //   }
+    // };
+    // getSize = function(d) {
+    //   return d.size;
+    // };
+
+    // Additive Label
+    // writeLabel = function() {
+    //   var grouped, key, keySum, out, total, vals;
+    //   out = "";
+    //   total = d3.sum(_.unique(_.pluck(clicked, "parent")), getSize);
+    //   grouped = _.groupBy(clicked, "name");
+    //   for (key in grouped) {
+    //     vals = grouped[key];
+    //     keySum = d3.sum(vals, getSize);
+    //     out += "" + key + " - (" + (Math.round(keySum / total * 100)) + "%) ";
+    //   }
+    //   return label.text(out);
+    // };
+    // writeLabel2 = function() {
+    //   var grouped, key, keySum, out, total, vals;
+    //   out = "";
+    //   total = d3.sum(_.unique(_.pluck(clicked2, "parent")), getSize);
+    //   grouped = _.groupBy(clicked2, "name");
+    //   for (key in grouped) {
+    //     vals = grouped[key];
+    //     keySum = d3.sum(vals, getSize);
+    //     out += "" + key + " - (" + (Math.round(keySum / total * 100)) + "%) ";
+    //   }
+    //   return label.text(out);
+    // };
+
+// Tooltips
     tooltip1 = function(d) {
       return "<strong>" + d.answer + "</strong>, " + d.percent + " (" + d.size + ")";
     };
@@ -686,36 +693,40 @@
     tooltipOut = function() {
       return tooltip.style("opacity", 0);
     };
-    clickHandler1 = function(d1) {
-      var $parent, $this, _ref2;
-      $this = d3.select(this);
-      $parent = svg.selectAll("g").filter(function(d) {
-        return d === d1.parent;
-      });
-      if (__indexOf.call(clicked, d1) >= 0) {
-        clicked = _.without(clicked, d1, d1.parent);
-        $this.attr("opacity", 1);
-        if (_ref2 = d1.parent, __indexOf.call(_.pluck(clicked, "parent"), _ref2) < 0) {
-          $parent.attr("opacity", 1);
-        }
-      } else {
-        clicked.push(d1);
-        $this.attr("opacity", opts.opacityInner);
-        $parent.attr("opacity", opts.opacityBase);
-      }
-      if (clicked2.length) {
-        svg.selectAll("g").filter(function(d) {
-          return __indexOf.call(clicked2, d) >= 0;
-        }).attr("opacity", 1);
-        return clicked2 = [];
-      }
-    };
-    clearHighlights = function() {
-      clicked = [];
-      clicked2 = [];
-      label.text("");
-      return svg.selectAll("g").attr("opacity", 1);
-    };
+
+    // Outer Ring Click
+    // clickHandler1 = function(d1) {
+    //   var $parent, $this, _ref2;
+    //   $this = d3.select(this);
+    //   $parent = svg.selectAll("g").filter(function(d) {
+    //     return d === d1.parent;
+    //   });
+    //   if (__indexOf.call(clicked, d1) >= 0) {
+    //     clicked = _.without(clicked, d1, d1.parent);
+    //     $this.attr("opacity", 1);
+    //     if (_ref2 = d1.parent, __indexOf.call(_.pluck(clicked, "parent"), _ref2) < 0) {
+    //       $parent.attr("opacity", 1);
+    //     }
+    //   } else {
+    //     clicked.push(d1);
+    //     $this.attr("opacity", opts.opacityInner);
+    //     $parent.attr("opacity", opts.opacityBase);
+    //   }
+    //   if (clicked2.length) {
+    //     svg.selectAll("g").filter(function(d) {
+    //       return __indexOf.call(clicked2, d) >= 0;
+    //     }).attr("opacity", 1);
+    //     return clicked2 = [];
+    //   }
+    // };
+
+    // Clearing Highlights
+    // clearHighlights = function() {
+    //   clicked = [];
+    //   clicked2 = [];
+    //   label.text("");
+    //   return svg.selectAll("g").attr("opacity", 1);
+    // };
     old = {};
     stash = function(d) {
       return old[d.id] = {
@@ -742,6 +753,8 @@
         return arc(b);
       };
     };
+
+    // Controls Drawing of Chart
     draw = function(data) {
       var enter, exit, exitTrans, group;
       data = partition.nodes(data);
@@ -755,12 +768,12 @@
         return d.depth;
       }).append("path").style("stroke", "#fff").style("fill", get("answer", color)).style("opacity", 0).attr("d", arc2).each(stashEnter);
       group.select("path").transition().duration(1000).attrTween("d", arcTween).style("opacity", 1).each("end", stash);
-      enter.filter(function(d) {
-        return d.depth === 1;
-      }).append("text").text(function(d) {
-        return d.name;
-      }).attr("dy", ".35em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
-      group.select("text").transition().duration(1000).attr("transform", textTransform(arc, radius));
+      // enter.filter(function(d) { //Beginning of Pie Chart Labels
+      //   return d.depth === 1;
+      // }).append("text").text(function(d) {
+      //   return d.name;
+      // }).attr("dy", ".35em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
+      // group.select("text").transition().duration(1000).attr("transform", textTransform(arc, radius)); //End of Pie Chart Labels
       group.filter(function(d) {
         return d.depth === 3;
       }).on("click", clickHandler2);
@@ -841,10 +854,10 @@
       width: width,
       height: height,
       margin: {
-        top: 10,
-        right: 10,
-        bottom: 10,
-        left: 10
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
       }
     };
     if (_.isString(source)) {

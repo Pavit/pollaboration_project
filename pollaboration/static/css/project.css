@@ -331,8 +331,18 @@ path.tooltip {
  display:block;
  padding:5px;
  margin-bottom:5px;
- border: 1px solid #575757;
+ border: 1px solid #ffffff;
+ font-weight: 400;
+ color: #575757;
+}
+
+.legend2.disabled {
+ display:block;
+ padding:5px;
+ margin-bottom:5px;
+ border: 1px solid #ffffff;
  font-weight: 300;
+ color: #ffffff;
 }
 
 .legend2 span {
