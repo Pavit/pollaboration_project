@@ -776,12 +776,12 @@
         return d.depth;
       }).append("path").style("stroke", "#fff").style("fill", get("answer", color)).style("opacity", 0).attr("d", arc2).each(stashEnter);
       group.select("path").transition().duration(1000).attrTween("d", arcTween).style("opacity", 1).each("end", stash);
-      enter.filter(function(d) { //Beginning of Pie Chart Labels
-        return d.depth === 1;
-      }).append("text").text(function(d) {
-        return d.name;
-      }).attr("dy", ".35em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
-      group.select("text").transition().duration(1000).attr("transform", textTransform(arc, radius)); //End of Pie Chart Labels
+      // enter.filter(function(d) { //Beginning of Pie Chart Labels
+      //   return d.depth === 1;
+      // }).append("text").text(function(d) {
+      //   return d.name;
+      // }).attr("dy", ".35em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
+      // group.select("text").transition().duration(1000).attr("transform", textTransform(arc, radius)); //End of Pie Chart Labels
       group.filter(function(d) {
         return d.depth === 3;
       }).style("opacity", opts.opacityOuter).on("click", clickHandler2);
