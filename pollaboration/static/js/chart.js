@@ -586,11 +586,11 @@
     el = d3.select(opts.el);
     el.append("h2").text(opts.data.question);
     //answerP = el.append("p").text(opts.data.value + " Answers");
-    svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.5 + "," + height / 2 + ")");
+    svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.5 + "," + height * 0.5 + ")");
     //label = el.append("span").attr("class", "poll-label");
     old = null;
 
-    // Inner Ring Click
+    //  Inner Ring Click
     //clicked = [];
     //clicked2 = [];
     // clickHandler2 = function(d2) {
@@ -768,12 +768,12 @@
         return d.depth;
       }).append("path").style("stroke", "#fff").style("fill", get("answer", color)).style("opacity", 0).attr("d", arc2).each(stashEnter);
       group.select("path").transition().duration(1000).attrTween("d", arcTween).style("opacity", 1).each("end", stash);
-      // enter.filter(function(d) { //Beginning of Pie Chart Labels
-      //   return d.depth === 1;
-      // }).append("text").text(function(d) {
-      //   return d.name;
-      // }).attr("dy", ".35em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
-      // group.select("text").transition().duration(1000).attr("transform", textTransform(arc, radius)); //End of Pie Chart Labels
+      enter.filter(function(d) { //Beginning of Pie Chart Labels
+        return d.depth === 1;
+      }).append("text").text(function(d) {
+        return d.name;
+      }).attr("dy", ".35em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
+      group.select("text").transition().duration(1000).attr("transform", textTransform(arc, radius)); //End of Pie Chart Labels
       group.filter(function(d) {
         return d.depth === 3;
       }).on("click", clickHandler2);
@@ -786,8 +786,8 @@
       return group.on("mouseover", tooltipOver).on("mouseout", tooltipOut).on("mousemove", tooltipMove);
     };
     draw(data);
-    sliderSpan = el.append("p").attr("class", "slider-text").text("Date range:").append("span");
-    sliderSpan.text(moment.unix(opts.data.start).format("LL") + " to " + moment.unix(opts.data.end).format("LL"));
+    sliderSpan = el.append("p").attr("class", "slider-text").text("Range: ").append("span");
+    sliderSpan.text(moment.unix(opts.data.start).format("ll") + " to " + moment.unix(opts.data.end).format("ll"));
     sliderDiv = el.append("div").attr("class", "slider").node();
     legend({
       el: el,
