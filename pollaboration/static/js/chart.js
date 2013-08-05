@@ -854,7 +854,7 @@
       selector = "#sunburst";
     }
     width = d3.select(selector).html("").node().offsetWidth; // Width of SVG... makes the chart responsive.
-    height = width * 0.6; // Height of SVG
+    height = width * 0.8; // Height of SVG
     opts = {
       el: selector,
       fields: ["gender", "agegroup", "political"],
