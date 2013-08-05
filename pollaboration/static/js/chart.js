@@ -552,7 +552,7 @@
     margin = opts.margin, width = opts.width, height = opts.height;
     width = width - margin.left - margin.right;
     height = height - margin.top - margin.bottom;
-    radius = Math.min(width, height) / 2;
+    radius = Math.min(width, height) * 0.50;
     labelr = radius * 0.25 // Label
    /* color = d3.scale.ordinal().range(colorbrewer.RdYlBu[5]);*/
     color = d3.scale.ordinal().range(opts.colors);
@@ -569,7 +569,7 @@
       });
     }
     options = ["Blank"].concat(_.compact(options));
-    partition = d3.layout.partition().sort(null).size([2 * Math.PI, radius * radius * 0.5]).value(get("size"));
+    partition = d3.layout.partition().sort(null).size([2 * Math.PI, radius * radius * 0.85]).value(get("size")); // Size of Sunburst
     innerRadius = function(d) {
       if (d.depth === 1) {
         return 0;
@@ -593,7 +593,7 @@
     el = d3.select(opts.el);
     el.append("h2").text(opts.data.question);
     answerP = el.append("p").text(opts.data.value + " Answers");
-    svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.5 + "," + height * 0.5 + ")");
+    svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.5 + "," + height * 0.5 + ")"); //IMPORTANT LINE RIGHT HERE
     
     //label = el.append("span").attr("class", "poll-label");
     old = null;
@@ -793,6 +793,7 @@
       }).style("opacity", opts.opacityBase).on("click", clearHighlights);
       return group.on("mouseover", tooltipOver).on("mouseout", tooltipOut).on("mousemove", tooltipMove);
     };
+//  Slider
     draw(data);
     sliderSpan = el.append("p").attr("class", "slider-text").text("Range: ").append("span");
     sliderSpan.text(moment.unix(opts.data.start).format("ll") + " to " + moment.unix(opts.data.end).format("ll"));
@@ -809,6 +810,8 @@
         return update();
       }
     });
+
+//  Filters
     filters = [
       {
         options: options
@@ -850,12 +853,13 @@
     if (selector == null) {
       selector = "#sunburst";
     }
-    width = height = d3.select(selector).html("").node().offsetWidth;
+    width = d3.select(selector).html("").node().offsetWidth; // Width of SVG... makes the chart responsive.
+    height = width * 0.6; // Height of SVG
     opts = {
       el: selector,
       fields: ["gender", "agegroup", "political"],
       labels: ["Gender", "Age Group", "Politics"],
-      colors: ["#ffb0a1", "#FF7E65", "#7DCDFC", "#4a9acd", "#68798a"],
+      colors: ["#ffe7ad", "#FF7E65", "#7DCDFC", "#4a9acd", "#68798a"],
       opacityBase: 1.0,
       opacityInner: 0.75,
       opacityOuter: 0.5,

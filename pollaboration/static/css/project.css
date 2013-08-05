@@ -314,6 +314,10 @@ path.tooltip {
   text-align: center;
 }
 
+#sunburst p {
+  margin-bottom: 5px;
+}
+
 .legend {
   display:inline-block; 
   margin-right:15px;
