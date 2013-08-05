@@ -53,6 +53,8 @@ def login_view(request):
 @login_required
 def submit(request):    
     AnswerInlineFormSet = inlineformset_factory(Question, Answer, form=AnswerForm, formset=AnswerFormSet, extra=5, can_delete=False)
+    answerInlineFormSet = AnswerInlineFormSet()
+    questionForm = QuestionForm()
     if request.method == 'POST':
         questionForm = QuestionForm(request.POST)
         if questionForm.is_valid():
@@ -67,9 +69,6 @@ def submit(request):
                 new_question.save()
                 answerInlineFormSet.save()
                 return redirect(new_question)
-    else:
-        answerInlineFormSet = AnswerInlineFormSet()
-        questionForm = QuestionForm()
     return render_to_response('submit.html', {"answerInlineFormSet":answerInlineFormSet, "questionForm":questionForm,}, context_instance=RequestContext(request))
 
 

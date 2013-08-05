@@ -5,6 +5,12 @@
 {% block title %}Pollaboration - Submit a question{% endblock title %}
 
 {% block content %}
+<style type="text/css">
+
+#answers2 div, #answers3 div, #answers4 div, #answers5 div { display: none; }
+
+</style>
+
 
 <form method="post" action="{% url 'accounts.views.submit' %}" class="form-horizontal">{%csrf_token%}
 <div class="row bottom-buffer">
@@ -12,12 +18,17 @@
 	{% if answerInlineFormSet.errors or answerInlineFormSet.non_form_errors %}
 	<h1 class="text-center">
 	{% for error in answerInlineFormSet.non_form_errors %}
-	<p style="color:red">{{error|upper	}}</p>
+	<p style="color:red">Questions with 1 answer choice aren't very fun.  Let's try that again..</p>
 	{%endfor%}
 	</h1>
 	{% endif %}
-	<h1 class="text-center">What's your question? Enter it in below.</h1>
-		<input class="form-control" type="text" name="question" id="id_question" placeholder="Type question here.">
+	{% if questionForm.errors or questionForm.non_form_errors %}
+	<h1 class="text-center">
+	<p style="color:red">Seriously!? Why would that work? Enter a question!</p>
+	{% else %}
+	<h1 class="text-center">{% if request.user.first_name != "" %}So, {{request.user.first_name}}, w{%else%}W{%endif%}hat's your question?</h1>
+	{% endif %}
+		<input class="form-control" type="text" name="question" id="id_question" placeholder="Enter question here.">
 	</div>
 </div>
 
@@ -27,31 +38,31 @@
 			
 		<div class="form-group" id="answers0">
 		<div class="col-lg-12 col-sm-12">
-		<input class="form-control input-small" id="id_answers-0-answer" name="answers-0-answer" placeholder="Add answer here." type="text" /><input id="id_answers-0-id" name="answers-0-id" type="hidden" /><input id="id_answers-0-question" name="answers-0-question" type="hidden" />
+		<input class="form-control input-small" id="id_answers-0-answer" name="answers-0-answer" placeholder="Enter answer choice." type="text" /><input id="id_answers-0-id" name="answers-0-id" type="hidden" /><input id="id_answers-0-question" name="answers-0-question" type="hidden" />
 		</div>
 		</div>
 
 		<div class="form-group" id="answers1">
 		<div class="col-lg-12 col-sm-12">
-		<input class="form-control input-small" id="id_answers-1-answer" name="answers-1-answer" placeholder="Add second answer." type="text" /><input id="id_answers-1-id" name="answers-1-id" type="hidden" /><input id="id_answers-1-question" name="answers-1-question" type="hidden" />
+		<input class="form-control input-small" id="id_answers-1-answer" name="answers-1-answer" placeholder="Enter another answer choice." type="text" /><input id="id_answers-1-id" name="answers-1-id" type="hidden" /><input id="id_answers-1-question" name="answers-1-question" type="hidden" />
 		</div>
 		</div>
 
 		<div class="form-group" id="answers2">
 		<div class="col-lg-12 col-sm-12">
-		<input class="form-control input-small" id="id_answers-2-answer" name="answers-2-answer" placeholder="Optional answer." type="text" /><input id="id_answers-2-id" name="answers-2-id" type="hidden" /><input id="id_answers-2-question" name="answers-2-question" type="hidden" />
+		<input class="form-control input-small" id="id_answers-2-answer" name="answers-2-answer" placeholder="The more the merrier!" type="text" /><input id="id_answers-2-id" name="answers-2-id" type="hidden" /><input id="id_answers-2-question" name="answers-2-question" type="hidden" />
 		</div>
 		</div>
 
 		<div class="form-group" id="answers3">
 		<div class="col-lg-12 col-sm-12">
-		<input class="form-control input-small" id="id_answers-3-answer" name="answers-3-answer" placeholder="Optional answer." type="text" /><input id="id_answers-3-id" name="answers-3-id" type="hidden" /><input id="id_answers-3-question" name="answers-3-question" type="hidden" />
+		<input class="form-control input-small" id="id_answers-3-answer" name="answers-3-answer" placeholder="Someone's a go-getter.." type="text" /><input id="id_answers-3-id" name="answers-3-id" type="hidden" /><input id="id_answers-3-question" name="answers-3-question" type="hidden" />
 		</div>
 		</div>
 
 		<div class="form-group" id="answers4">
 		<div class="col-lg-12 col-sm-12">
-		<input class="form-control input-small" id="id_answers-4-answer" name="answers-4-answer" placeholder="Optional answer." type="text" /><input id="id_answers-4-id" name="answers-4-id" type="hidden" /><input id="id_answers-4-question" name="answers-4-question" type="hidden" />
+		<input class="form-control input-small" id="id_answers-4-answer" name="answers-4-answer" placeholder="Dude. We get it." type="text" /><input id="id_answers-4-id" name="answers-4-id" type="hidden" /><input id="id_answers-4-question" name="answers-4-question" type="hidden" />
 		</div>
 		</div>
 	</div>
@@ -70,38 +81,41 @@
 {% block extra_js %}
 <script>
 $('document').ready(function(){
-	$('#answers2').hide();
-$('#answers3').hide();
-$('#answers4').hide();
-$('#answers5').hide();
+	$('#answers2 div').hide();
+$('#answers3 div').hide();
+$('#answers4 div').hide();
+$('#answers5 div').hide();
 	$('input#id_question').focus();
 });
-//$('#answers0').hide();
-//$('#answers1').hide();
+</script>
+<script>
+
+
 
 // $('.submit').hide();
-// $('input#id_question').keypress(function() {
-//     $('#id_answers-0-answer').fadeIn('slow');
-//     $(this).focus();
-// });
+$('input#id_question').keypress(function() {
+    $('#answers0 div').slideDown('fast');
+    $('#answers1 div').slideDown('fast');
+    $(this).focus();
+});
 // $('input#id_answers-0-answer').keypress(function() {
 //     $('input#id_answers-1-answer').fadeIn('slow');
 //     $(this).focus();
 // });
 $('input#id_answers-1-answer').keypress(function() {
-    $('#answers2').slideDown('slow');
+    $('#answers2 div').slideDown('fast');
     $(this).focus();
 });
 $('input#id_answers-2-answer').keypress(function() {
-    $('#answers3').slideDown('slow');
+    $('#answers3 div').slideDown('fast');
     $(this).focus();
 });
 $('input#id_answers-3-answer').keypress(function() {
-    $('#answers4').slideDown('slow');
+    $('#answers4 div').slideDown('fast');
     $(this).focus();
 });
 $('input#id_answers-4-answer').keypress(function() {
-    $('#answers5').fadeIn('slow');
+    $('#answers5 div').slideDown('fast');
     $(this).focus();
 });
 // $('input#id_answers-1-answer').keypress(function() {

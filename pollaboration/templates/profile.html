@@ -80,7 +80,7 @@
             <a href="{% url 'accounts.views.submit' %}">You haven't asked any Qs. Click to ask some!</a>
         {%else%}
             Submissions - {{request.user.submissions.count}}
-            <a href="#" id="questionsInfo" class="pull-right glyphicons circle_info" rel="popover" data-content="<p>You've asked {{request.user.submissions.count}} questions so far, and they've been answered by [#] people.</p>" title="Good, good. <em>Ask more.</em>"></a>
+            <a href="#" id="questionsInfo" class="pull-right glyphicons circle_info" rel="popover" data-content="<p>You've asked {{request.user.submissions.count}} questions so far, and they've been answered by {% total_submission_votes request.user %} people.</p>" title="Good, good. <em>Ask more.</em>"></a>
         {%endif%}
             
         </h2>
