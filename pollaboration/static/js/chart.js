@@ -832,19 +832,25 @@
       data = transformData(opts.data, _.compact(selected), answers);
       return draw(data);
     };
-    return jQuery(sliderDiv).slider({
+    return $(sliderDiv).slider({
       range: true,
       min: opts.data.start,
       max: opts.data.end,
       values: [opts.data.start, opts.data.end],
       slide: function(event, ui) {
-        return sliderSpan.text(moment.unix(ui.values[0]).format("LL") + " to " + moment.unix(ui.values[1]).format("LL"));
-      },
-      stop: function(event, ui) {
+        console.log(ui);
+        sliderSpan.text(moment.unix(ui.values[0]).format("LL") + " to " + moment.unix(ui.values[1]).format("LL"));
+        data = transformData(opts.data, _.compact(selected), answers, ui.values[0], ui.values[1]);
+        answerP.text(data.size+"Answers");
+        draw(data);
+        return true;
+      
+      }
+/*      stop: function(event, ui) {
         data = transformData(opts.data, _.compact(selected), answers, ui.values[0], ui.values[1]);
         answerP.text(data.size + " Answers");
         return draw(data);
-      }
+      }*/
     });
   };
 

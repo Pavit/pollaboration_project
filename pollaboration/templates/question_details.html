@@ -30,7 +30,7 @@
 
 {% block extra_js %}
 <script src="{% static 'js/chart.js' %}"></script>
-
+<script src="{% static 'js/jquery.ui.slider-drag-patch.js' %}"></script>
 <script>
     (function(){
         var pollChart = window.pollChart;
@@ -44,6 +44,17 @@
         pollChart.showSunburst(data);
         d3.selectAll(".pollChart").call( bootstrap.tooltip().placement("right").title("sup") );
     })();
-
+    $.extend($.ui.slider.prototype.options, {
+        dragAnimate: true
+    });
+    
+    var _mouseCapture = $.ui.slider.prototype._mouseCapture;
+    $.widget("ui.slider", $.extend({}, $.ui.slider.prototype, {
+        _mouseCapture: function(event) {
+            _mouseCapture.apply(this, arguments);
+            this.options.dragAnimate ? this._animateOff = false : this._animateOff = true;
+            return true;
+        }
+    }));
 </script>
 {% endblock extra_js %}

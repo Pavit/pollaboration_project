@@ -1011,7 +1011,7 @@ $.widget( "ui.slider", $.ui.mouse, {
     _create: function() {
         this._keySliding = false;
         this._mouseSliding = false;
-        this._animateOff = true;
+        this._animateOff = false;
         this._handleIndex = null;
         this._detectOrientation();
         this._mouseInit();
@@ -1180,7 +1180,7 @@ $.widget( "ui.slider", $.ui.mouse, {
         if ( !this.handles.hasClass( "ui-state-hover" ) ) {
             this._slide( event, index, normValue );
         }
-        this._animateOff = true;
+        this._animateOff = false;
         return true;
     },
 
@@ -1405,13 +1405,13 @@ $.widget( "ui.slider", $.ui.mouse, {
                 this._refreshValue();
                 break;
             case "value":
-                this._animateOff = true;
+                this._animateOff = false;
                 this._refreshValue();
                 this._change( null, 0 );
                 this._animateOff = false;
                 break;
             case "values":
-                this._animateOff = true;
+                this._animateOff = false;
                 this._refreshValue();
                 for ( i = 0; i < valsLength; i += 1 ) {
                     this._change( null, i );
@@ -1420,12 +1420,12 @@ $.widget( "ui.slider", $.ui.mouse, {
                 break;
             case "min":
             case "max":
-                this._animateOff = true;
+                this._animateOff = false;
                 this._refreshValue();
                 this._animateOff = false;
                 break;
             case "range":
-                this._animateOff = true;
+                this._animateOff = false;
                 this._refresh();
                 this._animateOff = false;
                 break;
