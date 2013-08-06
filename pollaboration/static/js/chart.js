@@ -112,11 +112,12 @@
       if ($this.attr("class").indexOf("active") === -1) {
         $this.attr("class", "switcher active");
         d3.select(this).attr("class", "legend2").transition().duration(500).style("background-color", function(d) {
-          return colorScale(d[colorKey]);
-        });
+          return colorScale(d[colorKey]); });
+        $(this).find(".toggleText").empty().text("ON");
       } else {
         $this.attr("class", "switcher");
         d3.select(this).attr("class", "legend2 disabled").transition().duration(500).style("background-color", "rgb(87,87,87)");
+        $(this).find(".toggleText").empty().text("OFF");
       }
       data = _.compact(g.selectAll(".active").map(function(a) {
         var _ref, _ref1;
@@ -129,15 +130,15 @@
       return colorScale(d[colorKey]);
     }).on("click", getChecked);
     switcher = g.append("div").attr("class", "switcher active");
-    // switcher.append("span").attr("class", "onText").text("ON"); //Controls ON/OFF switches for toggles.
-    // switcher.append("span").attr("class", "offText").text("OFF");
-    // switcher.append("span").attr("class", "blackRect");
+    switcher.append("span").attr("class", "toggleText").text("ON"); //Controls ON/OFF switches for toggles.
+    //switcher.append("span").attr("class", "text").text("OFF");
+    //switcher.append("span").attr("class", "blackRect");
     g.append("span").text(function(d) {
       return d[valueKey];
     }).attr("class", "value");
     return g.append("span").text(function(d) {
       return d[labelKey];
-    }).attr("class", "answer pull-right"); //Controls text for toggles.
+    }).attr("class", "answer"); //Controls text for toggles.
   };
 
 }).call(this);
@@ -186,7 +187,7 @@
       d3.select(this).style({
         "opacity": 0.7
       });
-      tooltip.transition().duration(200).style("opacity", 0.9);
+      tooltip.transition().duration(200).style("opacity", 0);
       return span.html(getter(d));
     };
     tooltipMove = function() {
@@ -670,7 +671,7 @@
     // };
 
 // Tooltips
-/*    tooltip1 = function(d) {
+    tooltip1 = function(d) {
       return "<strong>" + d.answer + "</strong>, " + d.percent + " (" + d.size + ")";
     };
     tooltip2 = function(d) {
@@ -681,7 +682,7 @@
     };
     tooltip = d3.select('body').append("div").attr("class", "tooltip suntip").style("opacity", 0);
     tooltipOver = function(d) {
-      tooltip.transition().duration(200).style("opacity", 0.9);
+      tooltip.transition().duration(200).style("opacity", 1);
       return tooltip.html((function() {
         switch (d.depth) {
           case 1:
@@ -700,7 +701,7 @@
     };
     tooltipOut = function() {
       return tooltip.style("opacity", 0);
-    };*/
+    };
 
     // Outer Ring Click
     // clickHandler1 = function(d1) {
@@ -795,9 +796,9 @@
     };
 //  Slider
     draw(data);
-    sliderSpan = el.append("p").attr("class", "slider-text").text("Range: ").append("span");
-    sliderSpan.text(moment.unix(opts.data.start).format("ll") + " to " + moment.unix(opts.data.end).format("ll"));
-    sliderDiv = el.append("div").attr("class", "slider").node();
+    // sliderSpan = el.append("p").attr("class", "slider-text").text("Range: ").append("span");
+    // sliderSpan.text(moment.unix(opts.data.start).format("ll") + " to " + moment.unix(opts.data.end).format("ll"));
+    // sliderDiv = el.append("div").attr("class", "slider").node();
     legend({
       el: el,
       colorScale: color,

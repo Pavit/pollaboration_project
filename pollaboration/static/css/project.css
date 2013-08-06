@@ -293,17 +293,18 @@ input:focus:-ms-input-placeholder {opacity: 0;}
 }
 
 div.tooltip {
-    background-color: hsl(0, 0%, 96%);
+    background-color: #ffffff;
     padding:10px;
     position:absolute;
     z-index:10;
-    font-size: 12px;
-    border-radius: 10px;
-    border: 1px solid grey;
-    box-shadow: 2px 2px 2px rgb(200,200,200);
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #cccccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-}
 path.tooltip {
     fill:rgb(199, 199, 199);
 }
@@ -352,9 +353,13 @@ path.tooltip {
 }
 
 .legend2 span.value {
+    vertical-align:middle;
 }
 
 .legend2 span.answer {
+    vertical-align:middle;
+    float: right;
+    margin-top: 2px;
 }
 
 /* Grid */
@@ -371,7 +376,7 @@ path.tooltip {
 
 #sunburst h4 {
  display:inline-block;
- margin-right: 20px;
+ margin-right: 10px;
 }
 
 #sunburst h2 {
@@ -384,8 +389,9 @@ path.tooltip {
     margin-right:10px;
  }
 
+
 .pollChart .filter select {
-     width: 120px;
+     width: 100px;
 }
 
 .pollChart .poll-label {
@@ -397,9 +403,11 @@ path.tooltip {
 .pollChart tspan {
     fill: #ffffff;
 }
+
 .pollChart .switcher {
     display:inline-block;
-    padding:1px 3px;
+    padding: 0px 5px;
+    width: 40px;
     position:relative;
 }
 .pollChart .switcher span {
@@ -419,16 +427,17 @@ path.tooltip {
 }
 .pollChart .switcher .blackRect {
   display:inline-block;
+  vertical-align:middle;
   width:5px;
-  background:black;
-  height:15px;
-  position:absolute;
+  background:#ffffff;
+  height:10px;
   left:3px;
   top:2px; 
 }
 .pollChart .switcher.active .blackRect {
   right:3px;
-  left:inherit;  
+  left:inherit;
+  background:#575757;
 }
 
 .slider {

@@ -42,7 +42,6 @@
         data = JSON.parse('{{json|safe}}');
         console.log(data);
         pollChart.showSunburst(data);
-        d3.selectAll(".pollChart").call( bootstrap.tooltip().placement("right").title("sup") );
     })();
     $.extend($.ui.slider.prototype.options, {
         dragAnimate: true
