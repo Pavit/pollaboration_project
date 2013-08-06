@@ -554,7 +554,7 @@
     width = width - margin.left - margin.right;
     height = height - margin.top - margin.bottom;
     radius = Math.min(width, height) * 0.50;
-    labelr = radius * 0.25 // Label
+    labelr = radius * 0.8 // Label
    /* color = d3.scale.ordinal().range(colorbrewer.RdYlBu[5]);*/
     color = d3.scale.ordinal().range(opts.colors);
     answers = _.pluck(opts.data.answers, "answer");
@@ -573,7 +573,7 @@
     partition = d3.layout.partition().sort(null).size([2 * Math.PI, radius * radius * 0.85]).value(get("size")); // Size of Sunburst
     innerRadius = function(d) {
       if (d.depth === 1) {
-        return 0;
+        return Math.sqrt(d.y) * 0.75; // Fuck with this for the donut
       } else {
         return Math.sqrt(d.y);
       }
@@ -783,6 +783,7 @@
       //   return d.name;
       // }).attr("dy", ".35em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
       // group.select("text").transition().duration(1000).attr("transform", textTransform(arc, radius)); //End of Pie Chart Labels
+      enter.append("text").text(opts.data.value + " Answers").attr("dy", ".35em").style("text-anchor", "middle").attr("class", "centerText");//Me effing around
       group.filter(function(d) {
         return d.depth === 3;
       }).style("opacity", opts.opacityOuter).on("click", clickHandler2);

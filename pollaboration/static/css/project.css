@@ -384,11 +384,14 @@ path.tooltip {
     margin-bottom: 0;
 }
 
+.centerText {
+    fill: #c3c3c3;
+}
+
 .pollChart .filter {
     display:inline-block;
     margin-right:10px;
  }
-
 
 .pollChart .filter select {
      width: 100px;
