@@ -593,9 +593,9 @@
     }).innerRadius(innerRadius).outerRadius(outerRadius);
     el = d3.select(opts.el);
     el.append("h2").text(opts.data.question);
-    answerP = el.append("p").text(opts.data.value + " Answers");
+    //answerP = el.append("p").text(opts.data.value + " Answers");
     svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.5 + "," + height * 0.5 + ")"); //IMPORTANT LINE RIGHT HERE
-    
+    svg.append("text").text(opts.data.value + " Answers").attr("dy", ".35em").style("text-anchor", "middle").attr("class", "centerText");//Me effing around
     //label = el.append("span").attr("class", "poll-label");
     old = null;
 
@@ -783,7 +783,6 @@
       //   return d.name;
       // }).attr("dy", ".35em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
       // group.select("text").transition().duration(1000).attr("transform", textTransform(arc, radius)); //End of Pie Chart Labels
-      enter.append("text").text(opts.data.value + " Answers").attr("dy", ".35em").style("text-anchor", "middle").attr("class", "centerText");//Me effing around
       group.filter(function(d) {
         return d.depth === 3;
       }).style("opacity", opts.opacityOuter).on("click", clickHandler2);
@@ -795,8 +794,8 @@
       }).style("opacity", opts.opacityBase).on("click", clearHighlights);
       return group.on("mouseover", tooltipOver).on("mouseout", tooltipOut).on("mousemove", tooltipMove);
     };
-//  Slider
     draw(data);
+//  Slider
     // sliderSpan = el.append("p").attr("class", "slider-text").text("Range: ").append("span");
     // sliderSpan.text(moment.unix(opts.data.start).format("ll") + " to " + moment.unix(opts.data.end).format("ll"));
     // sliderDiv = el.append("div").attr("class", "slider").node();

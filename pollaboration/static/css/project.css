@@ -386,6 +386,8 @@ path.tooltip {
 
 .centerText {
     fill: #c3c3c3;
+    stroke: none;
+    stroke-width: 0;
 }
 
 .pollChart .filter {
