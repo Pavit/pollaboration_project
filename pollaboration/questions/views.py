@@ -51,39 +51,74 @@ def question_details(request, question_id):
         "question":question.question,
         "value":question.total_vote_count,
         "answers":[],
-        "start": Vote.objects.filter(answer__in=question.answers.all).order_by('created')[0].date,
-        "end": Vote.objects.filter(answer__in=question.answers.all).latest('created').date,
+        "start": question.votes.order_by('created')[0].date,
+        "end": question.votes.latest('created').date,
     }
     for answer in question.answers.all():
+        vote_list=[]
+        for vote in answer.votes.all():
+            vote_dict=dict()
+            if vote.voter:
+                if vote.voter.gender: vote_dict["gender"]=vote.voter.gender
+                if vote.voter.agegroup: vote_dict["agegroup"]=vote.voter.agegroup
+                if vote.voter.political: vote_dict["political"]=vote.voter.political
+            else:
+                 vote_dict["gender"]="Unknown"
+                 vote_dict["agegroup"]="Unknown"
+                 vote_dict["political"]="Unknown"
+            vote_dict["date"]=vote.date
+            vote_dict["count"]=1
+            vote_list.append(vote_dict)
         resp_dict["answers"].append({
             "answer":answer.answer,
             "count":answer.votes.count(),
-            "data":list(answer.selected_by.values('gender','agegroup','political','votes__date').annotate(count=Count('id'))),
+            # "data":list(answer.selected_by.values('gender','agegroup','political','votes__date').annotate(count=Count('id'))),
+            "data": vote_list,
         })
-    json = simplejson.dumps(resp_dict).replace("'",r"\'").replace("votes__date","date")
+    json = simplejson.dumps(resp_dict).replace("'",r"\'")
     context = {
         "question":question,
         "json":json,
     }
     return render_to_response("question_details.html", context, context_instance=RequestContext(request))
 
-    
+
 def getjson(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     resp_dict={
         "question":question.question,
         "value":question.total_vote_count,
         "answers":[],
+        "start": question.votes.order_by('created')[0].date,
+        "end": question.votes.latest('created').date,
     }
     for answer in question.answers.all():
+        vote_list=[]
+        for vote in answer.votes.all():
+            vote_dict=dict()
+            if vote.voter:
+                if vote.voter.gender: vote_dict["gender"]=vote.voter.gender
+                if vote.voter.agegroup: vote_dict["agegroup"]=vote.voter.agegroup
+                if vote.voter.political: vote_dict["political"]=vote.voter.political
+            else:
+                 vote_dict["gender"]="Unknown"
+                 vote_dict["agegroup"]="Unknown"
+                 vote_dict["political"]="Unknown"
+            vote_dict["date"]=vote.date
+            vote_dict["count"]=1
+            vote_list.append(vote_dict)
         resp_dict["answers"].append({
             "answer":answer.answer,
             "count":answer.votes.count(),
-            "data":list(answer.selected_by.values('gender','agegroup','political').annotate(count=Count('id'))),
+            # "data":list(answer.selected_by.values('gender','agegroup','political','votes__date').annotate(count=Count('id'))),
+            "data": vote_list,
         })
     json = simplejson.dumps(resp_dict).replace("'",r"\'")
-    return HttpResponse(json, mimetype="application/json")
-
+    context = {
+        "question":question,
+        "json":json,
+    }
+    return HttpResponse(json, mimetype='application/json')
 
 def search(request):
     resp=[]

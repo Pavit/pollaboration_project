@@ -2,7 +2,7 @@
 
 {% load staticfiles %}
 
-{% block title %}Pollaboration - QUESTION TITLE{% endblock title %}
+{% block title %}Pollaboration - {{question.question}}{% endblock title %}
 
 {% block question_details %}
 <link href="{% static 'css/jquery-ui-1.10.3.custom.css' %}" rel="stylesheet">
@@ -34,26 +34,16 @@
 <script>
     (function(){
         var pollChart = window.pollChart;
-        d3.select("form select").on("change", function() {
+/*        d3.select("form select").on("change", function() {
             console.log(this.options[this.selectedIndex].value);
-/*            url = "/questions/getjson/"+this.options[this.selectedIndex].value+"/";*/
-            pollChart.showSunburst('{{json|safe}}');
-        });
+            url = "/questions/getjson/"+this.options[this.selectedIndex].value+"/";
+url = "/questions/getjson/{{question.id}}";
+            pollChart.showSunburst(url);
+        });*/
+        url = "/questions/getjson/{{question.id}}";
         data = JSON.parse('{{json|safe}}');
         console.log(data);
         pollChart.showSunburst(data);
     })();
-    $.extend($.ui.slider.prototype.options, {
-        dragAnimate: true
-    });
-    
-    var _mouseCapture = $.ui.slider.prototype._mouseCapture;
-    $.widget("ui.slider", $.extend({}, $.ui.slider.prototype, {
-        _mouseCapture: function(event) {
-            _mouseCapture.apply(this, arguments);
-            this.options.dragAnimate ? this._animateOff = false : this._animateOff = true;
-            return true;
-        }
-    }));
 </script>
 {% endblock extra_js %}

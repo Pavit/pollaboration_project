@@ -27,8 +27,12 @@ class Question(models.Model):
     def get_absolute_url(self):
         return reverse('questions.views.current_question', args=[str(self.id)])
 
+    def _get_votes(self):
+        return Vote.objects.filter(answer__in=self.answers.all)
+    votes=property(_get_votes)
+
     def _get_anonymous_vote_count(self):
-        return q.answers.filter(votes__voter=None).count()
+        return self.answers.filter(votes__voter=None).count()
     anonymous_vote_count=property(_get_anonymous_vote_count)
 
     def _get_total_vote_count(self):
@@ -83,7 +87,7 @@ class Vote(models.Model):
     voter = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, default=None, related_name='votes')
     answer = models.ForeignKey(Answer, related_name='votes')
     created = models.DateField(auto_now_add=True)
-    date = models.IntegerField(null=True)
+    date = models.BigIntegerField(null=True)
 
     class Meta:
         verbose_name = _('vote')
