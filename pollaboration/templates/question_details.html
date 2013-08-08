@@ -4,9 +4,9 @@
 
 {% block title %}Pollaboration - {{question.question}}{% endblock title %}
 
-{% block question_details %}
-<link href="{% static 'css/jquery-ui-1.10.3.custom.css' %}" rel="stylesheet">
+{% block extra_css %}<link href="{% static 'css/jquery-ui-1.10.3.custom.css' %}" rel="stylesheet">{% endblock extra_css %}
 
+{% block question_details %}
 <div class="row">
     <div id="sunburstcontainer" class="col-12 col-lg-7 col-sm-9 pull-center darkgray">
     <div class="pollChart" id="sunburst"></div>
