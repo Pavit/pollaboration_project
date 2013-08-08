@@ -445,12 +445,6 @@ path.tooltip {
   background:#575757;
 }
 
-.slider {
-    width:90%;
-    margin-left:5%;
-    margin-bottom:20px;
-}
-
 /* Typeahead */
 
 .twitter-typeahead .tt-query,
@@ -507,4 +501,24 @@ path.tooltip {
 
 .tt-suggestion p {
   margin: 0;
+}
+
+/* Slider */
+
+.slider {
+    width:90%;
+    margin-left:5%;
+    margin-bottom:10px;
+}
+
+.ui-widget-header {
+    border: 1px solid #ffffff;
+    background: #575757;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+    border: 1px solid #ffffff;
+    background: #c3c3c3;
 }

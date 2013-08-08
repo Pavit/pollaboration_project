@@ -834,7 +834,7 @@
         options: options
       }
     ];
-    el.append("h4").text("Filters: ");
+    el.append("h4").text("Split By: ");
     divs = el.selectAll(".filter").data(filters).enter().append("div").attr("class", "filter");
     selected = [];
     change = function(d, i) {
@@ -854,7 +854,7 @@
       values: [opts.data.start, opts.data.end],
       slide: function(event, ui) {
         console.log(ui);
-        sliderSpan.text(moment(ui.values[0]).format("LL") + " to " + moment(ui.values[1]).format("LL"));
+        sliderSpan.text(moment(ui.values[0]).format("ll") + " to " + moment(ui.values[1]).format("ll"));
         data = transformData(opts.data, _.compact(selected), answers, ui.values[0], ui.values[1]);
         centertext.text(data.size+" Answers");
         return draw(data);
