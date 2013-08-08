@@ -508,10 +508,15 @@ path.tooltip {
 .slider {
     width:90%;
     margin-left:5%;
-    margin-bottom:10px;
+    margin-bottom:15px;
 }
 
 .ui-widget-header {
+    border: 1px solid #ffffff;
+    background: #ffffff;
+}
+
+.ui-widget-content {
     border: 1px solid #ffffff;
     background: #575757;
 }
