@@ -74,7 +74,8 @@
       } else {
         d3.select(this.parentNode).attr("class", "legend2 disabled").transition().duration(500).style("background-color", "rgb(200,200,200)");
       }
-      return handler(data);
+
+      return draw(data);
     };
     holder = el.append("div").attr("class", "legendHolder");
     g = holder.selectAll(".legend2").data(data).enter().append("label").attr("class", "legend2").style("background-color", function(d) {
@@ -404,15 +405,17 @@
   insertLinebreaks = function(d) {
     var i, textElem, tspan, word, words, _ref, _ref1, _ref2, _results;
     textElem = d3.select(this);
-    words = d.name.split(" ");
+    words = d.percent.toString().split(" ");  // <---- THIS IS THE LABEL TEXT RIGHT HERE.
+    console.log(d);
+    console.log(words);
     textElem.text("");
     i = 0;
     _results = [];
     while (words.length) {
       word = [(_ref = words.shift()) != null ? _ref : "", (_ref1 = words.shift()) != null ? _ref1 : "", (_ref2 = words.shift()) != null ? _ref2 : ""].join(" ");
-      tspan = textElem.append("tspan").text(word).attr("text-anchor", "end");
+      tspan = textElem.append("tspan").text(word).attr("text-anchor", "center").style("font-size",20);
       if (i > 0) {
-        tspan.attr("x", 0).attr("dy", "15");
+        tspan.attr("x", 0).attr("dy", 0);
       }
       _results.push(i++);
     }
@@ -433,7 +436,8 @@
       x = c[0];
       y = c[1];
       h = Math.sqrt(x * x + y * y); // Oh shit its the pythagorean theorem!
-      return "translate(" + (x / h * labelr) + "," + (y / h * labelr) + ")rotate(" + 0 + ")";
+      var angle = (d.x + d.dx / 2) * 180 / Math.PI - 90;
+      return "translate(" + (x / h * labelr) + "," + (y / h * labelr) + ")rotate(" + angle + ")rotate(" + (angle > 90 ? -180 : 0) + ")";
     };
   };
 
@@ -491,13 +495,8 @@
           var _ref2;
           return (from < (_ref2 = a.date) && _ref2 < to);
         });
-        console.log(cloned.data);
         cloned.count = sum(cloned.data, "count");
-        console.log("cloned.count");
-        console.log(cloned.count);
         filtered.value += cloned.count;
-        console.log("filtered.value");
-      console.log(filtered.value);
         _results.push(cloned);
       }
       return _results;
@@ -561,7 +560,7 @@
     width = width - margin.left - margin.right;
     height = height - margin.top - margin.bottom;
     radius = Math.min(width, height) * 0.50;
-    labelr = radius * 0.8 // Label
+    labelr = radius * 0.4 // Label
    /* color = d3.scale.ordinal().range(colorbrewer.RdYlBu[5]);*/
     color = d3.scale.ordinal().range(opts.colors);
     answers = _.pluck(opts.data.answers, "answer");
@@ -577,10 +576,10 @@
       });
     }
     options = ["Blank"].concat(_.compact(options));
-    partition = d3.layout.partition().sort(null).size([2 * Math.PI, radius * radius * 0.85]).value(get("size")); // Size of Sunburst
+    partition = d3.layout.partition().sort(null).size([2 * Math.PI, radius * radius * 0.60]).value(get("size")); // Size of Sunburst
     innerRadius = function(d) {
       if (d.depth === 1) {
-        return Math.sqrt(d.y) * 0.75; // Fuck with this for the donut
+        return Math.sqrt(d.y) * 0.5; // Fuck with this for the donut
       } else {
         return Math.sqrt(d.y);
       }
@@ -599,11 +598,15 @@
       return d.x + (d.dx / 2) + 0.01;
     }).innerRadius(innerRadius).outerRadius(outerRadius);
     el = d3.select(opts.el);
-    el.append("h2").text(opts.data.question);
+    // el.append("h2").text(opts.data.question);
     //answerP = el.append("p").text(opts.data.value + " Answers");
-    svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.5 + "," + height * 0.5 + ")"); //IMPORTANT LINE RIGHT HERE
-    centertext = svg.append("text").text(opts.data.value + " Answers").attr("dy", ".35em").style("text-anchor", "middle").attr("class", "centerText");//Me effing around
-    //label = el.append("span").attr("class", "poll-label");
+    //IMPORTANT LINE RIGHT HERE
+    //THE HEIGHT/WIDTH MULTIPLIERS SHIFT THE CHART'S POSITION L/R (WIDTH) AND UP/DOWN (HEIGHT) - LOWER MULTIPLIER = MORE TO THE LEFT / MORE UP. 
+    svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.67 + "," + height * 0.4 + ")"); //IMPORTANT LINE RIGHT HERE
+    //
+    centertext = svg.append("text").text("Vote Count").attr("dy", "-0.5em").style("text-anchor", "middle").attr("class", "centerText").style("font-size",14);//Me effing around
+    centervotes = svg.append("text").text(opts.data.value).attr("dy", "1.2em").style("text-anchor", "middle").attr("class", "centerText");//Me effing around 
+    label = el.append("span").attr("class", "poll-label");
     old = null;
 
     //  Inner Ring Click
@@ -787,12 +790,15 @@
         return (d.name == "undefined" || d.name == "Unknown");
       }).style("opacity", 0).attr("d", arc2).each(stashEnter);
       group.select("path").transition().duration(1000).attrTween("d", arcTween).style("opacity", 1).each("end", stash);
-      // enter.filter(function(d) { //Beginning of Pie Chart Labels
-      //   return d.depth === 1;
-      // }).append("text").text(function(d) {
-      //   return d.name;
-      // }).attr("dy", ".35em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
-      // group.select("text").transition().duration(1000).attr("transform", textTransform(arc, radius)); //End of Pie Chart Labels
+      
+      //Beginning of Pie Chart Labels
+      enter.filter(function(d) { 
+         return d.depth === 1;
+      }).append("text").text(function(d) {
+        return false;
+      }).attr("dy", ".35em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
+      group.select("text").transition().duration(1000).attr("transform", textTransform(arc, radius));
+      //End of Pie Chart Labels
 
       enter.filter(function(d) {
         return d.name === "Unknown";
@@ -856,7 +862,7 @@
         console.log(ui);
         sliderSpan.text(moment(ui.values[0]).format("ll") + " to " + moment(ui.values[1]).format("ll"));
         data = transformData(opts.data, _.compact(selected), answers, ui.values[0], ui.values[1]);
-        centertext.text(data.size+" Answers");
+        centervotes.text(data.size);
         return draw(data);
       }
 /*      stop: function(event, ui) {

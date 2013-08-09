@@ -380,14 +380,17 @@ path.tooltip {
 }
 
 #sunburst h2 {
-    text-align: center;
+    text-align: left;
     margin-bottom: 0;
+    margin-top: 0;
+    font-size: 36px;
 }
 
 .centerText {
     fill: #c3c3c3;
     stroke: none;
     stroke-width: 0;
+    font-size: 18px;
 }
 
 .pollChart .filter {

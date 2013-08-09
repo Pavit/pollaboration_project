@@ -2,11 +2,27 @@
 
 {% load staticfiles %}
 
-{% block title %}Pollaboration - {{question.question}}{% endblock title %}
+{% block title %}Pollaboration - {{question.question}} - Detailed view{% endblock title %}
 
 {% block extra_css %}<link href="{% static 'css/jquery-ui-1.10.3.custom.css' %}" rel="stylesheet">{% endblock extra_css %}
 
 {% block question_details %}
+
+<div id="current_question" class="row bottom-buffer">
+    <div class="col-12 col-lg-7 col-sm-9 pull-center text-left red">
+    <h1 style="margin-bottom:0px;margin-top:0px">{{question.question}}
+     <span class="pull-right">
+     <p style="font-size:14px">SHARE:   
+        <a href="#" class="social facebook icon-big"></a>
+        <a href="#" class="social twitter icon-big"></a>
+        <a href="#" class="social google_plus icon-big"></a>
+        </p>
+     </span>
+     </h1>
+    </div>
+</div>
+
+
 <div class="row">
     <div id="sunburstcontainer" class="col-12 col-lg-7 col-sm-9 pull-center darkgray">
     <div class="pollChart" id="sunburst"></div>
