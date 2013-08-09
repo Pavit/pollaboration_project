@@ -390,7 +390,9 @@ path.tooltip {
     fill: #c3c3c3;
     stroke: none;
     stroke-width: 0;
-    font-size: 18px;
+    font-size: 24px;
+    font-family:Alegreya;
+    font-weight:700;
 }
 
 .pollChart .filter {
@@ -406,6 +408,7 @@ path.tooltip {
      display:block;
      text-align:right;   
      margin-bottom: 0px;
+     font-family:Alegreya;
 }
 
 .pollChart tspan {
