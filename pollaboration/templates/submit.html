@@ -15,25 +15,27 @@
 <form method="post" action="{% url 'accounts.views.submit' %}" class="form-horizontal">{%csrf_token%}
 <div class="row bottom-buffer">
 	<div class="col-12 col-lg-7 col-sm-9 pull-center red" id="proposed_question">
-	{% if answerInlineFormSet.errors or answerInlineFormSet.non_form_errors %}
-	<h1 class="text-center">
-	{% for error in answerInlineFormSet.non_form_errors %}
-	<p style="color:red">Questions with 1 answer choice aren't very fun.  Let's try that again..</p>
-	{%endfor%}
-	</h1>
-	{% endif %}
-	{% if questionForm.errors or questionForm.non_form_errors %}
-	<h1 class="text-center">
-	<p style="color:red">Seriously!? Why would that work? Enter a question!</p>
-	{% else %}
-	<h1 class="text-center">{% if request.user.first_name != "" %}So, {{request.user.first_name}}, w{%else%}W{%endif%}hat's your question?</h1>
-	{% endif %}
-		<input class="form-control" type="text" name="question" id="id_question" placeholder="Enter question here.">
+    {% if questionForm.question.errors %}
+    <h1 class="text-center">
+    {% for error in questionForm.question.errors %}
+    <p style="color:white"><strong>{{error|escape}}</strong></p>
+    {% endfor %}
+    {% else %}
+    <h1 class="text-center">{% if request.user.first_name != "" %}So, {{request.user.first_name}}, w{%else%}W{%endif%}hat's your question?</h1>
+    {% endif %}
+		<input class="form-control" type="text" name="question" id="id_question" placeholder="Enter question here." value="{% if questionForm.question.value != None %}{{questionForm.question.value}}{%endif%}">
 	</div>
 </div>
 
 <div class="row bottom-buffer">
 	<div class="col-12 col-lg-7 col-sm-9 pull-center blue" id="proposed_answer">
+    {% if answerInlineFormSet.errors or answerInlineFormSet.non_form_errors %}
+    <h1 class="text-center">
+    {% for error in answerInlineFormSet.non_form_errors %}
+    <p style="color:red">{{error}}</p>
+    {%endfor%}
+    </h1>
+    {% endif %}
 		<input id="id_answers-TOTAL_FORMS" name="answers-TOTAL_FORMS" type="hidden" value="5" /><input id="id_answers-INITIAL_FORMS" name="answers-INITIAL_FORMS" type="hidden" value="0" /><input id="id_answers-MAX_NUM_FORMS" name="answers-MAX_NUM_FORMS" type="hidden" value="1000">
 			
 		<div class="form-group" id="answers0">
@@ -81,11 +83,20 @@
 {% block extra_js %}
 <script>
 $('document').ready(function(){
+
 	$('#answers2 div').hide();
 $('#answers3 div').hide();
 $('#answers4 div').hide();
 $('#answers5 div').hide();
+{% if questionForm.question.value == None %}
 	$('input#id_question').focus();
+{% else %} 
+{% for form in answerInlineFormSet %}
+{% if form.answer.value == None %}
+$('input#id_answers-{{form.id}}-answer').focus();
+{% endif %}
+{%endfor%}
+{%endif%}
 });
 </script>
 <script>
