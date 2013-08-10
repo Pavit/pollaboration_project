@@ -107,6 +107,10 @@
                   <ul class="dropdown-menu" role="menu" aria-labeledby="dLabel">
                     <form method="post" action="{% url 'accounts.views.login_view' %}" class="form-horizontal">{% csrf_token %}
                       <li>
+                        <p>Log in with: <a href class="fblogin social facebook"></a>&nbsp<a href class="social twitter">&nbsp<a href class="social google_plus"></a></p>
+                      </li>
+                      <li>
+                        <p>Log in with Pollaboration:</p> 
                         <input class="input-small" name="email" type="email" id="id_email" placeholder="Email">
                       </li>
                       <li>
@@ -120,16 +124,13 @@
                         </div>
                       </li>
                       <li>
-                        <button type="submit" value="login_view" class="btn btn-block">Log In</button>
+                        <p><button type="submit" value="login_view" class="btn btn-block">Log In</button></p>
                       </li>
                     </form>
                       <li>
-                        <p><a href="/accounts/registration">Or you can sign up.</a><p>
+                        <p><a href="/accounts/registration">Sign up now if you don't have an account.</a><p>
                       </li>
                     </ul>
-                </li>
-                <li>
-                <a href class="fblogin social facebook"></a>
                 </li>
                 {%endif%}
               </ul>

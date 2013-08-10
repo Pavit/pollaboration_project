@@ -413,7 +413,7 @@
     _results = [];
     while (words.length) {
       word = [(_ref = words.shift()) != null ? _ref : "", (_ref1 = words.shift()) != null ? _ref1 : "", (_ref2 = words.shift()) != null ? _ref2 : ""].join(" ");
-      tspan = textElem.append("tspan").text(word).attr("text-anchor", "center").style("font-size",18).style("font-weight",600);
+      tspan = textElem.append("tspan").text(word).attr("text-anchor", "center").attr("class", "pieLabel");
       if (i > 0) {
         tspan.attr("x", 0).attr("dy", 0);
       }
@@ -604,8 +604,8 @@
     //THE HEIGHT/WIDTH MULTIPLIERS SHIFT THE CHART'S POSITION L/R (WIDTH) AND UP/DOWN (HEIGHT) - LOWER MULTIPLIER = MORE TO THE LEFT / MORE UP. 
     svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.5 + "," + height * 0.5 + ")"); //IMPORTANT LINE RIGHT HERE
     //
-    centertext = svg.append("text").text("Vote Count").attr("dy", "-0.5em").style("text-anchor", "middle").attr("class", "centerText").style("font-size",14);//Me effing around
-    centervotes = svg.append("text").text(opts.data.value).attr("dy", "1.2em").style("text-anchor", "middle").attr("class", "centerText");//Me effing around 
+    centervotes = svg.append("text").text(opts.data.value).attr("dy", "0.1em").style("text-anchor", "middle").attr("class", "centerVotes");//Me effing around 
+    centertext = svg.append("text").text("Votes").attr("dy", "1.1em").style("text-anchor", "middle").attr("class", "centerText");//Me effing around
     label = el.append("span").attr("class", "poll-label");
     old = null;
 
@@ -685,10 +685,10 @@
       return "<strong>" + d.answer + "</strong>. " + d.size + " votes (" + d.percent + ")";
     };
     tooltip2 = function(d) {
-      return "<u>Of " + d.parent.size + " who picked " + d.parent.answer +":</u></br><strong>" + d.size + "</strong> are " + d.name + " (" + d.percent + ")";
+      return "Of the " + "<b>" + d.parent.size + "</b>" + " who picked " + "<strong>" + d.parent.answer + "</strong>" + ",</br><strong>" + d.size + "</strong> are " + d.name + " (" + d.percent + ").";
     };
     tooltip3 = function(d) {
-      return tooltip2(d.parent) + "....</br>and of these, <strong>" + d.size + "</strong>, are " + d.name + " (" + d.percent + ")";
+      return tooltip2(d.parent) + " Of these, <strong>" + d.size + "</strong> are " + d.name + " (" + d.percent + ").";
     };
     tooltip = d3.select('body').append("div").attr("class", "tooltip suntip").style("opacity", 0);
     tooltipOver = function(d) {

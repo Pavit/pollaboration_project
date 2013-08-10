@@ -112,6 +112,10 @@ footer p {
   margin-bottom: 0;
 }
 
+.dropdown-menu {
+  padding: 10px 10px;
+}
+
 input[type="search"] {
   margin-top: 6px;
 }
@@ -309,7 +313,22 @@ path.tooltip {
     fill:rgb(199, 199, 199);
 }
 
-/* Sunburst */
+/* Grid */
+
+.gridSquare {
+    width: 24px;
+    height: 24px;
+    display:inline-block;
+    border: 1px solid #ffffff;
+    margin: 0 -1px -6px 0;
+}
+
+/* Sunburst Formatting */
+
+#question_details h1 {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
 
 #sunburst h1 {
   text-align: center;
@@ -362,18 +381,6 @@ path.tooltip {
     margin-top: 2px;
 }
 
-/* Grid */
-
-.gridSquare {
-    width: 24px;
-    height: 24px;
-    display:inline-block;
-    border: 1px solid #ffffff;
-    margin: 0 -1px -6px 0;
-}
-
-/* Filter Formatting */
-
 #sunburst h4 {
  display:inline-block;
  margin-right: 10px;
@@ -386,13 +393,22 @@ path.tooltip {
     font-size: 36px;
 }
 
+
+.centerVotes {
+    fill: #c3c3c3;
+    font-size: 24px;
+    font-weight:500;
+}
+
 .centerText {
     fill: #c3c3c3;
-    stroke: none;
-    stroke-width: 0;
-    font-size: 24px;
-    font-family:Alegreya;
-    font-weight:700;
+    font-size: 14px;
+    font-weight:500;
+}
+
+.pieLabel {
+    fill: #575757;
+    font-size: 18px;
 }
 
 .pollChart .filter {
@@ -408,11 +424,6 @@ path.tooltip {
      display:block;
      text-align:right;   
      margin-bottom: 0px;
-     font-family:Alegreya;
-}
-
-.pollChart tspan {
-    fill: #ffffff;
 }
 
 .pollChart .switcher {
