@@ -89,17 +89,12 @@
             </button>
             <div class="nav-collapse collapse navbar-responsive-collapse">
               <ul class="nav navbar-nav">
-                <li>
-                  {% if user.is_authenticated %}<a href="{% url 'accounts.views.submit' %}">Ask</a>
-                  {%else%}<a href="#">Ask</a>{%endif%}
-                </li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'accounts.views.submit' %}">Ask</a></li>
+                {%else%}{%endif%}
                 {% if request.user.is_authenticated %}
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{request.user.email}}<b class="caret"></b></a>
-                  <ul class="dropdown-menu" role="menu" aria-labeledby="dLabel">
-                    <li><a href="{% url 'accounts.views.profile' %}">Profile</a></li>
-                    <li><a href="/accounts/logout_view" data-toggle="popover" data-placement="bottom">Logout</a></li>
-                  </ul>
+                <li><a href="{% url 'accounts.views.profile' %}">Profile</a></li>
+                <li><a href="/accounts/logout_view">Logout</a></li>
                 </li>
                 {%else%}
                 <li class="dropdown">
@@ -196,7 +191,7 @@ $(document).ready(function() {
   {
     name: 'questions',
     remote: '{% url "questions.views.search" %}?q=%QUERY',
-    footer: '<span class="searchresults"><a href="{% url "questions.views.search_results" %}?q=%QUERY"><p>See all search results</p></a></span> <span class="searchresults">{% if user.is_authenticated %} <a href="{% url "accounts.views.submit" %}"> {%else%} <a href title="Log in to ask your own questions."> {%endif%}<p>Submit new question</p></a></span>',
+    footer: '<div class="searchresults"><a href="{% url "questions.views.search_results" %}?q=%QUERY">See all search results</a>{% if user.is_authenticated %} <br><a href="{% url "accounts.views.submit" %}"> {%else%} <a href title="Log in to ask your own questions."> {%endif%}Submit new question</a></div>',
     template: '<p>\{\{value\}\}</p>',
     engine: Hogan,
     limit: 5
