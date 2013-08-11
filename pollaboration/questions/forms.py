@@ -4,19 +4,16 @@ from questions.models import *
 
 
 class QuestionForm(forms.ModelForm):
-    question=forms.CharField(label="Question", min_length=5,max_length=25,
+    question=forms.CharField(label="Question", min_length=5,max_length=60,
                              error_messages={
-                                    "required":"Seriously? You need a QUESTION to ASK something.",
-                                    "max_length":"Questions must be less than 25 characters. Just give us the TLDR version."
-                                })
+                                    "required":"Seriously? You need a QUESTION to ASK something."})
     class Meta:
         model = Question
         exclude = ("submitter","created","answered_by","slug","modified",)
 
 
 class AnswerForm(forms.ModelForm):
-    answer = forms.CharField(label="Answer", max_length=25, 
-                             error_messages={'max_length':'Too long! Keep it less than 25 characters, Wordy McWordington.'})
+    answer = forms.CharField(label="Answer", max_length=50)
     class Meta:
         model = Answer
         exclude = ("question","selected_by","modified",)

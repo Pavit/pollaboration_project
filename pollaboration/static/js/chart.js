@@ -31,7 +31,7 @@
     if (colorKey == null) {
       colorKey = labelKey;
     }
-    holder = el.append("div").attr("class", "legendHolder");
+    holder = el.append("div").attr("class", "legendHolder").append("div").attr("class", "col-12 col-lg-7 col-sm-4");
     g = holder.selectAll(".legend").data(data).enter().append("div").attr("class", "legend");
     g.append("span").style("background", function(d) {
       return colorScale(d[colorKey]);
@@ -77,7 +77,7 @@
 
       return draw(data);
     };
-    holder = el.append("div").attr("class", "legendHolder");
+    holder = el.append("div").attr("class", "legendHolder").append("div").attr("class", "col-12 col-lg-7 col-sm-4");
     g = holder.selectAll(".legend2").data(data).enter().append("label").attr("class", "legend2").style("background-color", function(d) {
       return colorScale(d[colorKey]);
     });
@@ -126,7 +126,7 @@
       }));
       return handler(data);
     };
-    holder = el.append("div").attr("class", "legendHolder")
+    holder = el.append("div").attr("class", "legendHolder").append("div").attr("class", "col-12 col-lg-7 col-sm-4");
     g = holder.selectAll(".legend2").data(data).enter().append("label").attr("class", "legend2").style("background-color", function(d) {
       return colorScale(d[colorKey]);
     }).on("click", getChecked);
@@ -783,12 +783,17 @@
       exitTrans = exit.transition().duration(1000).remove();
       exitTrans.select("path").style("opacity", 0);
       exitTrans.select("text").style("opacity", 0);
+
+      //style non-anonymous vote slices
       enter.filter(function(d) {
         return (d.depth && d.name !== "Unknown" && d.name !== "undefined");
       }).append("path").style("stroke", "#fff").style("fill", get("answer", color)).style("opacity", 0).attr("d", arc2).each(stashEnter);
-            enter.filter(function(d) {
+      
+      //This makes anonymous vote slices transparent
+      enter.filter(function(d) {
         return (d.name == "undefined" || d.name == "Unknown");
       }).style("opacity", 0).attr("d", arc2).each(stashEnter);
+      
       group.select("path").transition().duration(1000).attrTween("d", arcTween).style("opacity", 1).each("end", stash);
       
       //Beginning of Pie Chart Labels
@@ -797,7 +802,7 @@
       }).append("text").text(function(d) {
         return true;
       }).attr("dy", ".35em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
-      group.select("text").transition().duration(1000).attr("transform", textTransform(arc, radius));
+      group.select("text").transition().duration(500).attr("transform", textTransform(arc, radius));
       //End of Pie Chart Labels
 
       enter.filter(function(d) {
@@ -814,6 +819,8 @@
       }).style("opacity", opts.opacityBase).on("click", clearHighlights);
       return group.on("mouseover", tooltipOver).on("mouseout", tooltipOut).on("mousemove", tooltipMove);
     };
+    // End of draw method
+
     draw(data);
 //  Slider
     sliderSpan = el.append("p").attr("class", "slider-text").text("Range: ").append("span");
@@ -879,7 +886,7 @@
       selector = "#sunburst";
     }
     width = d3.select(selector).html("").node().offsetWidth; // Width of SVG... makes the chart responsive.
-    height = width * 1; // Height of SVG
+    height = width * 0.85; // Height of SVG
     opts = {
       el: selector,
       fields: ["gender", "agegroup", "political"],

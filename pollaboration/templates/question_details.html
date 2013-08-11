@@ -15,11 +15,28 @@
 
     <div id="sunburstcontainer" class="col-12 col-lg-7 col-sm-9 pull-center darkgray">
     <h1 class="text-center">{{question.question}}</h1>
+       <p class="text-center">Submit on {{question.created}}. Last answered on {{question.modified}}.</p>
+       <p class="text-center">Answer frequency: X per day, Y per week, Z per month.</p>
     <div class ="row">
-    <div class ="pollChart">
-    <div class="col-12 col-lg-8 col-sm-8" id="sunburst"></div>
-        Filters Here
-<!--    <div id="newlegendholder" class="col-12 col-lg-4 col-sm-4">
+    <div class ="pollChart" id="sunburst">
+    <!--<h4>Split by:</h4>
+    <div class="filter">
+        <select onchange="change(this)" name="stat" id="1">
+        <option value="-" selected="selected">STAT</option>
+        <option value="agegroup">Age Group</option>
+        <option value="gender">Gender</option>
+        <option value="political">Politics</option>
+        </select>
+    </div>
+    <div class="filter">
+        <select onchange="change(this)" name="stat" id="2">
+        <option value="-" selected="selected">STAT</option>
+        <option value="agegroup">Age Group</option>
+        <option value="gender">Gender</option>
+        <option value="political">Politics</option>
+        </select>
+    </div>
+    <div id="newlegendholder" class="col-12 col-lg-4 col-sm-4">
         <div class="filter">
             <h4>Split by: </h4>
             <select id="filter1"></select>
@@ -67,8 +84,15 @@ url = "/questions/getjson/{{question.id}}";
         data = JSON.parse('{{json|safe}}');
         console.log(data);
         pollChart.showSunburst(data);
-
+        console.log("hi");
+        console.log(pollChart.sunburst(opts));
     })();
     
+</script>
+<script>
+function(){
+    console.log("sunburst");
+    console.log(pollChart.sunburst);
+}
 </script>
 {% endblock extra_js %}
