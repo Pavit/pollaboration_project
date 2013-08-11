@@ -662,7 +662,7 @@
         });
         return InputView;
         function buildOverflowHelper($input) {
-            return $("<span></span>").css({
+            return $("<div></div>").css({
                 position: "absolute",
                 left: "-9999px",
                 visibility: "hidden",
@@ -687,7 +687,7 @@
     }();
     var DropdownView = function() {
         var html = {
-            suggestionsList: '<span class="tt-suggestions"></span>'
+            suggestionsList: '<div class="tt-suggestions"></div>'
         }, css = {
             suggestionsList: {
                 display: "block"
@@ -856,9 +856,9 @@
     }();
     var TypeaheadView = function() {
         var html = {
-            wrapper: '<span class="twitter-typeahead"></span>',
+            wrapper: '<div class="twitter-typeahead"></div>',
             hint: '<input class="tt-hint" type="text" autocomplete="off" spellcheck="off" disabled>',
-            dropdown: '<span class="tt-dropdown-menu"></span>'
+            dropdown: '<div class="tt-dropdown-menu"></div>'
         }, css = {
             wrapper: {
                 position: "relative",

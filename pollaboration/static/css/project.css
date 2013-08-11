@@ -78,13 +78,13 @@ label {
   color: #c3c3c3;
 }
 
+.darkgray a:hover {
+  color: #ffffff;
+}
+
 .white {
   background-color: #ffffff;
   color: #575757;
-}
-
-.darkgray a:hover {
-  color: #ffffff;
 }
 
 span.icon {
@@ -93,6 +93,20 @@ span.icon {
 
 .activated {
   color: #73a1d5;
+}
+
+/* Forms */
+
+.radio-inline + .radio-inline,
+.checkbox-inline + .checkbox-inline {
+  margin-top: 5px;
+  margin-left: 0;
+}
+
+.radio-inline,
+.checkbox-inline {
+  margin-top: 5px;
+  margin-right: 10px;
 }
 
 /* Footer */
@@ -106,7 +120,7 @@ footer p {
 .icon-small { font-size: 12px; }
 .icon-big { font-size: 24px; }
 
-/* Specific Styling */
+/* Nav */
 
 .navbar {
   margin-bottom: 0;
@@ -114,11 +128,16 @@ footer p {
 
 .dropdown-menu {
   padding: 10px 10px;
+  -webkit-border-radius: 0px;
+   -moz-border-radius: 0px;
+        border-radius: 0px;
 }
 
 input[type="search"] {
   margin-top: 6px;
 }
+
+/* Entire Panel as Button */
 
 .btn-panel {
   display: block;
@@ -159,7 +178,7 @@ input[type="search"] {
   text-align: justify;
 }
 
-/* Question Form */
+/* Question */
 
 #current_question h1 {
   margin-bottom: 20px;
@@ -271,20 +290,6 @@ input:focus:-ms-input-placeholder {opacity: 0;}
 #proposed_answer input::-moz-placeholder {color: #cfe5fd;}
 #proposed_answer input:-ms-input-placeholder {color: #cfe5fd;}
 
-/* Forms */
-
-.radio-inline + .radio-inline,
-.checkbox-inline + .checkbox-inline {
-  margin-top: 5px;
-  margin-left: 0;
-}
-
-.radio-inline,
-.checkbox-inline {
-  margin-top: 5px;
-  margin-right: 10px;
-}
-
 /* Charts */
 
 .pollChart {
@@ -393,7 +398,6 @@ path.tooltip {
     font-size: 36px;
 }
 
-
 .centerVotes {
     fill: #c3c3c3;
     font-size: 24px;
@@ -471,13 +475,20 @@ path.tooltip {
 
 .tt-hint {
   margin-top: 6px;
-  margin-left: 1px;
+  
+  vertical-align: top;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .tt-hint {
+        margin-left: 1px;
+    }
 }
 
 .tt-dropdown-menu {
   min-width: 160px;
-  margin-top: 2px;
-  padding: 5px 0;
+  margin-top: 0px;
+  padding: 5px 0px;
   background-color: #fff;
   border: 1px solid #ccc;
   border: 1px solid rgba(0,0,0,.2);
@@ -497,19 +508,19 @@ path.tooltip {
 .tt-suggestion,
 .searchresults {
   display: block;
-  padding: 3px 20px;
+  padding: 5px 10px;
 }
 
 .tt-suggestion.tt-is-under-cursor {
   color: #fff;
-  background-color: #0081c2;
-  background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
+  background-color: #575757;
+/*  background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
   background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
   background-image: -o-linear-gradient(top, #0088cc, #0077b3);
-  background-image: linear-gradient(to bottom, #0088cc, #0077b3);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0)
+  background-image: linear-gradient(to bottom, #0088cc, #0077b3);*/
+/*  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0)*/
 }
 
 .tt-suggestion.tt-is-under-cursor a {
@@ -518,6 +529,7 @@ path.tooltip {
 
 .tt-suggestion p {
   margin: 0;
+  line-height: 1.2;
 }
 
 /* Slider */

@@ -31,7 +31,7 @@
     if (colorKey == null) {
       colorKey = labelKey;
     }
-    holder = el.append("div").attr("class", "legendHolder").append("div").attr("class", "col-12 col-lg-7 col-sm-6 pull-left");
+    holder = el.append("div").attr("class", "legendHolder");
     g = holder.selectAll(".legend").data(data).enter().append("div").attr("class", "legend");
     g.append("span").style("background", function(d) {
       return colorScale(d[colorKey]);
@@ -77,7 +77,7 @@
 
       return draw(data);
     };
-    holder = el.append("div").attr("class", "legendHolder").append("div").attr("class", "col-12 col-lg-7 col-sm-6 pull-left");
+    holder = el.append("div").attr("class", "legendHolder");
     g = holder.selectAll(".legend2").data(data).enter().append("label").attr("class", "legend2").style("background-color", function(d) {
       return colorScale(d[colorKey]);
     });
@@ -576,7 +576,7 @@
       });
     }
     options = ["Blank"].concat(_.compact(options));
-    partition = d3.layout.partition().sort(null).size([2 * Math.PI, radius * radius * 0.9]).value(get("size")); // Size of Sunburst
+    partition = d3.layout.partition().sort(null).size([2 * Math.PI, radius * radius * 0.8]).value(get("size")); // Size of Sunburst
     innerRadius = function(d) {
       if (d.depth === 1) {
         return Math.sqrt(d.y) * 0.5; // Fuck with this for the donut
@@ -606,7 +606,7 @@
     //
     centervotes = svg.append("text").text(opts.data.value).attr("dy", "0.1em").style("text-anchor", "middle").attr("class", "centerVotes");//Me effing around 
     centertext = svg.append("text").text("Votes").attr("dy", "1.1em").style("text-anchor", "middle").attr("class", "centerText");//Me effing around
-    label = el.append("span").attr("class", "poll-label");
+    //label = el.append("span").attr("class", "poll-label");
     old = null;
 
     //  Inner Ring Click
@@ -688,7 +688,7 @@
       return "Of the " + "<b>" + d.parent.size + "</b>" + " who picked " + "<strong>" + d.parent.answer + "</strong>" + ",</br><strong>" + d.size + "</strong> are " + d.name + " (" + d.percent + ").";
     };
     tooltip3 = function(d) {
-      return tooltip2(d.parent) + " Of these, <strong>" + d.size + "</strong> are " + d.name + " (" + d.percent + ").";
+      return tooltip2(d.parent) + "<br>Of these, <strong>" + d.size + "</strong> are " + d.name + " (" + d.percent + ").";
     };
     tooltip = d3.select('body').append("div").attr("class", "tooltip suntip").style("opacity", 0);
     tooltipOver = function(d) {
@@ -785,7 +785,7 @@
       exitTrans.select("text").style("opacity", 0);
       enter.filter(function(d) {
         return (d.depth && d.name !== "Unknown" && d.name !== "undefined");
-      }).append("path").style("stroke", "#fff").style("fill", get("answer",   color)).style("opacity", 0).attr("d", arc2).each(stashEnter);
+      }).append("path").style("stroke", "#fff").style("fill", get("answer", color)).style("opacity", 0).attr("d", arc2).each(stashEnter);
             enter.filter(function(d) {
         return (d.name == "undefined" || d.name == "Unknown");
       }).style("opacity", 0).attr("d", arc2).each(stashEnter);
