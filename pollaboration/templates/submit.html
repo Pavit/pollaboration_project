@@ -16,11 +16,10 @@
     {% endfor %}
     {% else %}
     <h1 class="text-center">{% if request.user.first_name != "" %}So, {{request.user.first_name}}, w{%else%}W{%endif%}hat's your question?</h1>
-    {% endif %}
-		<input class="form-control" type="text" name="question" id="id_question" placeholder="Enter question here." value="{% if questionForm.question.value != None %}{{questionForm.question.value}}{%endif%}">
+    {% endif %} 
+		<input class="form-control" type="text" name="question" id="id_question" maxlength="{{questionForm.fields.question.max_length}}" placeholder="Enter question here." value="{% if questionForm.question.value != None %}{{questionForm.question.value}}{%endif%}">
 	</div>
 </div>
-
 <div class="row bottom-buffer">
 	<div class="col-12 col-lg-7 col-sm-9 pull-center blue" id="proposed_answer">
     {% if answerInlineFormSet.errors or answerInlineFormSet.non_form_errors %}
@@ -31,34 +30,35 @@
     </h1>
     {% endif %}
 		<input id="id_answers-TOTAL_FORMS" name="answers-TOTAL_FORMS" type="hidden" value="5" /><input id="id_answers-INITIAL_FORMS" name="answers-INITIAL_FORMS" type="hidden" value="0" /><input id="id_answers-MAX_NUM_FORMS" name="answers-MAX_NUM_FORMS" type="hidden" value="1000">
-			
+		
 		<div class="form-group" id="answers0">
 		<div class="col-lg-12 col-sm-12">
-		<input class="form-control input-small" id="id_answers-0-answer" name="answers-0-answer" placeholder="Enter answer choice." type="text" /><input id="id_answers-0-id" name="answers-0-id" type="hidden" /><input id="id_answers-0-question" name="answers-0-question" type="hidden" />
+		<input class="form-control input-small" maxlength="{{answer_max_length}}" id="id_answers-0-answer" name="answers-0-answer" placeholder="Enter answer choice." type="text" /><input id="id_answers-0-id" name="answers-0-id" type="hidden" /><input id="id_answers-0-question" name="answers-0-question" type="hidden" />
 		</div>
 		</div>
 
+        
 		<div class="form-group" id="answers1">
 		<div class="col-lg-12 col-sm-12">
-		<input class="form-control input-small" id="id_answers-1-answer" name="answers-1-answer" placeholder="Enter another answer choice." type="text" /><input id="id_answers-1-id" name="answers-1-id" type="hidden" /><input id="id_answers-1-question" name="answers-1-question" type="hidden" />
+		<input class="form-control input-small" maxlength="{{answer_max_length}}" id="id_answers-1-answer" name="answers-1-answer" placeholder="Enter another answer choice." type="text" /><input id="id_answers-1-id" name="answers-1-id" type="hidden" /><input id="id_answers-1-question" name="answers-1-question" type="hidden" />
 		</div>
 		</div>
 
 		<div class="form-group" id="answers2" style="display: none">
 		<div class="col-lg-12 col-sm-12">
-		<input class="form-control input-small" id="id_answers-2-answer" name="answers-2-answer" placeholder="The more the merrier!" type="text" /><input id="id_answers-2-id" name="answers-2-id" type="hidden" /><input id="id_answers-2-question" name="answers-2-question" type="hidden" />
+		<input class="form-control input-small" maxlength="{{answer_max_length}}" id="id_answers-2-answer" name="answers-2-answer" placeholder="The more the merrier!" type="text" /><input id="id_answers-2-id" name="answers-2-id" type="hidden" /><input id="id_answers-2-question" name="answers-2-question" type="hidden" />
 		</div>
 		</div>
 
 		<div class="form-group" id="answers3" style="display: none">
 		<div class="col-lg-12 col-sm-12">
-		<input class="form-control input-small" id="id_answers-3-answer" name="answers-3-answer" placeholder="Someone's a go-getter..." type="text" /><input id="id_answers-3-id" name="answers-3-id" type="hidden" /><input id="id_answers-3-question" name="answers-3-question" type="hidden" />
+		<input class="form-control input-small" maxlength="{{answer_max_length}}" id="id_answers-3-answer" name="answers-3-answer" placeholder="Someone's a go-getter..." type="text" /><input id="id_answers-3-id" name="answers-3-id" type="hidden" /><input id="id_answers-3-question" name="answers-3-question" type="hidden" />
 		</div>
 		</div>
 
 		<div class="form-group" id="answers4" style="display: none">
 		<div class="col-lg-12 col-sm-12">
-		<input class="form-control input-small" id="id_answers-4-answer" name="answers-4-answer" placeholder="Dude. We get it." type="text" /><input id="id_answers-4-id" name="answers-4-id" type="hidden" /><input id="id_answers-4-question" name="answers-4-question" type="hidden" />
+		<input class="form-control input-small" maxlength="{{answer_max_length}}" id="id_answers-4-answer" name="answers-4-answer" placeholder="Dude. We get it." type="text" /><input id="id_answers-4-id" name="answers-4-id" type="hidden" /><input id="id_answers-4-question" name="answers-4-question" type="hidden" />
 		</div>
 		</div>
 	</div>
@@ -76,41 +76,38 @@
 
 {% block extra_js %}
 <script>
-$('document').ready(function(){
 
-$('#answers2').css("display", "none").hide();
-$('#answers3').hide();
-$('#answers4').hide();
-$('#answers5').hide();
-{% if questionForm.question.value == None %}
-	$('input#id_question').focus();
-{% else %} 
-{% for form in answerInlineFormSet %}
-{% if form.answer.value == None %}
-$('input#id_answers-{{form.id}}-answer').focus();
-{% endif %}
-{%endfor%}
-{%endif%}
+</script>
+<script>
+$('document').ready(function(){
+    $('#answers2').css("display", "none").hide();
+    $('#answers3').hide();
+    $('#answers4').hide();
+    $('#answers5').hide();
+    {% if questionForm.question.value == None %}
+    	$('input#id_question').focus();
+    {% else %} 
+        {% for form in answerInlineFormSet.forms %}
+            {% if form.answer.value == None %}
+                $('input#id_answers-{{form.id}}-answer').focus();
+            {% endif %}
+        {%endfor%}
+    {%endif%}
 });
 </script>
 <script>
-
-
-
 // $('.submit').hide();
 $('input#id_question').keypress(function() {
     $('#answers0').slideDown('fast');
     $('#answers1').slideDown('fast');
     $(this).focus();
 });
-// $('input#id_answers-0-answer').keypress(function() {
-//     $('input#id_answers-1-answer').fadeIn('slow');
-//     $(this).focus();
-// });
+
 $('input#id_answers-1-answer').keypress(function() {
     $('#answers2').slideDown('fast');
     $(this).focus();
 });
+
 $('input#id_answers-2-answer').keypress(function() {
     $('#answers3').slideDown('fast');
     $(this).focus();
@@ -127,5 +124,12 @@ $('input#id_answers-4-answer').keypress(function() {
 //     $('.submit').fadeIn('slow');
 //     $(this).focus();
 // });
+
+$('input#id_question').maxlength({
+    warningClass: "label label-success",
+    limitReachedClass: "label label-important",
+    placement: 'top-right'
+});
+
 </script>
 {% endblock extra_js %}

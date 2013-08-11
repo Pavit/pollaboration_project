@@ -55,6 +55,7 @@ def submit(request):
     AnswerInlineFormSet = inlineformset_factory(Question, Answer, form=AnswerForm, formset=AnswerFormSet, extra=5, can_delete=False)
     answerInlineFormSet = AnswerInlineFormSet()
     questionForm = QuestionForm()
+    answer_max_length = 25
     if request.method == 'POST':
         questionForm = QuestionForm(request.POST)
         if questionForm.is_valid():
@@ -68,8 +69,9 @@ def submit(request):
                 print "Valid"
                 new_question.save()
                 answerInlineFormSet.save()
+                print answerInlineFormSet.forms.all()
                 return redirect(new_question)
-    return render_to_response('submit.html', {"answerInlineFormSet":answerInlineFormSet, "questionForm":questionForm,}, context_instance=RequestContext(request))
+    return render_to_response('submit.html', {"answerInlineFormSet":answerInlineFormSet, "questionForm":questionForm,"answer_max_length":answer_max_length}, context_instance=RequestContext(request))
 
 
 @login_required

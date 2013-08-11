@@ -15,7 +15,8 @@ class QuestionForm(forms.ModelForm):
 
 
 class AnswerForm(forms.ModelForm):
-    answer = forms.CharField(label="Answer", error_messages={'max_length':'Too long! Keep it less than 25 characters, Wordy McWordington.'})
+    answer = forms.CharField(label="Answer", max_length=25, 
+                             error_messages={'max_length':'Too long! Keep it less than 25 characters, Wordy McWordington.'})
     class Meta:
         model = Answer
         exclude = ("question","selected_by","modified",)
