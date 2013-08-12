@@ -51,7 +51,14 @@ def login_view(request):
 
 
 @login_required
-def submit(request):    
+def submit(request):
+    placeholders={
+        "0":"Enter an answer choice.",
+        "1":"Need at least one more.",
+        "2":"The more the merrier!",
+        "3":"Someone's a go-getter...",
+        "4":"Dude. We get it.",
+        }
     AnswerInlineFormSet = inlineformset_factory(Question, Answer, form=AnswerForm, formset=AnswerFormSet, extra=5, can_delete=False)
     answerInlineFormSet = AnswerInlineFormSet()
     questionForm = QuestionForm()
@@ -70,7 +77,7 @@ def submit(request):
                 answerInlineFormSet.save()
                 print answerInlineFormSet.forms.all()
                 return redirect(new_question)
-    return render_to_response('submit.html',{"answerInlineFormSet":answerInlineFormSet,"questionForm":questionForm,},context_instance=RequestContext(request))
+    return render_to_response('submit.html',{"answerInlineFormSet":answerInlineFormSet,"questionForm":questionForm,"placeholders":placeholders},context_instance=RequestContext(request))
 
 
 @login_required

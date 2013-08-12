@@ -35,9 +35,10 @@
  	<!--	<input id="id_answers-TOTAL_FORMS" name="answers-TOTAL_FORMS" type="hidden" value="5" /><input id="id_answers-INITIAL_FORMS" name="answers-INITIAL_FORMS" type="hidden" value="0" /><input id="id_answers-MAX_NUM_FORMS" name="answers-MAX_NUM_FORMS" type="hidden" value="1000"> -->
 
 		{% for form in answerInlineFormSet.forms %}
+
         <div class="form-group" id="answers{{forloop.counter0}}">
         <div class="col-lg-12 col-sm-12">
-        <input class="form-control input-small" maxlength="{{form.fields.answer.max_length}}" id="id_answers-{{forloop.counter0}}-answer" name="answers-{{forloop.counter0}}-answer" placeholder="Enter answer choice." type="text" />
+        <input class="form-control input-small" maxlength="{{form.fields.answer.max_length}}" id="id_answers-{{forloop.counter0}}-answer" name="answers-{{forloop.counter0}}-answer" placeholder="{% if forloop.counter0 == 0 %}Enter answer choice.{% elif forloop.counter0 == 1 %}Need at least one more.{% elif forloop.counter0 == 2 %}The more the merrier!{% elif forloop.counter0 == 3 %}Someone's a go-getter...{% elif forloop.counter0 == 4%}Dude. We get it it.{% endif %}" type="text" value="{{form.cleaned_data.answer}}"/>
         
         {{form.id}}
         {{form.question}}
@@ -48,7 +49,8 @@
         </div>
         {% endfor %}
 
-<!--
+<!-- All this crap is replaced by the foorloop above. A 0-indexed forloop counter is used to get the IDs -->
+<!-- 
 		<div class="form-group" id="answers0">
 		<div class="col-lg-12 col-sm-12">
 		<input class="form-control input-small" maxlength="{{answer_max_length}}" id="id_answers-0-answer" name="answers-0-answer" placeholder="Enter answer choice." type="text" /><input id="id_answers-0-id" name="answers-0-id" type="hidden" /><input id="id_answers-0-question" name="answers-0-question" type="hidden" />
@@ -98,7 +100,8 @@
 </script>
 <script>
 $('document').ready(function(){
-    $('#answers2').css("display", "none").hide();
+     $('input#id_question').focus();
+    $('#answers2').hide();
     $('#answers3').hide();
     $('#answers4').hide();
     $('#answers5').hide();
@@ -108,23 +111,13 @@ $('document').ready(function(){
 </script>
 <script>
 // $('.submit').hide();
-$('input#id_answers-1-answer').keypress(function() {
-    $('#answers2').slideDown('fast');
+{% for form in answerInlineFormSet.forms %}
+$('input#id_answers-{{forloop.counter}}-answer').keypress(function() {
+    $('#answers{{forloop.counter|add:1}}').slideDown('fast');
     $(this).focus();
 });
+{% endfor %}
 
-$('input#id_answers-2-answer').keypress(function() {
-    $('#answers3').slideDown('fast');
-    $(this).focus();
-});
-$('input#id_answers-3-answer').keypress(function() {
-    $('#answers4').slideDown('fast');
-    $(this).focus();
-});
-$('input#id_answers-4-answer').keypress(function() {
-    $('#answers5').slideDown('fast');
-    $(this).focus();
-});
 // $('input#id_answers-1-answer').keypress(function() {
 //     $('.submit').fadeIn('slow');
 //     $(this).focus();
