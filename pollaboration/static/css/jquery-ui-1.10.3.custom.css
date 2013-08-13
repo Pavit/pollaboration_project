@@ -131,11 +131,11 @@
 }
 
 .ui-slider-vertical {
-    width: .8em;
-    height: 100px;
+    width: 1em;
+    height: 200px;
 }
 .ui-slider-vertical .ui-slider-handle {
-    left: -.3em;
+    left: -.125em;
     margin-left: 0;
     margin-bottom: -.6em;
 }

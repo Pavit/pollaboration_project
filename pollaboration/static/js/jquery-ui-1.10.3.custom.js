@@ -991,7 +991,7 @@ $.widget( "ui.slider", $.ui.mouse, {
     widgetEventPrefix: "slide",
 
     options: {
-        animate: false,
+        animate: true,
         distance: 0,
         max: 100,
         min: 0,
@@ -1009,8 +1009,8 @@ $.widget( "ui.slider", $.ui.mouse, {
     },
 
     _create: function() {
-        this._keySliding = false;
-        this._mouseSliding = false;
+        this._keySliding = true;
+        this._mouseSliding = true;
         this._animateOff = false;
         this._handleIndex = null;
         this._detectOrientation();
@@ -1502,7 +1502,7 @@ $.widget( "ui.slider", $.ui.mouse, {
             oRange = this.options.range,
             o = this.options,
             that = this,
-            animate = ( !this._animateOff ) ? o.animate : false,
+            animate = true;//( !this._animateOff ) ? o.animate : false,
             _set = {};
 
         if ( this.options.values && this.options.values.length ) {

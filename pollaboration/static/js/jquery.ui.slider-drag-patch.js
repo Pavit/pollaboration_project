@@ -1,6 +1,6 @@
 (function( $, undefined ) {
 
-    $.extend($.ui.slider.prototype.options, {
+    $.extend($.slider.prototype.options, {
         dragAnimate: true
     });
     

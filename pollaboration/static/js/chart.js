@@ -31,7 +31,7 @@
     if (colorKey == null) {
       colorKey = labelKey;
     }
-    holder = el.append("div").attr("class", "legendHolder").append("div").attr("class", "col-12 col-lg-7 col-sm-4");
+    holder = d3.select("#legendplacement").append("div").attr("class", "legendHolder");
     g = holder.selectAll(".legend").data(data).enter().append("div").attr("class", "legend");
     g.append("span").style("background", function(d) {
       return colorScale(d[colorKey]);
@@ -77,7 +77,7 @@
 
       return draw(data);
     };
-    holder = el.append("div").attr("class", "legendHolder").append("div").attr("class", "col-12 col-lg-7 col-sm-4");
+    holder = d3.select("#legendplacement").append("div").attr("class", "legendHolder");
     g = holder.selectAll(".legend2").data(data).enter().append("label").attr("class", "legend2").style("background-color", function(d) {
       return colorScale(d[colorKey]);
     });
@@ -126,7 +126,7 @@
       }));
       return handler(data);
     };
-    holder = el.append("div").attr("class", "legendHolder").append("div").attr("class", "col-12 col-lg-7 col-sm-4");
+    holder = d3.select("#legendplacement").append("div").attr("class", "legendHolder");
     g = holder.selectAll(".legend2").data(data).enter().append("label").attr("class", "legend2").style("background-color", function(d) {
       return colorScale(d[colorKey]);
     }).on("click", getChecked);
@@ -362,8 +362,8 @@
   }
 
   defaults = {
-    width: 400,
-    height: 400,
+    width: 300,
+    height: 300,
     colors: ["#c3c3c3", "#FF7E65", "#7DCDFC", "#4a9acd", "#3D444B"],
     margin: {
       top: 0,
@@ -559,8 +559,8 @@
     margin = opts.margin, width = opts.width, height = opts.height;
     width = width - margin.left - margin.right;
     height = height - margin.top - margin.bottom;
-    radius = Math.min(width, height) * 0.50;
-    labelr = radius * 0.5 // Label
+    radius = Math.min(width, height) * 0.65;
+    labelr = radius * 0.43 // Label
    /* color = d3.scale.ordinal().range(colorbrewer.RdYlBu[5]);*/
     color = d3.scale.ordinal().range(opts.colors);
     answers = _.pluck(opts.data.answers, "answer");
@@ -576,10 +576,10 @@
       });
     }
     options = ["Blank"].concat(_.compact(options));
-    partition = d3.layout.partition().sort(null).size([2 * Math.PI, radius * radius * 0.8]).value(get("size")); // Size of Sunburst
+    partition = d3.layout.partition().sort(null).size([2 * Math.PI, radius * radius * 0.5]).value(get("size")); // Size of Sunburst
     innerRadius = function(d) {
       if (d.depth === 1) {
-        return Math.sqrt(d.y) * 0.5; // Fuck with this for the donut
+        return Math.sqrt(d.y) * 0.7; // Fuck with this for the donut
       } else {
         return Math.sqrt(d.y);
       }
@@ -602,7 +602,7 @@
     //answerP = el.append("p").text(opts.data.value + " Answers");
     //IMPORTANT LINE RIGHT HERE
     //THE HEIGHT/WIDTH MULTIPLIERS SHIFT THE CHART'S POSITION L/R (WIDTH) AND UP/DOWN (HEIGHT) - LOWER MULTIPLIER = MORE TO THE LEFT / MORE UP. 
-    svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.5 + "," + height * 0.5 + ")"); //IMPORTANT LINE RIGHT HERE
+    svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.5 + "," + height * 0.48 + ")"); //IMPORTANT LINE RIGHT HERE
     //
     centervotes = svg.append("text").text(opts.data.value).attr("dy", "0.1em").style("text-anchor", "middle").attr("class", "centerVotes");//Me effing around 
     centertext = svg.append("text").text("Votes").attr("dy", "1.1em").style("text-anchor", "middle").attr("class", "centerText");//Me effing around
@@ -823,9 +823,11 @@
 
     draw(data);
 //  Slider
-    sliderSpan = el.append("p").attr("class", "slider-text").text("Range: ").append("span");
-    sliderSpan.text(moment(opts.data.start).format("ll") + " to " + moment(opts.data.end).format("ll"));
-    sliderDiv = el.append("div").attr("class", "slider").node();
+    //sliderSpan = el.append("p").attr("class", "slider-text").text("Range: ").append("span");
+    sliderTop = d3.select("#slidertop").append("p").attr("class","slider-text").text(moment(opts.data.end).format("ll"));
+    sliderBottom = d3.select("#sliderbottom").append("p").attr("class","slider-text").text(moment(opts.data.start).format("ll"));
+    //sliderSpan.text(moment(opts.data.start).format("ll") + " to " + moment(opts.data.end).format("ll"));
+    sliderDiv = d3.select("#sliderplacement").append("div").attr("class", "slider").node();
     legend({
       el: el,
       colorScale: color,
@@ -862,12 +864,16 @@
     };
     return $(sliderDiv).slider({
       range: true,
+      orientation: "vertical",
+      animate: true,
       min: opts.data.start,
       max: opts.data.end,
       values: [opts.data.start, opts.data.end],
       slide: function(event, ui) {
         console.log(ui);
-        sliderSpan.text(moment(ui.values[0]).format("ll") + " to " + moment(ui.values[1]).format("ll"));
+       // sliderSpan.text(moment(ui.values[0]).format("ll") + " to " + moment(ui.values[1]).format("ll"));
+        sliderTop.text(moment(opts.data.end).format("ll"));
+        sliderBottom.text(moment(opts.data.start).format("ll"));
         data = transformData(opts.data, _.compact(selected), answers, ui.values[0], ui.values[1]);
         centervotes.text(data.size);
         return draw(data);
@@ -886,7 +892,7 @@
       selector = "#sunburst";
     }
     width = d3.select(selector).html("").node().offsetWidth; // Width of SVG... makes the chart responsive.
-    height = width * 0.85; // Height of SVG
+    height = width * 1; // Height of SVG
     opts = {
       el: selector,
       fields: ["gender", "agegroup", "political"],

@@ -14,47 +14,32 @@
 <div id="question_details" class="row bottom-buffer">
 
     <div id="sunburstcontainer" class="col-12 col-lg-7 col-sm-9 pull-center darkgray">
-    <h1 class="text-center">{{question.question}}</h1>
-       <p class="text-center">Submit on {{question.created}}. Last answered on {{question.modified}}.</p>
-       <p class="text-center">Answer frequency: X per day, Y per week, Z per month.</p>
-    <div class ="row">
-    <div class ="pollChart" id="sunburst">
-    <!--<h4>Split by:</h4>
-    <div class="filter">
-        <select onchange="change(this)" name="stat" id="1">
-        <option value="-" selected="selected">STAT</option>
-        <option value="agegroup">Age Group</option>
-        <option value="gender">Gender</option>
-        <option value="political">Politics</option>
-        </select>
-    </div>
-    <div class="filter">
-        <select onchange="change(this)" name="stat" id="2">
-        <option value="-" selected="selected">STAT</option>
-        <option value="agegroup">Age Group</option>
-        <option value="gender">Gender</option>
-        <option value="political">Politics</option>
-        </select>
-    </div>
-    <div id="newlegendholder" class="col-12 col-lg-4 col-sm-4">
-        <div class="filter">
-            <h4>Split by: </h4>
-            <select id="filter1"></select>
-            <select id="filter2"></select>
+        <h1 class="pull-left" style="">{{question.question}}</h1>
+           <p class="text-right">Submit on {{question.created}}. Last answered on {{question.modified}}.</p>
+           <p class="text-right">Answer frequency: X per day, Y per week, Z per month.</p>
+        <div class = "row">
+            <div class ="col-4 col-lg-4 col-sm-4 pull-left darkgray">
+                <div class="row">
+                    <div id="legendplacement"></div>
+                </div>
+                <div class="row">
+                    <div id="slidertop" class="pull-center"></div>
+                    <div id="sliderplacement" style="width:20px" class="pull-center"></div>
+                    <div id="sliderbottom" class="pull-center"></div>
+                </div>
+            </div>
+            <div class="col-8 col-lg-8 col-sm-6 pull-right darkgray">
+                <div class ="pollChart" id="sunburst" name="sunburst"></div>
+            </div>
         </div>
-    </div> -->
-
-    </div>
-    </div>
 
 
-
-     <p class="text-right">
-        SHARE: 
-        <a href="#" class="social facebook icon-big"></a>
-        <a href="#" class="social twitter icon-big"></a>
-        <a href="#" class="social google_plus icon-big"></a>
-     </p>
+        <p class="text-right">
+            SHARE: 
+            <a href="#" class="social facebook icon-big"></a>
+            <a href="#" class="social twitter icon-big"></a>
+            <a href="#" class="social google_plus icon-big"></a>
+        </p>
     </div>
 </div>
 <script src="{% static 'js/jquery.js' %}"></script>
@@ -65,12 +50,12 @@
 <script src="{% static 'js/d3-compat.js' %}"></script>
 <script src="{% static 'js/bootstrap-tooltip.js' %}"></script>
 <script src="{% static 'js/colorbrewer.js' %}"></script>
-
+<script src="{% static 'js/jquery.ui.slider-drag-patch.js' %}"></script>
 {% endblock question_details %}
 
 {% block extra_js %}
 <script src="{% static 'js/chart.js' %}"></script>
-<script src="{% static 'js/jquery.ui.slider-drag-patch.js' %}"></script>
+
 <script>
     (function(){
         var pollChart = window.pollChart;
