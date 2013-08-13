@@ -30,27 +30,27 @@ MANAGERS = ADMINS
 
 import dj_database_url
 if not os.environ.get("HEROKU_DEV", False):  ### DB SETTINGS (LOCAL AND LOCAL W/ HEROKU) AND LOCAL FACEBOOK INFO
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'pollaboration',
-            'USER': 'django_login',
-            'PASSWORD': 'django',
-            'HOST': '',
-            'PORT': '', 
-        }   
-    }
-    # Below are the connections settings for using the heroku DB when working locally
     # DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'ddai7at32sf8tc',
-    #     'HOST': 'ec2-107-20-201-165.compute-1.amazonaws.com',
-    #     'PORT': 5432,
-    #     'USER': 'bfhsmrupkooooh',
-    #     'PASSWORD': 'oJ3qQPaL6K0m0rbc8cvev-2aNH'
-    #     }
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #         'NAME': 'pollaboration',
+    #         'USER': 'django_login',
+    #         'PASSWORD': 'django',
+    #         'HOST': '',
+    #         'PORT': '', 
+    #     }   
     # }
+    # Below are the connections settings for using the heroku DB when working locally
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ddai7at32sf8tc',
+        'HOST': 'ec2-107-20-201-165.compute-1.amazonaws.com',
+        'PORT': 5432,
+        'USER': 'bfhsmrupkooooh',
+        'PASSWORD': 'oJ3qQPaL6K0m0rbc8cvev-2aNH'
+        }
+    }
     FACEBOOK_APP_ID = '343120432448964'
     FACEBOOK_API_SECRET  = 'f43073165e02ef728f31a315cd9fa6de'
 else:
