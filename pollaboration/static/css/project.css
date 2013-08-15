@@ -333,7 +333,6 @@ path.tooltip {
 #question_details h1 {
   margin-top: 5px;
   margin-bottom: 5px;
-  font-size: 40px;
 }
 
 #sunburst h1 {
@@ -431,28 +430,28 @@ path.tooltip {
      margin-bottom: 0px;
 }
 
-.pollChart .switcher {
+.switcher {
     display:inline-block;
-    padding: 0px 5px;
-    width: 40px;
+    padding: 0px 0px;
+    width: 30x;
     position:relative;
 }
-.pollChart .switcher span {
+.switcher span {
     vertical-align:middle;
 }
-.pollChart .switcher .offText {
+.switcher .offText {
     visibility:visible;
 }
-.pollChart .switcher .onText {
+.switcher .onText {
     visibility:hidden;
 }
-.pollChart .switcher.active .offText {
+.switcher.active .offText {
     visibility:hidden;
 }
-.pollChart .switcher.active .onText {
+.switcher.active .onText {
     visibility:visible;
 }
-.pollChart .switcher .blackRect {
+.switcher .blackRect {
   display:inline-block;
   vertical-align:middle;
   width:5px;
@@ -461,7 +460,7 @@ path.tooltip {
   left:3px;
   top:2px; 
 }
-.pollChart .switcher.active .blackRect {
+.switcher.active .blackRect {
   right:3px;
   left:inherit;
   background:#575757;
@@ -538,7 +537,7 @@ path.tooltip {
 .slider {
     width:90%;
     margin-left:5%;
-    margin-bottom:15px;
+    margin-bottom:0px;
 }
 
 .ui-widget-header {

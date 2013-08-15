@@ -23,13 +23,17 @@
                     <div id="legendplacement"></div>
                 </div>
                 <div class="row">
-                    <div id="slidertop" class="pull-center"></div>
-                    <div id="sliderplacement" style="width:20px" class="pull-center"></div>
-                    <div id="sliderbottom" class="pull-center"></div>
+                    <div id = "dropdowns" ckass="pull-center"></div>
+                    
                 </div>
             </div>
             <div class="col-8 col-lg-8 col-sm-6 pull-right darkgray">
-                <div class ="pollChart" id="sunburst" name="sunburst"></div>
+                <div class="row">
+                    <div class ="pollChart" id="sunburst" name="sunburst"></div>
+                </div>
+                <div class="row">
+                    <div id="sliderplacement"></div>
+                </div>
             </div>
         </div>
 
@@ -51,9 +55,13 @@
 <script src="{% static 'js/bootstrap-tooltip.js' %}"></script>
 <script src="{% static 'js/colorbrewer.js' %}"></script>
 <script src="{% static 'js/jquery.ui.slider-drag-patch.js' %}"></script>
+<script src="{% static 'js/dragslider.js' %}"></script>
 {% endblock question_details %}
 
 {% block extra_js %}
+
+<script src="{% static 'js/jquery.ui.slider-drag-patch.js' %}"></script>
+<script src="{% static 'js/dragslider.js' %}"></script>
 <script src="{% static 'js/chart.js' %}"></script>
 
 <script>
