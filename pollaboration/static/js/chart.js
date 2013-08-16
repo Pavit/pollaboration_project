@@ -125,6 +125,8 @@ window.pollChart.legend2 = function(_arg) {
         var _ref, _ref1;
         return (_ref = a[0]) != null ? (_ref1 = _ref.__data__) != null ? _ref1[labelKey] : void 0 : void 0;
       }));
+      console.log("get checked data");
+      console.log(data);
       return handler(data);
     }; //end of getChecked
 
@@ -267,17 +269,16 @@ window.pollChart.legend2 = function(_arg) {
 
 // Sunburst Label Linebreaks
   insertLinebreaks = function(d) {
+    console.log("begin insertLineBreaks");
     var i, textElem, tspan, word, words, _ref, _ref1, _ref2, _results;
     textElem = d3.select(this);
-    console.log("check d parent");
-    console.log(d.parent);
-    words = d.percent.toString().split(" ");  // <---- THIS IS THE LABEL TEXT RIGHT HERE.
+    words = (Math.round(d.size / d.parent.size * 100)+"%").toString().split(" ");  // <---- THIS IS THE LABEL TEXT RIGHT HERE.
     textElem.text("");
     i = 0;
     _results = [];
     while (words.length) {
       word = [(_ref = words.shift()) != null ? _ref : "", (_ref1 = words.shift()) != null ? _ref1 : "", (_ref2 = words.shift()) != null ? _ref2 : ""].join(" ");
-      tspan = textElem.append("tspan").text(word).attr("text-anchor", "center").attr("class", "pieLabel");
+      tspan = textElem.append("tspan").text(word).attr("text-anchor", "center").attr("class", "pieLabel").transition().duration(100);
       if (i > 0) {
         tspan.attr("x", 0).attr("dy", 0);
       }
@@ -317,8 +318,6 @@ window.pollChart.legend2 = function(_arg) {
       };
       o.id = name + answer + key + parent.name;
       o.size = sum(children, "count");
-      console.log("o");
-      console.log(o);
       o.percent = "" + (Math.round(o.size / total * 100)) + "%";
       if (!last) {
         o.children = children;
@@ -371,6 +370,8 @@ window.pollChart.legend2 = function(_arg) {
       children: (function() {
         var _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _results, _m, denom;
         _ref = filtered.answers;
+        console.log("filtered");
+        console.log(filtered);
         denom = 0;
         for (_m = 0, _len = _ref.length; _m < _len; _m++) {
           item = _ref[_m];
@@ -407,6 +408,8 @@ window.pollChart.legend2 = function(_arg) {
           }
           _results.push(o);
         }
+        console.log("results");
+        console.log(_results);
         return _results;
       })()
     };
@@ -432,7 +435,7 @@ window.pollChart.legend2 = function(_arg) {
     height = height - margin.top - margin.bottom;
     radius = Math.min(width, height) * 0.65;
     labelr = radius * 0.43 // Label
-   /* color = d3.scale.ordinal().range(colorbrewer.RdYlBu[5]);*/
+    // color = d3.scale.ordinal().range(colorbrewer.RdYlBu[9]);
     color = d3.scale.ordinal().range(opts.colors);
     answers = _.pluck(opts.data.answers, "answer");
     data = transformData(opts.data, [], answers);
@@ -646,15 +649,20 @@ window.pollChart.legend2 = function(_arg) {
 
     // Controls Drawing of Chart
     draw = function(data) {
+      console.log("DRAW FUNCTION CALLED");
+      console.log(data);
       var enter, exit, exitTrans, group;
       data = partition.nodes(data);
+      // svg = d3.select("#svg");
       group = svg.selectAll("g").data(data, get("id"));
+      console.log("GROUP");
       enter = group.enter().append("g");
+      console.log("after enter declared");
       exit = group.exit();
       exitTrans = exit.transition().duration(500).remove();
       exitTrans.select("path").style("opacity", 0);
       exitTrans.select("text").style("opacity", 0);
-
+      console.log("enter");
       //style non-anonymous vote slices
       enter.filter(function(d) {
         return (d.depth && d.name !== "Unknown" && d.name !== "undefined");
@@ -665,14 +673,25 @@ window.pollChart.legend2 = function(_arg) {
         return (d.name == "undefined" || d.name == "Unknown");
       }).style("opacity", 0).attr("d", arc2).each(stashEnter);
       
+      console.log("group select path transition");
       group.select("path").transition().duration(500).attrTween("d", arcTween).style("opacity", 1).each("end", stash);
       
       //Beginning of Pie Chart Labels
       enter.filter(function(d) { 
+        console.log("first filter d");
+        console.log(d);
+        console.log('depth');
+        console.log(d.depth);
          return d.depth === 1;
       }).append("text").text(function(d) {
+        console.log("second filter text");
+        console.log(d.name);
         return d.name;
       }).attr("dy", ".35em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
+      console.log("transition for texttransform");
+      //this line updates the labels % values
+      group.select("text").transition().duration(500).attr("dy", ".35em").style("text-anchor", "middle").style("opacity", 1).each(insertLinebreaks);
+      //this line updates the labels position
       group.select("text").transition().duration(500).attr("transform", textTransform(arc, radius));
       //End of Pie Chart Labels
 
@@ -729,12 +748,20 @@ window.pollChart.legend2 = function(_arg) {
     change = function(d, i) {
       selected[i] = this.options[this.selectedIndex].__data__.field;
       // options = options - selected[i];
+      console.log("change function");
+      console.log(this.options[this.selectedIndex]);
+      console.log(selected);
+      if (i==1){
+        labelr=radius * 0.38;
+      };
       return update();
     };
     selects = divs.append("div").attr("class","pull-center").append("select").on("change", change);
     selects.selectAll("option").data(get("options")).enter().append("option").text(get("label"));
     update = function() {
       data = transformData(opts.data, _.compact(selected), answers);
+      console.log("UPDATE FUNCTION CALLED");
+      console.log(data);
       return draw(data);
     };
     return $(sliderDiv).dragslider({
@@ -772,7 +799,8 @@ window.pollChart.legend2 = function(_arg) {
       el: selector,
       fields: ["gender", "agegroup", "political"],
       labels: ["Gender", "Age Group", "Politics"],
-      colors: ["#ffe7ad", "#FF7E65", "#7DCDFC", "#4a9acd", "#68798a"],
+      // colors: ["#ffe7ad", "#FF7E65", "#7DCDFC", "#4a9acd", "#68798a"],
+      colors: ["#FF7E65", "#FDAE61", "#FFFFBF", "#4a9acd", "#ABD9E9"],
       opacityBase: 1.0,
       opacityInner: 0.75,
       opacityOuter: 0.5,
