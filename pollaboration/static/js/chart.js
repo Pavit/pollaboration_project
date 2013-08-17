@@ -434,7 +434,7 @@ window.pollChart.legend2 = function(_arg) {
     width = width - margin.left - margin.right;
     height = height - margin.top - margin.bottom;
     radius = Math.min(width, height) * 0.65;
-    labelr = radius * 0.43 // Label
+    labelr = radius * 0.45 // Label
     // color = d3.scale.ordinal().range(colorbrewer.RdYlBu[9]);
     color = d3.scale.ordinal().range(opts.colors);
     answers = _.pluck(opts.data.answers, "answer");
@@ -743,7 +743,7 @@ window.pollChart.legend2 = function(_arg) {
     ];
     // el.append("h4").text("Split By: ");
     // divs = el.selectAll(".filter").data(filters).enter().append("div").attr("class", "filter");
-    divs = d3.select("#dropdowns").selectAll(".filter").data(filters).enter().append("div").attr("class", "filter pull-center");
+    divs = d3.select("#dropdowns").selectAll(".filter").data(filters).enter().append("div").attr("class", "filter");
     selected = [];
     change = function(d, i) {
       selected[i] = this.options[this.selectedIndex].__data__.field;
@@ -756,7 +756,7 @@ window.pollChart.legend2 = function(_arg) {
       };
       return update();
     };
-    selects = divs.append("div").attr("class","pull-center").append("select").on("change", change);
+    selects = divs.append("div").append("select").on("change", change);
     selects.selectAll("option").data(get("options")).enter().append("option").text(get("label"));
     update = function() {
       data = transformData(opts.data, _.compact(selected), answers);

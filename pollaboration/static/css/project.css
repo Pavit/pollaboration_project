@@ -372,18 +372,13 @@ path.tooltip {
  color: #ffffff;
 }
 
-.legend2 span {
-    margin-right:5px;
-}
-
 .legend2 span.value {
     vertical-align:middle;
 }
 
 .legend2 span.answer {
-    vertical-align:middle;
     float: right;
-    margin-top: 2px;
+    margin-top: 1px;
 }
 
 #sunburst h4 {
@@ -412,24 +407,27 @@ path.tooltip {
 
 .pieLabel {
     fill: #575757;
-    font-size: 18px;
+    font-size: 16px;
 }
 
-.pollChart .filter {
+.filter {
     display:inline-block;
     margin-right:10px;
  }
 
-.pollChart .filter select {
+.filter select {
      width: 100px;
 }
 
-.pollChart .poll-label {
+.poll-label {
      display:block;
      text-align:right;   
      margin-bottom: 0px;
 }
 
+.sideBlock {
+  margin-top: 10px;
+}
 .switcher {
     display:inline-block;
     padding: 0px 0px;
@@ -451,6 +449,11 @@ path.tooltip {
 .switcher.active .onText {
     visibility:visible;
 }
+
+.switcher .toggleText {
+  margin-left: 5px;
+}
+
 .switcher .blackRect {
   display:inline-block;
   vertical-align:middle;
