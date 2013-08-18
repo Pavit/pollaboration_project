@@ -425,13 +425,17 @@ path.tooltip {
     font-size: 16px;
 }
 
-.filter {
-    display:inline-block;
-    margin-right:10px;
- }
+.detailstatistics {
+  text-align: right;
+}
 
+.filter {
+/*    display:inline-block;*/
+    text-align: center;
+ }
+ 
 .filter select {
-     width: 100px;
+    min-width: 100px;
 }
 
 .poll-label {
