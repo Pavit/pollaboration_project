@@ -54,7 +54,7 @@ def question_details(request, question_id):
         "start": question.votes.order_by('created')[0].date,
         "end": question.votes.latest('created').date,
     }
-    for answer in question.answers.all():
+    for answer in question.answers.all().annotate(vote_count=Count('votes')).order_by('-vote_count'): # this will run thru the answers in order of # votes
         vote_list=[]
         for vote in answer.votes.all():
             vote_dict=dict()
