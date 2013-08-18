@@ -496,7 +496,9 @@ window.pollChart.legend2 = function(_arg) {
     //THE HEIGHT/WIDTH MULTIPLIERS SHIFT THE CHART'S POSITION L/R (WIDTH) AND UP/DOWN (HEIGHT) - LOWER MULTIPLIER = MORE TO THE LEFT / MORE UP. 
     svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.5 + "," + height * 0.48 + ")"); //IMPORTANT LINE RIGHT HERE
     //
-    centervotes = svg.append("text").text(opts.data.value).attr("dy", "0.1em").style("text-anchor", "middle").attr("class", "centerVotes");//Me effing around 
+    console.log("div appended");
+    console.log(opts.data.value);
+    centervote = svg.append("text").text(opts.data.value).attr("dy", "0.1em").style("text-anchor", "middle").attr("class", "centerVotes");//Me effing around 
     centertext = svg.append("text").text("Votes").attr("dy", "1.1em").style("text-anchor", "middle").attr("class", "centerText");//Me effing around
     //label = el.append("span").attr("class", "poll-label");
     old = null;
@@ -608,13 +610,11 @@ window.pollChart.legend2 = function(_arg) {
       console.log("transition for texttransform");
 
       //this line updates the labels % values
-      group.select("text").transition().duration(500).attr("dy", ".35em").style("text-anchor", "middle").style("opacity", 1).each(insertLinebreaks);
+      group.select("text").transition().duration(100).attr("dy", ".35em").style("text-anchor", "middle").style("opacity", 1).each(insertLinebreaks);
 
       //this line updates the labels position
       group.select("text").transition().duration(500).attr("transform", textTransform(arc, radius));
       //End of Pie Chart Labels
-
-      console.log("centervotes");
 
       // centervotes.transition().duration(200).text(data.size);
 
@@ -683,7 +683,7 @@ window.pollChart.legend2 = function(_arg) {
     update = function() {
       data = transformData(opts.data, _.compact(selected), answers);
       console.log("UPDATE FUNCTION CALLED");
-      console.log(data);
+      centervote.text(data.size);
       return draw(data);
     };
     return $(sliderDiv).dragslider({
@@ -699,7 +699,7 @@ window.pollChart.legend2 = function(_arg) {
         // slider_end.text(moment(opts.data.end).format("ll"));
         // slider_begin.text(moment(opts.data.start).format("ll"));
         data = transformData(opts.data, _.compact(selected), answers, ui.values[0], ui.values[1]);
-        centervotes.text(data.size);
+        centervote.text(data.size);
         return draw(data);
       }
 /*      stop: function(event, ui) {
