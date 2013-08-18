@@ -364,12 +364,27 @@ path.tooltip {
  color: #575757;
 }
 
+.legend2:hover {
+  -webkit-filter: brightness(1.2);
+    -moz-filter: brightness(1.2);
+      -o-filter: brightness(1.2);
+        -ms-filter: brightness(1.2);
+  -webkit-transition: all 0.3s ease-out;  /* Chrome 1-25, Safari 3.2+ */
+    /*-moz-transition: all 0.3s ease-out;*/  /* Firefox 4-15 */
+      /*-o-transition: all 0.3s ease-out;*/  /* Opera 10.50–12.00 */
+        /*transition: all 0.3s ease-out;*/  /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
+}
+
 .legend2.disabled {
  display:block;
  margin-bottom:5px;
  border: 1px solid #ffffff;
  font-weight: 300;
  color: #ffffff;
+}
+
+.legend2.disabled:hover {
+  opacity: 1.0;
 }
 
 .legend2 span.value {

@@ -450,12 +450,12 @@ window.pollChart.legend2 = function(_arg) {
     };
     console.log("ANSWERS");
     console.log(answers.length);
-    color = d3.scale.ordinal().domain(answers).range(d3.range(answers.length).map(
-                                                     d3.scale.linear()
-                                                    .domain([0, answers.length - 1])
-                                                    .range(["#f15c22", "#4a9acd"])
-                                                    .interpolate(d3.interpolateLab)
-                                                    ));
+    // color = d3.scale.ordinal().domain(answers).range(d3.range(answers.length).map(
+    //                                                  d3.scale.linear()
+    //                                                 .domain([0, answers.length - 1])
+    //                                                 .range(["#f15c22", "#4a9acd"])
+    //                                                 .interpolate(d3.interpolateLab)
+    //                                                 ));
     data = transformData(opts.data, [], answers);
     options = [];
     _ref = opts.fields;
