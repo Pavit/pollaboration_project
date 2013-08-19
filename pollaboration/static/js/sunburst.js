@@ -437,7 +437,7 @@ window.pollChart.legend2 = function(_arg) {
     width = width - margin.left - margin.right;
     height = height - margin.top - margin.bottom;
     radius = Math.min(width, height) * 0.65;
-    labelr = radius * 0.41// Label
+    labelr = radius * 0.5// Label
     // color = d3.scale.ordinal().range(colorbrewer.RdYlBu[9]);
     answers = _.pluck(opts.data.answers, "answer");
     color = d3.scale.ordinal().range(opts.colors);
@@ -471,7 +471,7 @@ window.pollChart.legend2 = function(_arg) {
     partition = d3.layout.partition().sort(null).size([2 * Math.PI, radius * radius * 0.5]).value(get("size")); // Size of Sunburst
     innerRadius = function(d) {
       if (d.depth === 1) {
-        return Math.sqrt(d.y) * 0.7; // Fuck with this for the donut
+        return Math.sqrt(d.y) * 0.8; // Fuck with this for the donut
       } else {
         return Math.sqrt(d.y);
       }
@@ -606,11 +606,11 @@ window.pollChart.legend2 = function(_arg) {
         console.log("second filter text");
         console.log(d.name);
         return d.name;
-      }).attr("dy", ".35em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
+      }).attr("dy", "0em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
       console.log("transition for texttransform");
 
       //this line updates the labels % values
-      group.select("text").transition().duration(100).attr("dy", ".35em").style("text-anchor", "middle").style("opacity", 1).each(insertLinebreaks);
+      group.select("text").transition().duration(100).attr("dy", "0em").style("text-anchor", "middle").style("opacity", 1).each(insertLinebreaks);
 
       //this line updates the labels position
       group.select("text").transition().duration(500).attr("transform", textTransform(arc, radius));
@@ -669,13 +669,24 @@ window.pollChart.legend2 = function(_arg) {
     divs = d3.select("#dropdowns").selectAll(".filter").data(filters).enter().append("div").attr("class", "filter");
     selected = [];
     change = function(d, i) {
+      console.log("CHANGE FUNCTION START");
       selected[i] = this.options[this.selectedIndex].__data__.field;
       // options = options - selected[i];
-      console.log("change function");
-      console.log(this.options[this.selectedIndex]);
-      options2 = options.splice(this.selectedIndex,1);
+      number_selected = 0;
+      for (n = 0, len = selected.length; n < len; n++) {
+        if (selected[n] !== undefined) {
+          console.log(selected[n]);
+          number_selected += 1;
+          console.log("number_selected: " + number_selected);
+        };
+      };
+      console.log("THIS OPTIONS[THIS.SELECTEDINDEX]"+this.options[this.selectedIndex]);
+      console.log(number_selected * 0.15);
+      console.log("labelr"+labelr);
+      console.log(radius - number_selected*0.15);
       console.log(selected);
-
+      console.log("CHANGE FUNCTION END");
+      labelr = radius * (0.5-(number_selected*0.07));
       return update();
     };
     selects = divs.append("div").append("select").on("change", change);
