@@ -29,7 +29,11 @@
     {%endfor%}
     </h1>
     {% endif %}
-
+    <style type = "text/css">
+    #answers2,#answers3,#answers4,#answers5 {
+        display:none;
+    };
+    </style>
     {{answerInlineFormSet.management_form}}
     {# using the management_form template tag renders this html: #}
  	<!--	<input id="id_answers-TOTAL_FORMS" name="answers-TOTAL_FORMS" type="hidden" value="5" /><input id="id_answers-INITIAL_FORMS" name="answers-INITIAL_FORMS" type="hidden" value="0" /><input id="id_answers-MAX_NUM_FORMS" name="answers-MAX_NUM_FORMS" type="hidden" value="1000"> -->

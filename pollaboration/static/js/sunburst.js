@@ -437,7 +437,7 @@ window.pollChart.legend2 = function(_arg) {
     width = width - margin.left - margin.right;
     height = height - margin.top - margin.bottom;
     radius = Math.min(width, height) * 0.65;
-    labelr = radius * 0.5// Label
+    labelr = radius * 0.35// Label
     // color = d3.scale.ordinal().range(colorbrewer.RdYlBu[9]);
     answers = _.pluck(opts.data.answers, "answer");
     color = d3.scale.ordinal().range(opts.colors);
@@ -471,7 +471,7 @@ window.pollChart.legend2 = function(_arg) {
     partition = d3.layout.partition().sort(null).size([2 * Math.PI, radius * radius * 0.5]).value(get("size")); // Size of Sunburst
     innerRadius = function(d) {
       if (d.depth === 1) {
-        return Math.sqrt(d.y) * 0.8; // Fuck with this for the donut
+        return Math.sqrt(d.y) * 0.9; // Fuck with this for the donut
       } else {
         return Math.sqrt(d.y);
       }
@@ -686,7 +686,7 @@ window.pollChart.legend2 = function(_arg) {
       console.log(radius - number_selected*0.15);
       console.log(selected);
       console.log("CHANGE FUNCTION END");
-      labelr = radius * (0.5-(number_selected*0.07));
+      labelr = radius * (0.35-(number_selected*0.07));
       return update();
     };
     selects = divs.append("div").append("select").on("change", change);

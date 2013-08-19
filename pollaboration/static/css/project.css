@@ -181,7 +181,8 @@ input[type="search"] {
 /* Question */
 
 #current_question h1 {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
+  margin-top: 0px;
 }
 
 #current_answer p {
@@ -410,20 +411,18 @@ path.tooltip {
 
 .centerVotes {
     fill: #c3c3c3;
-    font-size: 24px;
+    font-size: 20px;
     font-weight:500;
 }
 
 .centerText {
     fill: #c3c3c3;
-    font-size: 14px;
-    font-weight:500;
+    font-size: 12px;
 }
 
 .pieLabel {
-    fill: #575757;
+    fill: #c3c3c3;
     font-size: 18px;
-    font-weight:500;
 }
 
 .detailstatistics {
