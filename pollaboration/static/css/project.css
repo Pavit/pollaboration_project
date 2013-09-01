@@ -363,6 +363,7 @@ path.tooltip {
  border: 1px solid #ffffff;
  font-weight: 400;
  color: #575757;
+ text-align: center;
 }
 
 .legend2:hover {
@@ -393,8 +394,8 @@ path.tooltip {
 }
 
 .legend2 span.answer {
-    float: right;
     margin-top: 1px;
+    margin-left: 1px;
 }
 
 #sunburst h4 {
@@ -431,7 +432,6 @@ path.tooltip {
 
 .filter {
 /*    display:inline-block;*/
-    text-align: center;
  }
  
 .filter select {
@@ -450,7 +450,6 @@ path.tooltip {
 .switcher {
     display:inline-block;
     padding: 0px 0px;
-    width: 30x;
     position:relative;
 }
 .switcher span {

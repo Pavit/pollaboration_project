@@ -17,11 +17,11 @@
         <div class = "row">
             <div class ="col-4 col-lg-4 col-sm-4 pull-left darkgray">
                 <div class="sideBlock">
-                <p class="text-center">Enable/Disable Answers</p>
+                <p>Answer Toggles<a href="#" class="popInfo pull-right glyphicons circle_info" rel="popover" data-content="<p>Turn any of these answers on and off.</p>" title="Better off without them."></a></p>
                 <div id="legendplacement"></div>
                 </div>
                 <div class="sideBlock">
-                <p class="text-center">Parse Results</p>
+                <p>Parse Results <a href="#" class="popInfo pull-right glyphicons circle_info" rel="popover" data-content="<p>Cut up the results in interesting ways.</p>" title="Fission"></a></p>
                 <div id="dropdowns"></div>
                 </div>
                 <div class="sideBlock">
@@ -71,7 +71,16 @@
 <script src="{% static 'js/jquery.ui.slider-drag-patch.js' %}"></script>
 <script src="{% static 'js/dragslider.js' %}"></script>
 <script src="{% static 'js/sunburst.js' %}"></script>
-
+<script>
+$(function ()  {
+ $(".popInfo").popover(
+    {   html: true,
+        trigger: 'hover',
+        placement: 'auto right',
+        container: 'body'
+    });  
+}); 
+</script>
 <script>
     (function() {
         var pollChart = window.pollChart;

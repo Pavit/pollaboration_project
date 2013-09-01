@@ -117,11 +117,11 @@ window.pollChart.legend2 = function(_arg) {
         $this.attr("class", "switcher active");
         d3.select(this).attr("class", "legend2").transition().duration(500).style("background-color", function(d) {
           return colorScale(d[colorKey]); });
-        $(this).find(".toggleText").empty().text("ON");
+        //$(this).find(".toggleText").empty().text("ON");
       } else {
         $this.attr("class", "switcher");
         d3.select(this).attr("class", "legend2 disabled").transition().duration(500).style("background-color", "rgb(87,87,87)");
-        $(this).find(".toggleText").empty().text("OFF");
+        //$(this).find(".toggleText").empty().text("OFF");
       }
       data = _.compact(g.selectAll(".active").map(function(a) {
         var _ref, _ref1;
@@ -137,7 +137,7 @@ window.pollChart.legend2 = function(_arg) {
       return colorScale(d[colorKey]);
     }).on("click", getChecked);
     switcher = g.append("div").attr("class", "switcher active");
-    switcher.append("span").attr("class", "toggleText").text("ON"); //Controls ON/OFF switches for toggles.
+    //switcher.append("span").attr("class", "toggleText").text("ON"); //Controls ON/OFF switches for toggles.
     //switcher.append("span").attr("class", "text").text("OFF");
     //switcher.append("span").attr("class", "blackRect");
 /*    g.append("span").text(function(d) {
@@ -689,7 +689,7 @@ window.pollChart.legend2 = function(_arg) {
       labelr = radius * (0.35-(number_selected*0.07));
       return update();
     };
-    selects = divs.append("div").append("select").on("change", change);
+    selects = divs.append("select").on("change", change);
     selects.selectAll("option").data(get("options")).enter().append("option").text(get("label"));
     update = function() {
       data = transformData(opts.data, _.compact(selected), answers);
