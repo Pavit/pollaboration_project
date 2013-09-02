@@ -687,10 +687,12 @@ window.pollChart.legend2 = function(_arg) {
       console.log(selected);
       console.log("CHANGE FUNCTION END");
       labelr = radius * (0.35-(number_selected*0.07));
+      info.attr("data-content","<p>INSERT SCALE</p>").attr("title","You've picked " + selected[i] + ".");
       return update();
     };
     selects = divs.append("select").on("change", change);
     selects.selectAll("option").data(get("options")).enter().append("option").text(get("label"));
+    info = divs.append("a").attr("class", "popInfo pull-right glyphicons circle_info").attr("rel", "popover").attr("data-content","<p>Pick something!</p>").attr("title","Um...");
     update = function() {
       data = transformData(opts.data, _.compact(selected), answers);
       console.log("UPDATE FUNCTION CALLED");
