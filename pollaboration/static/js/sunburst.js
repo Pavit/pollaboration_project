@@ -437,6 +437,783 @@ window.pollChart.legend2 = function(_arg) {
     width = width - margin.left - margin.right;
     height = height - margin.top - margin.bottom;
     radius = Math.min(width, height) * 0.65;
+    labelr = radius * 0.5// Label
+    // color = d3.scale.ordinal().range(colorbrewer.RdYlBu[9]);
+    answers = _.pluck(opts.data.answers, "answer");
+    color = d3.scale.ordinal().range(opts.colors);
+    if (answers.length == 3) {
+      console.log("3 answers");
+      color = d3.scale.ordinal().range(["#FF7E65", "#FFFFBF", "#ABD9E9"]);
+    };
+    if (answers.length == 2) {
+      color = d3.scale.ordinal().range(["#FF7E65", "#ABD9E9"]);
+    };
+    console.log("ANSWERS");
+    console.log(answers.length);
+    // color = d3.scale.ordinal().domain(answers).range(d3.range(answers.length).map(
+    //                                                  d3.scale.linear()
+    //                                                 .domain([0, answers.length - 1])
+    //                                                 .range(["#f15c22", "#4a9acd"])
+    //                                                 .interpolate(d3.interpolateLab)
+    //                                                 ));
+    data = transformData(opts.data, [], answers);
+    options = [];
+    _ref = opts.fields;
+    for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
+      field = _ref[index];
+      label = (_ref1 = opts.labels[index]) != null ? _ref1 : field;
+      options.push({
+        label: label,
+        field: field
+      });
+    }
+    options = ["Blank"].concat(_.compact(options)); 
+    partition = d3.layout.partition().sort(null).size([2 * Math.PI, radius * radius * 0.5]).value(get("size")); // Size of Sunburst
+    innerRadius = function(d) {
+      if (d.depth === 1) {
+        return Math.sqrt(d.y) * 0.9; // Fuck with this for the donut
+      } else {
+        return Math.sqrt(d.y);
+      }
+    };
+    outerRadius = function(d) {
+      return Math.sqrt(d.y + d.dy);
+    };
+    arc = d3.svg.arc().startAngle(function(d) {
+      return d.x;
+    }).endAngle(function(d) {
+      return d.x + d.dx;
+    }).innerRadius(innerRadius).outerRadius(outerRadius);
+    arc2 = d3.svg.arc().startAngle(function(d) {
+      return d.x + (d.dx / 2);
+    }).endAngle(function(d) {
+      return d.x + (d.dx / 2) + 0.01;
+    }).innerRadius(innerRadius).outerRadius(outerRadius);
+    el = d3.select(opts.el);
+    // el.append("h2").text(opts.data.question);
+    //answerP = el.append("p").text(opts.data.value + " Answers");
+    //IMPORTANT LINE RIGHT HERE
+    //THE HEIGHT/WIDTH MULTIPLIERS SHIFT THE CHART'S POSITION L/R (WIDTH) AND UP/DOWN (HEIGHT) - LOWER MULTIPLIER = MORE TO THE LEFT / MORE UP. 
+    svg = el.append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + width * 0.5 + "," + height * 0.48 + ")"); //IMPORTANT LINE RIGHT HERE
+    //
+    console.log("div appended");
+    console.log(opts.data.value);
+    centervote = svg.append("text").text(opts.data.value).attr("dy", "0.1em").style("text-anchor", "middle").attr("class", "centerVotes");//Me effing around 
+    centertext = svg.append("text").text("Votes").attr("dy", "1.1em").style("text-anchor", "middle").attr("class", "centerText");//Me effing around
+    //label = el.append("span").attr("class", "poll-label");
+    old = null;
+
+
+// Tooltips
+    tooltip1 = function(d) {
+      return "<strong>" + d.answer + "</strong>. " + d.size + " votes (" + d.percent + ")";
+    };
+    tooltip2 = function(d) {
+      return "Of the " + "<b>" + d.parent.size + "</b>" + " who picked " + "<strong>" + d.parent.answer + "</strong>" + ",</br><strong>" + d.size + "</strong> are " + d.name + " (" + d.percent + ").";
+    };
+    tooltip3 = function(d) {
+      return tooltip2(d.parent) + "<br>Of these, <strong>" + d.size + "</strong> are " + d.name + " (" + d.percent + ").";
+    };
+    tooltip = d3.select('body').append("div").attr("class", "tooltip suntip").style("opacity", 0);
+    tooltipOver = function(d) {
+      tooltip.transition().duration(50).style("opacity", 1);
+      return tooltip.html((function() {
+        switch (d.depth) {
+          case 1:
+            return tooltip1(d);
+          case 2:
+            return tooltip2(d);
+          case 3:
+            return tooltip3(d);
+          default:
+            return "";
+        }
+      })());
+    };
+    tooltipMove = function() {
+      return tooltip.style("left", (d3.event.pageX + 10) + "px").style("top", (d3.event.pageY - 10) + "px");
+    };
+    tooltipOut = function() {
+      return tooltip.style("opacity", 0);
+    };
+
+  
+    old = {};
+    stash = function(d) {
+      return old[d.id] = {
+        x: d.x,
+        dx: d.dx,
+        y: d.y,
+        dy: d.dy
+      };
+    };
+    stashEnter = function(d) {
+      var middle;
+      middle = d.x + (d.dx / 2);
+      return old[d.id] = {
+        x: middle,
+        dx: 0.01
+      };
+    };
+    arcTween = function(a) {
+      var i;
+      i = d3.interpolate(old[a.id], a);
+      return function(t) {
+        var b;
+        b = i(t);
+        return arc(b);
+      };
+    };
+
+    // Controls Drawing of Chart
+    draw = function(data) {
+      console.log("DRAW FUNCTION CALLED");
+      console.log(data);
+      var enter, exit, exitTrans, group;
+      data = partition.nodes(data);
+      // svg = d3.select("#svg");
+      group = svg.selectAll("g").data(data, get("id"));
+      console.log("GROUP");
+      enter = group.enter().append("g");
+      console.log("after enter declared");
+      exit = group.exit();
+      exitTrans = exit.transition().duration(500).remove();
+      exitTrans.select("path").style("opacity", 0);
+      exitTrans.select("text").style("opacity", 0);
+      console.log("enter");
+
+      //style non-anonymous vote slices
+      enter.filter(function(d) {
+        return (d.depth && d.name !== "Unknown" && d.name !== "undefined");
+      }).append("path").style("stroke", "#fff").style("fill", get("answer", color)).style("opacity", 1).attr("d", arc2).each(stashEnter);
+
+      //This makes anonymous vote slices transparent
+      enter.filter(function(d) {
+        return (d.name == "undefined" || d.name == "Unknown");
+      }).style("opacity", 0).attr("d", arc2).each(stashEnter);
+
+      enter.filter(function(d) {
+        return (d.depth && d.name == "male");
+      }).append("path").style("stroke", "#fff").style("fill", "#FFFFFF").style("opacity", 1).attr("d", arc2).each(stashEnter);
+
+      enter.filter(function(d){
+        console.log('D.NAME');
+        console.log(d.name);
+      });
+      console.log("group select path transition");
+      group.select("path").transition().duration(500).attrTween("d", arcTween).style("opacity", 1).each("end", stash);
+      
+      //Beginning of Pie Chart Labels
+      enter.filter(function(d) { 
+        console.log("first filter d");
+        console.log(d);
+        console.log('depth');
+        console.log(d.depth);
+         return d.depth === 1;
+      }).append("text").text(function(d) {
+        console.log("second filter text");
+        console.log(d.name);
+        return d.name;
+      }).attr("dy", "0em").style("text-anchor", "middle").each(insertLinebreaks).style("opacity", 1);
+      console.log("transition for texttransform");
+
+      //this line updates the labels % values                   
+      group.select("text").transition().duration(100).attr("dy", "0em").style("text-anchor", "middle").style("opacity", 1).each(insertLinebreaks);
+
+      //this line updates the labels position
+      group.select("text").transition().duration(500).attr("transform", textTransform(arc, radius));
+      //End of Pie Chart Labels
+
+      // centervotes.transition().duration(200).text(data.size);
+
+      enter.filter(function(d) {
+        return d.name === "Unknown";
+      }).style("stroke", "#fff").style("fill","#FFFFFFF").style("opacity",0);
+      group.filter(function(d) {
+        return d.depth === 3;
+      }).style("opacity", opts.opacityOuter).on("mouseover", clickHandler2);
+      group.filter(function(d) {
+        return d.depth === 2;
+      }).style("opacity", opts.opacityInner).on("click", clickHandler1);
+      group.filter(function(d) {
+        return d.depth === 1;
+      }).style("opacity", opts.opacityBase).on("click", clearHighlights);
+      return group.on("mouseover", tooltipOver).on("mouseout", tooltipOut).on("mousemove", tooltipMove).on("mouseover");
+    };
+    // End of draw method
+
+    draw(data);
+//  Slider
+    sliderSpan = d3.select("#sliderplacement").append("p").attr("class", "text-center").text("Range: ").append("span");
+    // slider_end = d3.select("#slider_end").append("p").attr("class","slider-text pull-right").text("").append("span");
+    // slider_end.text(moment(opts.data.end).format("ll"));
+    // slider_begin = d3.select("#slider_begin").append("p").attr("class","slider-text pull-left").text("").append("span");
+    // slider_begin.text(moment(opts.data.start).format("ll"));
+    sliderSpan.text(moment(opts.data.start).format("ll") + " to " + moment(opts.data.end).format("ll"));
+    sliderDiv = d3.select("#sliderplacement").append("div").attr("class", "slider").node();
+    legend({
+      el: el,
+      colorScale: color,
+      data: data.children,
+      labelKey: "name",
+      colorKey: "answer",
+      valueKey: "percent",
+      handler: function(data) {
+        answers = data;
+        return update();
+      }
+    });
+
+//  Filters
+    filters = [
+      {
+        options: options
+      }, {
+        options: options
+      }
+    ];
+    // el.append("h4").text("Split By: ");
+    // divs = el.selectAll(".filter").data(filters).enter().append("div").attr("class", "filter");
+    divs = d3.select("#dropdowns").selectAll(".filter").data(filters).enter().append("div").attr("class", "filter");
+    selected = [];
+    change = function(d, i) {
+      console.log("CHANGE FUNCTION START");
+      selected[i] = this.options[this.selectedIndex].__data__.field;
+      // options = options - selected[i];
+      number_selected = 0;
+      for (n = 0, len = selected.length; n < len; n++) {
+        if (selected[n] !== undefined) {
+          console.log(selected[n]);
+          number_selected += 1;
+          console.log("number_selected: " + number_selected);
+        };
+      };
+      console.log("THIS OPTIONS[THIS.SELECTEDINDEX]"+this.options[this.selectedIndex]);
+      console.log(number_selected * 0.15);
+      console.log("labelr"+labelr);
+      console.log(radius - number_selected*0.15);
+      console.log(selected);
+      console.log("CHANGE FUNCTION END"); 
+      labelr = radius * (0.35-(number_selected*0.07));
+      return update();
+    };
+    selects = divs.append("select").on("change", change);
+    selects.selectAll("option").data(get("options")).enter().append("option").text(get("label"));
+    info = divs.append("a").attr("class", "popInfo pull-right glyphicons circle_info").attr("rel", "popover");
+    number_selected = 0;
+    if (number_selected === 0){
+      info.attr("data-content","<p>Pick something!</p>").attr("title","Um...");
+    };
+    update = function() {
+      data = transformData(opts.data, _.compact(selected), answers);
+      console.log("UPDATE FUNCTION CALLED");
+      centervote.text(data.size);
+      if (number_selected > 0) {
+        info.attr("data-content","<p>INSERT SCALE</p>").attr("title","You've picked " + selected[i] + ".");  
+      };
+      return draw(data);
+    };
+    return $(sliderDiv).dragslider({
+      animate: true,
+      range: true,
+      orientation: "horizontal",
+      rangeDrag: true,
+      min: opts.data.start,
+      max: opts.data.end,
+      values: [opts.data.start, opts.data.end],
+      slide: function(event, ui) {
+        sliderSpan.text(moment(ui.values[0]).format("ll") + " to " + moment(ui.values[1]).format("ll"));
+        // slider_end.text(moment(opts.data.end).format("ll"));
+        // slider_begin.text(moment(opts.data.start).format("ll"));
+        data = transformData(opts.data, _.compact(selected), answers, ui.values[0], ui.values[1]);
+        centervote.text(data.size);
+        return  draw(data);
+      }
+/*      stop: function(event, ui) {
+        data = transformData(opts.data, _.compact(selected), answers, ui.values[0], ui.values[1]);
+        answerP.text(data.size + " Answers");
+        return draw(data);
+      }*/
+    });
+  };
+
+  window.pollChart.showSunburst = function(source, selector) {
+    var height, opts, width;
+    if (selector == null) {
+      selector = "#sunburst";
+    }
+    width = d3.select(selector).html("").node().offsetWidth; // Width of SVG... makes the chart responsive.
+    height = width * 1; // Height of SVG
+    opts = {
+      el: selector,
+      fields: ["gender", "agegroup", "political"],
+      labels: ["Gender", "Age Group", "Politics"],
+      // colors: ["#ffe7ad", "#FF7E65", "#7DCDFC", "#4a9acd", "#68798a"],
+      colors: ["#FF7E65", "#FDAE61", "#FFFFBF", "#4a9acd", "#ABD9E9"],
+      opacityBase: 1.0,
+      opacityInner: 0.75,
+      opacityOuter: 0.5,
+      width: width,
+      height: height,
+      margin: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+      }
+    };
+    if (_.isString(source)) {
+      return d3.json(source, function(err, data) {
+        if (!err) {
+          opts.data = data;
+          return pollChart.sunburst(opts);
+        }
+      });
+    } else {
+      opts.data = source;
+      return pollChart.sunburst(opts);
+    }
+  };
+
+}).call(this);// Generated by CoffeeScript 1.6.3
+(function() {
+  if (window.pollChart == null) {
+    window.pollChart = {};
+  }
+
+  window.pollChart.helpers = {
+    get: function(key, fn) {
+      return function(d) {
+        var val;
+        val = key ? d[key] : d;
+        if (fn) {
+          return fn(val);
+        } else {
+          return val;
+        }
+      };
+    }
+  };
+
+}).call(this);
+// Generated by CoffeeScript 1.6.3
+(function() {
+  if (window.pollChart == null) {
+    window.pollChart = {};
+  }
+
+  window.pollChart.legend = function(_arg) {
+    var colorKey, colorScale, data, el, g, holder, labelKey;
+    colorScale = _arg.colorScale, el = _arg.el, data = _arg.data, labelKey = _arg.labelKey, colorKey = _arg.colorKey;
+    if (colorKey == null) {
+      colorKey = labelKey;
+    }
+    holder = d3.select("#legendplacement").append("div").attr("class", "legendHolder");
+    g = holder.selectAll(".legend").data(data).enter().append("div").attr("class", "legend");
+    g.append("span").style("background", function(d) {
+      console.log("color scale for legend");
+      console.log(d);
+      return colorScale(d[colorKey]);
+    }).attr("class", "key");
+    return g.append("span").text(function(d) {
+      return d[labelKey];
+    }).attr("class", "label");
+  };
+
+}).call(this);
+// Generated by CoffeeScript 1.6.3
+(function() {
+  if (window.pollChart == null) {
+    window.pollChart = {};
+  }
+
+window.pollChart.legend2 = function(_arg) {
+    var colorKey, colorScale, data, el, g, getChecked, handler, holder, labelKey, valueKey;
+    colorScale = _arg.colorScale, el = _arg.el, data = _arg.data, labelKey = _arg.labelKey, colorKey = _arg.colorKey, valueKey = _arg.valueKey, handler = _arg.handler;
+    console.log(arguments);
+    if (colorKey == null) {
+      colorKey = labelKey;
+    }
+    if (handler == null) {
+      handler = function() {};
+    }
+    getChecked = function() {
+      data = _.compact(g.selectAll("input:checked").map(function(a) {
+        var _ref, _ref1;
+        return (_ref = a[0]) != null ? (_ref1 = _ref.__data__) != null ? _ref1[labelKey] : void 0 : void 0;
+      }));
+      if (data.length === 0) {
+        this.checked = true;
+        data = [this.__data__[labelKey]];
+      }
+      if (this.checked) {
+        d3.select(this.parentNode).attr("class", "legend2").transition().duration(500).style("background-color", function(d) {
+          return colorScale(d[colorKey]);
+        });
+      } else {
+        d3.select(this.parentNode).attr("class", "legend2 disabled").transition().duration(500).style("background-color", "rgb(200,200,200)");
+      }
+
+      return draw(data);
+    };
+    holder = d3.select("#legendplacement").append("div").attr("class", "legendHolder");
+    g = holder.selectAll(".legend2").data(data).enter().append("label").attr("class", "legend2").style("background-color", function(d) {
+      return colorScale(d[colorKey]);
+    });
+    g.append("input").attr("type", "checkbox").attr("checked", "checked").on("change", getChecked);
+/*    g.append("span").text(function(d) {
+      return d[valueKey];
+    }).attr("class", "value");*/
+    return g.append("span").text(function(d) {
+      return d[labelKey];
+    }).attr("class", "label");
+  };
+
+}).call(this);
+// Generated by CoffeeScript 1.6.3
+(function() {
+  if (window.pollChart == null) {
+    window.pollChart = {};
+  }
+
+// Controls Pie Legend/Toggle
+  window.pollChart.legend3 = function(_arg) {
+    var colorKey, colorScale, data, el, g, getChecked, handler, holder, labelKey, switcher, valueKey;
+    colorScale = _arg.colorScale, el = _arg.el, data = _arg.data, labelKey = _arg.labelKey, colorKey = _arg.colorKey, valueKey = _arg.valueKey, handler = _arg.handler;
+    if (colorKey == null) {
+      colorKey = labelKey;
+    }
+    if (handler == null) {
+      handler = function() {};
+    }
+
+    getChecked = function() {
+      var $this;
+      $this = d3.select(this).select(".switcher");
+      if ($this.attr("class").indexOf("active") === -1) {
+        $this.attr("class", "switcher active");
+        d3.select(this).attr("class", "legend2").transition().duration(500).style("background-color", function(d) {
+          return colorScale(d[colorKey]); });
+        //$(this).find(".toggleText").empty().text("ON");
+      } else {
+        $this.attr("class", "switcher");
+        d3.select(this).attr("class", "legend2 disabled").transition().duration(500).style("background-color", "rgb(87,87,87)");
+        //$(this).find(".toggleText").empty().text("OFF");
+      }
+      data = _.compact(g.selectAll(".active").map(function(a) {
+        var _ref, _ref1;
+        return (_ref = a[0]) != null ? (_ref1 = _ref.__data__) != null ? _ref1[labelKey] : void 0 : void 0;
+      }));
+      console.log("get checked data");
+      console.log(data);
+      return handler(data);
+    }; //end of getChecked
+
+    holder = d3.select("#legendplacement").append("div").attr("class", "legendHolder");
+    g = holder.selectAll(".legend2").data(data).enter().append("label").attr("class", "legend2").style("background-color", function(d) {
+      return colorScale(d[colorKey]);
+    }).on("click", getChecked);
+    switcher = g.append("div").attr("class", "switcher active");
+    //switcher.append("span").attr("class", "toggleText").text("ON"); //Controls ON/OFF switches for toggles.
+    //switcher.append("span").attr("class", "text").text("OFF");
+    //switcher.append("span").attr("class", "blackRect");
+/*    g.append("span").text(function(d) {
+      return d[valueKey];
+    }).attr("class", "value");*/
+    return g.append("span").text(function(d) {
+      return d[labelKey];
+    }).attr("class", "answer"); //Controls text for toggles.
+  }; 
+
+}).call(this);
+// Generated by CoffeeScript 1.6.3
+(function() {
+  if (window.pollChart == null) {
+    window.pollChart = {};
+  }
+
+  window.pollChart.tooltip = function(parent, selection, getter) {
+    var tooltip, tooltipMove, tooltipOut, tooltipOver;
+    tooltip = d3.select('body').append("div").attr("class", "tooltip").style("opacity", 0);
+    tooltipOver = function(d) {
+      d3.select(this).style({
+        "opacity": 0.8
+      });
+      tooltip.transition().duration(200).style("opacity", 0.9);
+      return tooltip.html(getter(d));
+    };
+    tooltipMove = function() {
+      return tooltip.style("left", (d3.event.pageX + 10) + "px").style("top", (d3.event.pageY - 10) + "px");
+    };
+    tooltipOut = function() {
+      d3.select(this).style({
+        "opacity": 1
+      });
+      return tooltip.transition().duration(200).style("opacity", 0);
+    };
+    return selection.on("mouseover", tooltipOver).on("mouseout", tooltipOut).on("mousemove", tooltipMove);
+  };
+
+}).call(this);
+// Generated by CoffeeScript 1.6.3
+(function() {
+  if (window.pollChart == null) {
+    window.pollChart = {};
+  }
+
+  window.pollChart.tooltipBubble = function(parent, selection, getter) {
+    var span, svg, tooltip, tooltipMove, tooltipOut, tooltipOver;
+    tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+    span = tooltip.append("span");
+    svg = tooltip.append("svg");
+    svg.append("path").attr("class", "tooltip").attr("d", d3.svg.symbol("triangle-down"));
+    tooltipOver = function(d) {
+      d3.select(this).style({
+        "opacity": 0.7
+      });
+      tooltip.transition().duration(200).style("opacity", 0);
+      return span.html(getter(d));
+    };
+    tooltipMove = function() {
+      return tooltip.style("left", (d3.event.layerX + 20) + "px").style("top", (d3.event.layerY - 10) + "px");
+    };
+    tooltipOut = function() {
+      d3.select(this).style({
+        "opacity": 1
+      });
+      return tooltip.transition().duration(200).style("opacity", 0);
+    };
+    return selection.on("mouseover", tooltipOver).on("mouseout", tooltipOut).on("mousemove", tooltipMove);
+  };
+
+}).call(this);
+
+
+// Generated by CoffeeScript 1.6.3
+/*
+
+  Sunburst Chart
+
+  Data should be of the form:
+*/
+
+
+(function() {
+  var defaults, get, getOptions, handle, insertLinebreaks, log, sum, textTransform, transformData,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+  if (window.pollChart == null) {
+    window.pollChart = {};
+  }
+
+  defaults = {
+    width: 300,
+    height: 300,
+    colors: ["#c3c3c3", "#FF7E65", "#7DCDFC", "#4a9acd", "#3D444B"],
+    margin: {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0
+    },
+    data: [],
+    labels: [],
+    fields: [],
+    opacityBase: 1.0,
+    opacityInner: 0.5,
+    opacityOuter: 0.1
+  };
+
+  sum = function(array, key) {
+    var item, total, _i, _len;
+    total = 0;
+    for (_i = 0, _len = array.length; _i < _len; _i++) {
+      item = array[_i];
+      total += item[key];
+    }
+    return total;
+  };
+
+  get = function(key, fn) {
+    return function(d) {
+      var a;
+      a = d[key];
+      if (fn) {
+        return fn(a);
+      } else {
+        return a;
+      }
+    };
+  };
+
+// Sunburst Label Linebreaks
+  insertLinebreaks = function(d) {
+    console.log("begin insertLineBreaks");
+    var i, textElem, tspan, word, words, _ref, _ref1, _ref2, _results;
+    textElem = d3.select(this);
+    words = (Math.round(d.size / d.parent.size * 100)+"%").toString().split(" ");  // <---- THIS IS THE LABEL TEXT RIGHT HERE.
+    textElem.text("");
+    i = 0;
+    _results = [];
+    while (words.length) {
+      word = [(_ref = words.shift()) != null ? _ref : "", (_ref1 = words.shift()) != null ? _ref1 : "", (_ref2 = words.shift()) != null ? _ref2 : ""].join(" ");
+      tspan = textElem.append("tspan").text(word).attr("text-anchor", "center").attr("class", "pieLabel").transition().duration(100);
+      if (i > 0) {
+        tspan.attr("x", 0).attr("dy", 0);
+      }
+      _results.push(i++);
+    }
+    return _results;
+  };
+
+// Sunburst Label Positioning
+
+  function angle(d, offset, threshold) {
+      var a = (d.startAngle + d.endAngle) * 90 / Math.PI + offset;
+      return a > threshold ? a - 180 : a;
+  }
+
+  textTransform = function(arc, radius) {
+    return function(d) {
+      var c, h, x, y;
+      c = arc.centroid(d);
+      x = c[0];
+      y = c[1];
+      h = Math.sqrt(x * x + y * y); // Oh shit its the pythagorean theorem!
+      var angle = (d.x + d.dx / 2) * 180 / Math.PI - 90;
+      // if (angle<190 && angle>170){angle=0};
+      return "translate(" + (x / h * labelr) + "," + (y / h * labelr) + ")rotate(" + angle + ")rotate(" + (angle > 90 ? -180 : 0) + ")";
+    };
+  };
+
+  handle = function(items, key, last, answer, total, parent) {
+    var children, name, o, out, _ref;
+    out = [];
+    _ref = _.groupBy(items, key);
+    for (name in _ref) {
+      children = _ref[name];
+      o = {
+        name: name,
+        answer: answer
+      };
+      o.id = name + answer + key + parent.name;
+      o.size = sum(children, "count");
+      o.percent = "" + (Math.round(o.size / total * 100)) + "%";
+      if (!last) {
+        o.children = children;
+      }
+      out.push(o);
+    }
+    return out;
+  };
+
+  transformData = function(data, fields, answers, from, to) {
+    var child, cloned, filtered, grandchild, item, o;
+    if (fields == null) {
+      fields = [];
+    }
+    if (answers == null) {
+      answers = [];
+    }
+    if (from == null) {
+      from = 0;
+    }
+    if (to == null) {
+      to = Infinity;
+    }
+    filtered = {
+      value: 0
+    };
+    filtered.answers = (function() {
+      var _i, _len, _ref, _ref1, _results;
+      _ref = data.answers;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        item = _ref[_i];
+        if (!((_ref1 = item.answer, __indexOf.call(answers, _ref1) >= 0))) {
+          continue;
+        }
+        cloned = _.clone(item);
+        cloned.data = _.filter(item.data, function(a) {
+          var _ref2;
+          return (from < (_ref2 = a.date) && _ref2 < to);
+        });
+        cloned.count = sum(cloned.data, "count");
+        filtered.value += cloned.count;
+        _results.push(cloned);
+      }
+      return _results;
+    })();
+    return {
+      name: data.question,
+      size: filtered.value,
+      children: (function() {
+        var _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _results, _m, denom;
+        _ref = filtered.answers;
+        console.log("filtered");
+        console.log(filtered);
+        denom = 0;
+        for (_m = 0, _len = _ref.length; _m < _len; _m++) {
+          item = _ref[_m];
+          console.log("denom calc");
+          console.log(item);
+          denom += item.count;
+        };
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          item = _ref[_i];
+          o = {
+            name: item.answer,
+            answer: item.answer,
+            size: item.count,
+            id: item.answer,
+            percent: "" + (Math.round(item.count / filtered.value * 100)) + "%"
+          };
+          if (fields.length) {
+            o.children = handle(item.data, fields[0], fields.length === 1, item.answer, item.count, item);
+            if (fields.length > 1) {
+              _ref1 = o.children;
+              for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+                child = _ref1[_j];
+                child.children = handle(child.children, fields[1], fields.length === 2, item.answer, child.size, child);
+                if (fields.length > 2) {
+                  _ref2 = child.children;
+                  for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+                    grandchild = _ref2[_k];
+                    grandchild.children = handle(grandchild.children, fields[2], true, item.answer, grandchild.size, grandchild);
+                  }
+                }
+              }
+            }
+          }
+          _results.push(o);
+        }
+        console.log("results");
+        console.log(_results);
+        return _results;
+      })()
+    };
+  }; //end of transformData
+
+  log = function() {
+    return console.log.apply(console, arguments);
+  };
+
+  getOptions = function(answers, field) {
+    return _.chain(answers).pluck("data").flatten().pluck(field).unique().value();
+  };
+
+  window.pollChart.sunburst = function(opts) {
+    var answerP, answers, arc, arc2, arcTween, change, clearHighlights, clickHandler1, clickHandler2, clicked, clicked2, color, data, divs, draw, el, field, filters, getSize, height, helpers, index, innerRadius, label, legend, margin, old, options, outerRadius, partition, pollChart, radius, selected, selects, sliderDiv, sliderSpan, stash, stashEnter, svg, tooltip, tooltip1, tooltip2, tooltip3, tooltipMove, tooltipOut, tooltipOver, update, width, writeLabel, writeLabel2, _i, _len, _ref, _ref1;
+    pollChart = window.pollChart;
+    helpers = pollChart.helpers;
+    get = helpers.get;
+    legend = pollChart.legend3;
+    opts = _.defaults(opts, defaults);
+    margin = opts.margin, width = opts.width, height = opts.height;
+    width = width - margin.left - margin.right;
+    height = height - margin.top - margin.bottom;
+    radius = Math.min(width, height) * 0.65;
     labelr = radius * 0.35// Label
     // color = d3.scale.ordinal().range(colorbrewer.RdYlBu[9]);
     answers = _.pluck(opts.data.answers, "answer");
@@ -587,6 +1364,10 @@ window.pollChart.legend2 = function(_arg) {
         return (d.depth && d.name !== "Unknown" && d.name !== "undefined");
       }).append("path").style("stroke", "#fff").style("fill", get("answer", color)).style("opacity", 1).attr("d", arc2).each(stashEnter);
       
+          enter.filter(function(d) {
+        return (d.name == "male");
+      }).style("fill", "#FFFFFF");
+
       //This makes anonymous vote slices transparent
       enter.filter(function(d) {
         return (d.name == "undefined" || d.name == "Unknown");

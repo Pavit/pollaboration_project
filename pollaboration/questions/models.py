@@ -65,7 +65,7 @@ class Question(models.Model):
 class Answer(models.Model):
     question = models.ForeignKey(Question, related_name='answers')
     answer = models.CharField(max_length=25)
-    selected_by = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True, default=None, related_name='answer_selections')
+   # selected_by = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True, default=None, related_name='answer_selections')
     modified = models.DateField(auto_now=True, default=date.today())
 
     class Meta:
