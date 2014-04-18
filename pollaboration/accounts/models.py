@@ -59,7 +59,7 @@ class MyUser(AbstractBaseUser):
     religion = models.CharField(max_length=200, blank=True)
     political = models.CharField(max_length=200, blank=True)
     fb_id = models.CharField(max_length=200, blank=True)
-    fb_access_token = models.CharField(max_length=200, blank=True)
+    fb_access_token = models.CharField(max_length=500, blank=True)
     friends = models.ManyToManyField('self')
     ####
     created = models.DateTimeField(auto_now_add=True, null=True)
