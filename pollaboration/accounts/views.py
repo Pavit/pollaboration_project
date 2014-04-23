@@ -85,7 +85,7 @@ def profile(request):
     user = request.user
     grid_data = []
     for v in user.votes.all():
-        for q in v.answer.question_set.all():
+        for q in v.answer.questions.all():
     # for q in user.questions_answered.all():
             #### IN REAL LIFE, this is supposed to return only 1 answer choice.
             #### Since we have repeats enabled for testing purposes, this also has to be modified.
