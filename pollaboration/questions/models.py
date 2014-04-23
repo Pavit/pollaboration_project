@@ -12,7 +12,7 @@ import moment
 class Question(models.Model):
     question = models.CharField(max_length=250)
     submitter = models.ForeignKey(settings.AUTH_USER_MODEL, default=None, null=True, blank=True, related_name='submissions')
-    answered_by = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True, default=None, related_name='questions_answered')
+   # answered_by = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True, default=None, related_name='questions_answered')
     slug = models.SlugField(max_length=250, blank=True)
     created = models.DateField(auto_now_add=True, default=date.today())
     modified = models.DateField(auto_now=True, default=date.today())
@@ -48,8 +48,8 @@ class Question(models.Model):
         if request.user.is_authenticated():
             user = request.user
             new_vote.voter = user
-            answer_selected.selected_by.add(user)
-            self.answered_by.add(user)
+            # answer_selected.selected_by.add(user)
+            # self.answered_by.add(user)
         new_vote.date = moment.date(datetime.datetime(new_vote.created.year,new_vote.created.month,new_vote.created.day)).epoch()
         new_vote.date = long(str(long(new_vote.date))+"000")
         new_vote.save()

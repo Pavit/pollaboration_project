@@ -84,22 +84,24 @@ def submit(request):
 def profile(request):
     user = request.user
     grid_data = []
-    for q in user.questions_answered.all():
-        #### IN REAL LIFE, this is supposed to return only 1 answer choice.
-        #### Since we have repeats enabled for testing purposes, this also has to be modified.
-        #### For testing I am being lazy and just grabbing the first choice returnede
-        a = user.answer_selections.filter(question_id=q.id)[0]
-        #### Real life version uses .get(), which bombs if there's more than 1 item
-        #### a = user.answer_selections.get(question_id=q.id)
-        answerlist = list(q.answers.values("id","answer").annotate(value=Count("votes")))
-        for item in answerlist:
-            item["label"] = item.pop("answer")
-        grid_data.append({
-            'question': q.question,
-            'question_id': q.id,
-            'answers': answerlist,
-            'chosen': a.id,
-            })
+    for v in user.votes.all():
+        for q in v.answer.question_set.all():
+    # for q in user.questions_answered.all():
+            #### IN REAL LIFE, this is supposed to return only 1 answer choice.
+            #### Since we have repeats enabled for testing purposes, this also has to be modified.
+            #### For testing I am being lazy and just grabbing the first choice returnede
+            a = user.answer_selections.filter(question_id=q.id)[0]
+            #### Real life version uses .get(), which bombs if there's more than 1 item
+            #### a = user.answer_selections.get(question_id=q.id)
+            answerlist = list(q.answers.values("id","answer").annotate(value=Count("votes")))
+            for item in answerlist:
+                item["label"] = item.pop("answer")
+            grid_data.append({
+                'question': q.question,
+                'question_id': q.id,
+                'answers': answerlist,
+                'chosen': a.id,
+                })
     context = {
         'grid_data':grid_data,
     }
